@@ -1,0 +1,489 @@
+/* Applique à tous les éléments :
+   - le modèle de boîte "border-box" pour inclure les bordures/paddings dans les dimensions
+   - enlève les marges et paddings par défaut */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Corps du document :
+   - sans marge, minimum pleine hauteur
+   - fond sombre et police lisible */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #111;
+  padding: 2rem;
+}
+
+/* Section des voitures :
+   - un padding au-dessus et texte en blanc */
+#cars-section {
+  padding-top: 50px;
+  color: white;
+}
+
+/* Conteneur des catégories de voitures :
+   - en ligne, flexible et centré */
+.categories-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: center;
+  margin: 20px auto;
+  max-width: 800px;
+}
+
+/* Boutons de catégorie */
+.category-btn {
+  padding: 15px 30px;
+  border: none;
+  background-color: #0f1a2b;
+  color: #f4f4f4ee;
+  font-size: 14px;
+  border-radius: 50px;
+  white-space: nowrap;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.39s ease-in-out;
+  flex: 1 1 auto;
+  max-width: 150px;
+  text-align: center;
+  height: 50px;
+}
+
+/* Bouton actif (sélectionné) avec fond en dégradé */
+.category-btn.active {
+  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  color: black;
+}
+
+/* Conteneur de cartes (voitures) */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+/* Carte individuelle */
+.card {
+  flex: 1 1 300px;
+  max-width: 300px;
+  height: 400px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  background: #222;
+}
+
+/* Image de la carte */
+.card_image {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+}
+
+.card_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Contenu textuel de la carte */
+.card_content {
+  padding: 1rem;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.card_content h3 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.card_content p {
+  font-size: 0.95rem;
+  color: #ccc;
+}
+
+.card_content .locations {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.card_content .price {
+  margin-top: auto;
+  font-size: 1rem;
+  color: #c084fc;
+  font-weight: bold;
+}
+
+/* Conteneur des boutons de réservation et modèle */
+.btn_container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+/* Bouton de réservation */
+.reserver_btn {
+  flex: 1;
+  padding: 12px 20px;
+  font-size: 16px;
+  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  border: none;
+  border-radius: 30px;
+  color: white;
+  font-weight: bold;
+  font-family: cursive;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+/* Bouton modèle (voir modèle) */
+.model {
+  padding: 10px 16px;
+  background: #1f1f1f;
+  border: none;
+  color: white;
+  font-size: 14px;
+  border-radius: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  transition: filter 0.3s ease, transform 0.3s ease;
+}
+
+.model i {
+  font-size: 16px;
+}
+
+/* Conteneur de sélection de villes */
+.cities-select-container {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  gap: 10px;
+  margin: 20px auto;
+  width: 80%;
+  max-width: 800px;
+  padding: 10px 20px;
+  border-radius: 50px;
+}
+
+/* Champ de recherche */
+.searchcontainer {
+  width: 100%;
+  position: relative;
+}
+
+#id-logo {
+  color: white;
+  position: absolute;
+  top: 30%;
+  right: 10px;
+}
+
+.search {
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  background-color: #0f1a2b;
+  border: none;
+  color: #f4f4f4ee;
+  outline: none;
+  width: 100%;
+}
+
+/* Menu déroulant des villes */
+.cities-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: none;
+  background-color: #0f1a2b;
+  color: #f4f4f4ee;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white"><polygon points="0,0 16,0 8,8"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1rem;
+  padding-right: 3rem;
+}
+
+/* Titre principal */
+h2 {
+  font-size: 60px;
+  text-align: center;
+  font-weight: bold;
+  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Effets au survol pour le menu des villes */
+.cities-select:hover,
+.cities-select:focus {
+  background-color: #1c2b3a;
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(100, 200, 255, 0.4);
+  outline: none;
+}
+
+/* Animation au survol des boutons */
+.reserver_btn:hover,
+.model:hover {
+  cursor: pointer;
+  filter: brightness(1.3);
+  transform: translateY(2px);
+}
+
+/* Requête média : pour les écrans dont la largeur maximale est inférieure ou égale à 768px */
+@media (max-width: 768px) {
+  .card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+/* le viewer pour afficher le modèle 3D */
+#viewer {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  background-color: #000;
+}
+
+/* le modal3d qui est un div content le viewer et le boutton close pour fermer le modèle 3D */
+.modal3d {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+  z-index: 9999;
+}
+
+/* le boutton close qui permet de fermer le modèle 3D */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: red;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  border-radius: 50%;
+  z-index: 10000;
+}
+
+/* changer la couleur du background en cas de survol */
+.close-btn:hover {
+  background-color: darkred;
+}
+
+/* Logo avec effet de dégradé comme texte */
+.logo {
+  font-size: 2.4rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #c084fc, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Barre de navigation fixe en haut avec effet de flou */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 999;
+}
+
+/* Liste de navigation (liens du menu) */
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+/* Chaque élément de la liste */
+li {
+  display: flex;
+  align-items: center;
+}
+
+/* Liens de navigation */
+a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: white;
+}
+
+/* Sélecteurs de devise et langue :
+   - menu déroulant personnalisé, sombre avec bordure claire */
+.currency-selector,
+.language-selector {
+  padding: 0.8rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: #0d1117;
+  color: white;
+  cursor: pointer;
+  appearance: none;
+  font-size: 1rem;
+}
+
+/* Ajustements spécifiques au sélecteur de langue */
+.language-selector {
+  font-size: 18px;
+  position: relative;
+  padding-right: 30px;
+}
+
+.account {
+  color: white;
+  font-size: medium;
+  cursor: pointer;
+}
+
+/* Bouton de menu hamburger (mobile) caché par défaut */
+.menu-button {
+  display: none;
+}
+
+/* Sélecteurs dans la barre latérale prennent toute la largeur */
+.sidebar .language-selector,
+.sidebar .currency-selector {
+  width: 100%;
+  outline: none;
+}
+
+/* Ajustement de la marge dans la sidebar */
+.sidebar-elements {
+  padding-left: 15px;
+}
+
+/* Responsivité : cache certains éléments sur petits écrans, affiche le menu mobile */
+@media (max-width: 1050px) {
+  .hideOnmobile {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
+}
+
+/* Barre latérale (menu mobile) :
+   - fixe à droite, en colonne, effet flou et fond clair */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Liens dans la sidebar prennent toute la largeur */
+.sidebar li,
+.sidebar a {
+  width: 100%;
+}
+
+/* Changer la direction du texte pour le cas de l'arabe */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+.rtlprice {
+  text-align: right;
+}
+
+.ltrprice {
+  text-align: left;
+}
+
+/* Gestion le la barre de chargement (loading bar) */
+
+#loadingContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 80%;
+  display: none;
+}
+
+#loadingText {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: white;
+}
+
+#loadingBar {
+  width: 0%;
+  height: 10px;
+  background: #2196f3;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: all 0.54s ease;
+}

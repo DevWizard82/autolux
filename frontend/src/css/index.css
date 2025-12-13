@@ -1,0 +1,219 @@
+/* Applique à tous les éléments :
+   - le modèle de boîte "border-box" pour inclure les bordures/paddings dans les dimensions
+   - enlève les marges et paddings par défaut */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Corps du document :
+   - sans marge, minimum pleine hauteur
+   - fond sombre et police lisible */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #111;
+  padding: 2rem;
+}
+
+/* Section principale du site (acceuil.html) :
+   - mise en page flexible en colonne
+   - centrée horizontalement et verticalement
+   - limite la largeur à 1024px
+   - espacement vertical important */
+#hero-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 1024px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 0 20px;
+  margin-bottom: 300px;
+  margin-top: 250px;
+}
+
+/* Titre principal :
+   - taille très grande, centré, en gras
+   - effet de texte dégradé avec couleur transparente */
+#hero-title {
+  font-size: 60px;
+  text-align: center;
+  font-weight: bold;
+  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Texte d’introduction :
+   - blanc, plus petit que le titre
+   - espacement vers le bas */
+.hero-text {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 2rem;
+  font-weight: 300;
+}
+
+/* Bouton "Explorer" :
+   - style arrondi et dégradé, police en gras
+   - curseur pointeur pour signaler qu’il est cliquable */
+.explore-btn {
+  padding: 15px 30px;
+  text-align: center;
+  border: none;
+  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  color: #f4f4f4ee;
+  font-size: 14px;
+  border-radius: 50px;
+  white-space: wrap;
+  font-weight: bold;
+  cursor: pointer;
+  flex: 1 1 auto;
+  max-width: 150px;
+  height: 50px;
+}
+
+/* Logo avec effet de dégradé comme texte */
+.logo {
+  font-size: 2.4rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #c084fc, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Barre de navigation fixe en haut avec effet de flou */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 999;
+}
+
+/* Liste de navigation (liens du menu) */
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+/* Chaque élément de la liste */
+li {
+  display: flex;
+  align-items: center;
+}
+
+/* Liens de navigation */
+a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: white;
+}
+
+/* Sélecteurs de langue :
+   - menu déroulant personnalisé, sombre avec bordure claire */
+.language-selector {
+  padding: 0.8rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: #0d1117;
+  color: white;
+  cursor: pointer;
+  appearance: none;
+  font-size: 18px;
+  position: relative;
+  padding-right: 30px;
+}
+
+/* Bouton de menu hamburger (mobile) caché par défaut */
+.menu-button {
+  display: none;
+}
+
+/* Sélecteurs dans la barre latérale prennent toute la largeur */
+.sidebar .language-selector {
+  width: 100%;
+  outline: none;
+}
+
+.account {
+  color: white;
+  font-size: medium;
+  cursor: pointer;
+}
+
+/* Ajustement de la marge dans la sidebar */
+.sidebar-elements {
+  padding-left: 15px;
+}
+
+/* Responsivité : cache certains éléments sur petits écrans, affiche le menu mobile */
+@media (max-width: 1050px) {
+  .hideOnmobile {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
+}
+
+/* Barre latérale (menu mobile) :
+   - fixe à droite, en colonne, effet flou et fond clair */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Liens dans la sidebar prennent toute la largeur */
+.sidebar li,
+.sidebar a {
+  width: 100%;
+}
+
+/* Changer la direction du texte pour le cas de l'arabe */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: all 0.54s ease;
+}

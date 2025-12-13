@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Encodage des caractères en UTF-8 -->
+    <meta charset="UTF-8" />
+
+    <!-- Configuration de l'affichage pour les appareils mobiles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Titre de l’onglet de la page -->
+    <title>Autolux maroc - about us</title>
+
+    <!-- Lien vers la feuille de style principale -->
+    <link rel="stylesheet" href="../styles/about.css" />
+
+    <!-- Lien vers la bibliothèque d’icônes Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Barre de navigation principale -->
+    <nav>
+      <!-- Menu latéral (sidebar) affiché sur mobile -->
+      <ul class="sidebar">
+        <!-- Bouton pour fermer la sidebar -->
+        <li class="sidebar-elements" id="close">
+          <a href="#"><i class="fa-solid fa-xmark large"></i></a>
+        </li>
+
+        <!-- Sélecteur de langue dans la sidebar -->
+        <li>
+          <select class="language-selector" id="languages1">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+        </li>
+
+        <!-- Liens de navigation dans la sidebar -->
+        <li class="sidebar-elements">
+          <a class="home1" href="acceuil.html">Acceuil</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="cars1" href="cars.html">Voitures</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="book1" href="formulaire.html">Réserver</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="about1" href="about.html">À propos</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="contact1" href="contact.html">Contact</a>
+        </li>
+      </ul>
+
+      <!-- Logo du site -->
+      <div class="logo">
+        <a class="logo" href="./acceuil.html">AutoLux Maroc</a>
+      </div>
+
+      <!-- Menu principal visible sur écran large -->
+      <ul>
+        <!-- Sélecteur de langue (version bureau) -->
+        <li class="hideOnmobile">
+          <select class="language-selector" id="languages">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+        </li>
+
+        <!-- Liens du menu principal -->
+        <li class="hideOnmobile">
+          <a class="home" href="acceuil.html">Acceuil</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="cars" href="cars.html">Voitures</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="book" href="formulaire.html">Réserver</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="about" href="about.html">À propos</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="contact" href="contact.html">Contact</a>
+        </li>
+
+        <!-- Bouton menu hamburger pour ouvrir la sidebar (sur mobile) -->
+        <li id="sidebar" class="menu-button">
+          <a href="#"><i class="fa-solid fa-bars"></i></a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Conteneur principal de la page -->
+    <div class="container">
+      <div class="content">
+        <!-- Texte de la section À propos -->
+        <div class="abouttext">
+          <!-- Titre -->
+          <p class="titreabout">À propos d'AutoLux</p>
+          <!-- Premier paragraphe de présentation -->
+          <p class="paragraph" id="p1">
+            Chez AutoLux, nous redéfinissons l'expérience de la location de
+            véhicules de luxe. Notre passion pour l'excellence automobile nous
+            pousse à sélectionner les modèles les plus prestigieux et à offrir
+            un service personnalisé d'exception.
+          </p>
+          <!-- Deuxième paragraphe de présentation -->
+          <p class="paragraph" id="p2">
+            Chaque véhicule de notre flotte est minutieusement entretenu pour
+            garantir une expérience de conduite incomparable. Nous nous
+            engageons à dépasser vos attentes et à transformer chaque trajet en
+            un moment mémorable.
+          </p>
+        </div>
+        <!-- Image de la section À propos -->
+        <img src="../images/showroom.jpg" alt="image de showroom" />
+      </div>
+    </div>
+    <!-- Inclusion du script JavaScript associé à cette page -->
+    <script type="module" src="../js/about.js"></script>
+  </body>
+</html>

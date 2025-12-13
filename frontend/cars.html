@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Déclaration du jeu de caractères de la page et de la configuration de l'affichage -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
+    <title>Autolux maroc - cars</title>
+
+    <!-- Lien vers le fichier CSS pour styliser la page -->
+    <link rel="stylesheet" href="./src/css/cars.css" />
+
+    <!-- Lien vers la bibliothèque FontAwesome pour les icônes -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <nav>
+      <!-- Menu latéral pour les téléphones mobiles-->
+      <ul class="sidebar">
+        <!-- Bouton pour fermer le menu latéral -->
+        <li class="sidebar-elements" id="close">
+          <a href="#"><i class="fa-solid fa-xmark large"></i></a>
+        </li>
+
+        <!-- Sélecteur de devise -->
+        <li>
+          <select class="currency-selector" id="currencies1">
+            <option value="EUR" selected>💱 EUR</option>
+            <option value="MAD">💱 MAD</option>
+            <option value="USD">💱 USD</option>
+            <option value="JPY">💱 JPY</option>
+            <option value="GBP">💱 GBP</option>
+            <option value="AUD">💱 AUD</option>
+            <option value="CHF">💱 CHF</option>
+            <option value="CNY">💱 CNY</option>
+            <option value="INR">💱 INR</option>
+            <option value="BRL">💱 BRL</option>
+            <option value="RUB">💱 RUB</option>
+            <option value="TRY">💱 TRY</option>
+            <option value="ZAR">💱 ZAR</option>
+            <option value="SEK">💱 SEK</option>
+            <option value="NOK">💱 NOK</option>
+            <option value="DKK">💱 DKK</option>
+            <option value="PLN">💱 PLN</option>
+            <option value="MXN">💱 MXN</option>
+            <option value="CAD">💱 CAD</option>
+          </select>
+        </li>
+
+        <!-- Sélecteur de langues -->
+
+        <li>
+          <select class="language-selector" id="languages1">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+        </li>
+
+        <!-- Liens vers les pages principales -->
+        <li class="sidebar-elements">
+          <a class="home1" href="acceuil.html">Acceuil</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="cars1" href="cars.html">Voitures</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="book1" href="formulaire.html">Réserver</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="about1" href="about.html">À propos</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="contact1" href="contact.html">Contact</a>
+        </li>
+      </ul>
+
+      <!-- Logo de l'entreprise -->
+      <div class="logo">
+        <a class="logo" href="./acceuil.html">AutoLux Maroc</a>
+      </div>
+
+      <!-- Menu principal pour les écrans de bureau (non visible sur mobile) -->
+      <ul>
+        <!-- Sélecteur de devise pour la version bureau -->
+        <li class="hideOnmobile">
+          <select class="currency-selector" id="currencies">
+            <option value="EUR" selected>💱 EUR</option>
+            <option value="MAD">💱 MAD</option>
+            <option value="USD">💱 USD</option>
+            <option value="JPY">💱 JPY</option>
+            <option value="GBP">💱 GBP</option>
+            <option value="AUD">💱 AUD</option>
+            <option value="CHF">💱 CHF</option>
+            <option value="CNY">💱 CNY</option>
+            <option value="INR">💱 INR</option>
+            <option value="BRL">💱 BRL</option>
+            <option value="RUB">💱 RUB</option>
+            <option value="TRY">💱 TRY</option>
+            <option value="ZAR">💱 ZAR</option>
+            <option value="SEK">💱 SEK</option>
+            <option value="NOK">💱 NOK</option>
+            <option value="DKK">💱 DKK</option>
+            <option value="PLN">💱 PLN</option>
+            <option value="MXN">💱 MXN</option>
+            <option value="CAD">💱 CAD</option>
+          </select>
+        </li>
+
+        <!-- Sélecteur de langue pour la version bureau -->
+        <li class="hideOnmobile">
+          <select class="language-selector" id="languages">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+        </li>
+
+        <!-- Liens vers les pages principales sur les écrans de bureau -->
+        <li class="hideOnmobile">
+          <a class="home" href="acceuil.html">Acceuil</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="cars" href="cars.html">Voitures</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="book" href="formulaire.html">Réserver</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="about" href="about.html">À propos</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="contact" href="contact.html">Contact</a>
+        </li>
+
+        <!-- Bouton pour ouvrir le menu latéral (pour mobile) -->
+        <li id="sidebar" class="menu-button">
+          <a href="#"><i class="fa-solid fa-bars"></i></a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Section des voitures -->
+    <section id="cars-section">
+      <h2 id="fleet">Notre Flotte</h2>
+      <div class="cities-select-container">
+        <!-- Sélecteur de ville -->
+        <select name="cities" id="cities" class="cities-select">
+          <option
+            class="all"
+            data-original-value="Toutes_les_villes"
+            value="Toutes_les_villes"
+            selected
+          >
+            Toutes les villes
+          </option>
+          <option
+            class="casa"
+            value="Casablanca"
+            data-original-value="Casablanca"
+          >
+            Casablanca
+          </option>
+          <option
+            class="marrakech"
+            value="Marrakech"
+            data-original-value="Marrakech"
+          >
+            Marrakech
+          </option>
+          <option class="rabat" value="Rabat" data-original-value="Rabat">
+            Rabat
+          </option>
+          <option class="tanger" value="Tanger" data-original-value="Tanger">
+            Tanger
+          </option>
+        </select>
+
+        <!-- Barre de recherche pour trouver une voiture par nom -->
+        <div class="searchcontainer">
+          <input
+            class="search"
+            type="text"
+            id="search"
+            placeholder="chercher une voiture par nom (ex: Porsche 911 GT3)"
+          />
+          <i class="fas fa-search" id="id-logo"></i>
+        </div>
+      </div>
+
+      <!-- Boutons pour filtrer les catégories de voitures -->
+      <div class="categories-container">
+        <button
+          data-original-value="All"
+          id="allCategories"
+          class="category-btn"
+          data-default="true"
+        >
+          Tout
+        </button>
+        <button
+          id="hypercar"
+          data-original-value="Hypercar"
+          class="category-btn"
+        >
+          Hypercar
+        </button>
+        <button id="luxury" data-original-value="Luxury" class="category-btn">
+          Luxe
+        </button>
+        <button
+          id="electric"
+          data-original-value="electric"
+          class="category-btn"
+        >
+          Electrique
+        </button>
+        <button id="sport" data-original-value="sport" class="category-btn">
+          Sport
+        </button>
+      </div>
+
+      <!-- Conteneur pour afficher les cartes des voitures dynamiquement -->
+      <section class="card-container" id="card-container"></section>
+    </section>
+
+    <!-- Script JavaScript pour gérer les interactions -->
+    <script type="module" src="./src/js/cars.js"></script>
+  </body>
+</html>

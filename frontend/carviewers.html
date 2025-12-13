@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>High-Quality 3D Car Showroom - With Collision</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 10;
+        transition: opacity 0.3s;
+      }
+
+      #overlay h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .instruction-box {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px 40px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+        line-height: 1.6;
+      }
+
+      .key {
+        background: #fff;
+        color: #000;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 0.9em;
+        margin: 0 2px;
+      }
+
+      p {
+        margin: 5px 0;
+        color: #ccc;
+      }
+
+      #loading {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        color: #888;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="overlay">
+      <div class="instruction-box">
+        <h1>Showroom Viewer</h1>
+        <p>Click anywhere to enter</p>
+        <br />
+        <p>
+          Move: <span class="key">W</span> <span class="key">A</span>
+          <span class="key">S</span> <span class="key">D</span>
+        </p>
+        <p>Look: <span class="key">MOUSE</span></p>
+        <p>Unlock: <span class="key">ESC</span></p>
+      </div>
+    </div>
+
+    <div id="loading">Waiting for user interaction...</div>
+
+    <!-- Import Map -->
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+        }
+      }
+    </script>
+
+    <script type="module">
+      import * as THREE from "three";
+      import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
+      import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
+      import {
+        getmodels,
+        getCarTrims,
+        getCarBody,
+        getCarStrip,
+      } from "./src/js/api.js";
+
+      const clock = new THREE.Clock();
+
+      // --- CONSTANTS ---
+      const ROOM_SIZE = 40;
+      const ROOM_HEIGHT = 12;
+      const CAM_HEIGHT = 1.7; // Player eye level
+
+      // Collision Constants
+      const WALL_PADDING = 2; // How far to keep player from walls
+      const CAR_PADDING = 1.5; // Invisible "forcefield" around car
+      const BOUNDARY = ROOM_SIZE / 2 - WALL_PADDING; // Calculated limit for X and Z
+
+      // --- SCENE SETUP ---
+      const scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x111111);
+      scene.fog = new THREE.Fog(0x111111, 30, 90);
+
+      const camera = new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        0.1,
+        1000
+      );
+      camera.position.set(0, CAM_HEIGHT, 15); // Start further back
+
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(window.devicePixelRatio);
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.2;
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+      document.body.appendChild(renderer.domElement);
+
+      // --- LIGHTING ---
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+      scene.add(ambientLight);
+
+      const spotLight = new THREE.SpotLight(0xffffff, 80);
+      spotLight.position.set(0, 14, 0);
+      spotLight.angle = Math.PI / 4;
+      spotLight.penumbra = 0.5;
+      spotLight.decay = 1.5;
+      spotLight.distance = 60;
+      spotLight.castShadow = true;
+      spotLight.shadow.mapSize.width = 2048;
+      spotLight.shadow.mapSize.height = 2048;
+      spotLight.shadow.bias = -0.0001;
+      scene.add(spotLight);
+
+      // Helper for Ceiling lights
+      function createIndustrialLight(x, z) {
+        const geo = new THREE.BoxGeometry(4, 0.2, 8);
+        const mat = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const mesh = new THREE.Mesh(geo, mat);
+        mesh.position.set(x, ROOM_HEIGHT - 0.5, z);
+        scene.add(mesh);
+
+        const light = new THREE.PointLight(0xffffff, 40, 45);
+        light.position.set(x, ROOM_HEIGHT - 2, z);
+        scene.add(light);
+      }
+
+      createIndustrialLight(-15, -15);
+      createIndustrialLight(15, -15);
+      createIndustrialLight(-15, 15);
+      createIndustrialLight(15, 15);
+      createIndustrialLight(-15, 0);
+      createIndustrialLight(15, 0);
+
+      // Helper for Wall lights
+      function createWallLight(x, y, z) {
+        const light = new THREE.PointLight(0xddeeff, 25, 40);
+        light.position.set(x, y, z);
+        scene.add(light);
+      }
+
+      createWallLight(0, 8, -25);
+      createWallLight(0, 8, 25);
+      createWallLight(-25, 8, 0);
+      createWallLight(25, 8, 0);
+
+      // --- MATERIALS ---
+      const textureLoader = new THREE.TextureLoader();
+      const loadTex = (url, repeatX, repeatY) => {
+        const tex = textureLoader.load(url);
+        tex.wrapS = THREE.RepeatWrapping;
+        tex.wrapT = THREE.RepeatWrapping;
+        tex.repeat.set(repeatX, repeatY);
+        return tex;
+      };
+
+      const floorMat = new THREE.MeshStandardMaterial({
+        map: loadTex("/assets/images/floor.png", 10, 10),
+        roughness: 0.8,
+        metalness: 0,
+        color: 0x888888,
+      });
+
+      const wallMat = new THREE.MeshStandardMaterial({
+        map: loadTex("/assets/images/floor_real.png", 8, 2),
+        roughness: 0.5,
+        color: 0xeeeeee,
+      });
+
+      const ceilingMat = new THREE.MeshStandardMaterial({
+        map: loadTex("/assets/images/ceiling.png", 10, 10),
+        roughness: 0.9,
+        color: 0x555555,
+        side: THREE.DoubleSide,
+      });
+
+      // --- GEOMETRY ---
+      const floor = new THREE.Mesh(
+        new THREE.PlaneGeometry(ROOM_SIZE, ROOM_SIZE),
+        floorMat
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.receiveShadow = true;
+      scene.add(floor);
+
+      const ceiling = new THREE.Mesh(
+        new THREE.PlaneGeometry(ROOM_SIZE, ROOM_SIZE),
+        ceilingMat
+      );
+      ceiling.rotation.x = Math.PI / 2;
+      ceiling.position.y = ROOM_HEIGHT;
+      scene.add(ceiling);
+
+      const walls = new THREE.Group();
+      const wallGeoSide = new THREE.BoxGeometry(0.2, ROOM_HEIGHT, ROOM_SIZE);
+      const wallGeoBack = new THREE.BoxGeometry(ROOM_SIZE, ROOM_HEIGHT, 0.2);
+
+      const wall1 = new THREE.Mesh(wallGeoSide, wallMat);
+      wall1.position.set(-ROOM_SIZE / 2, ROOM_HEIGHT / 2, 0);
+      const wall2 = new THREE.Mesh(wallGeoSide, wallMat);
+      wall2.position.set(ROOM_SIZE / 2, ROOM_HEIGHT / 2, 0);
+      const wall3 = new THREE.Mesh(wallGeoBack, wallMat);
+      wall3.position.set(0, ROOM_HEIGHT / 2, -ROOM_SIZE / 2);
+      const wall4 = new THREE.Mesh(wallGeoBack, wallMat);
+      wall4.position.set(0, ROOM_HEIGHT / 2, ROOM_SIZE / 2);
+
+      walls.add(wall1, wall2, wall3, wall4);
+      walls.traverse((obj) => {
+        if (obj.isMesh) {
+          obj.receiveShadow = true;
+          obj.castShadow = true;
+        }
+      });
+      scene.add(walls);
+
+      // --- LOADING & COLLISION LOGIC ---
+      const loader = new GLTFLoader();
+      const loadingEl = document.getElementById("loading");
+
+      // Collision objects
+      let carBoundingBox = new THREE.Box3(); // Will store the car's boundary
+      let isModelLoaded = false;
+      let model;
+      const urlParams = new URLSearchParams(window.location.search);
+      const modelName = urlParams.get("model") || "Bentley_Continental_GT.glb";
+
+      let modelsList = [];
+      let modelData;
+      let mixer = null;
+      let activeActions = [];
+
+      async function loadModels() {
+        try {
+          modelsList = await getmodels();
+          console.log("Models loaded:", modelsList);
+
+          // Match the model using file_path without ".glb"
+          modelData = modelsList.find((m) => m.file_path === modelName);
+
+          if (!modelData) {
+            console.warn("Car model not found, using default.");
+            return loadGLTFModel(
+              "/assets/models/Bentley_Continental_GT.glb",
+              1
+            );
+          }
+
+          loadGLTFModel(
+            `/assets/models/${modelData.file_path}`,
+            modelData.scale_x
+          );
+        } catch (err) {
+          console.error("Failed to load models:", err);
+          loadGLTFModel("/assets/models/Bentley_Continental_GT.glb", 1);
+        }
+      }
+
+      function loadGLTFModel(modelPath, scaleFactor) {
+        loader.load(
+          modelPath,
+          (gltf) => {
+            model = gltf.scene;
+            const bbox = new THREE.Box3().setFromObject(model);
+            const center = bbox.getCenter(new THREE.Vector3());
+            const size = bbox.getSize(new THREE.Vector3());
+            model.position.sub(center);
+
+            model.scale.set(scaleFactor, scaleFactor, scaleFactor);
+
+            model.rotation.set(
+              THREE.MathUtils.degToRad(modelData.rot_x),
+              THREE.MathUtils.degToRad(modelData.rot_y),
+              THREE.MathUtils.degToRad(modelData.rot_z)
+            );
+
+            model.updateMatrixWorld(true);
+
+            const bboxFinal = new THREE.Box3().setFromObject(model);
+            const minY = bboxFinal.min.y;
+
+            model.position.y -= minY + 0.1;
+
+            console.log("Model final position:", model.position);
+
+            console.log("Model size after scaling:", size);
+
+            model.traverse((node) => {
+              if (node.isMesh) {
+                node.castShadow = true;
+                node.receiveShadow = true;
+                if (node.material) {
+                  node.material.envMapIntensity = 1.2;
+                  node.material.needsUpdate = true;
+                }
+              }
+            });
+
+            scene.add(model);
+
+            applyCarColorsFromDB();
+
+            if (gltf.animations && gltf.animations.length > 0) {
+              console.log("Animations found:", gltf.animations);
+
+              mixer = new THREE.AnimationMixer(model);
+
+              activeActions = gltf.animations.map((clip) => {
+                const action = mixer.clipAction(clip);
+                action.play();
+                return action;
+              });
+            }
+
+            carBoundingBox.setFromObject(model);
+            carBoundingBox.expandByScalar(CAR_PADDING);
+            isModelLoaded = true;
+            loadingEl.innerText = "Model Loaded";
+          },
+          (xhr) => {
+            if (xhr.total > 0) {
+              const percent = ((xhr.loaded / xhr.total) * 100).toFixed(0);
+              loadingEl.innerText = `Loading Model: ${percent}%`;
+            } else {
+              loadingEl.innerText = `Loading Model...`;
+            }
+          },
+          (error) => {
+            console.warn("Failed to load model.glb. Using placeholder.");
+            loadingEl.innerText = "No model.glb found. (Using placeholder)";
+            const box = new THREE.Mesh(
+              new THREE.BoxGeometry(2, 1, 4),
+              new THREE.MeshStandardMaterial({
+                color: 0x333333,
+                roughness: 0.2,
+              })
+            );
+            box.position.y = 0.5;
+            box.castShadow = true;
+            box.receiveShadow = true;
+            scene.add(box);
+            carBoundingBox.setFromObject(box);
+            carBoundingBox.expandByScalar(CAR_PADDING);
+            isModelLoaded = true;
+          }
+        );
+      }
+
+      loadModels();
+
+      function setTrimsColor(colorHex, objectNames = []) {
+        if (!model) return;
+
+        model.traverse((node) => {
+          if (node.isMesh && objectNames.includes(node.name)) {
+            if (node.material) {
+              node.material.color.set(colorHex);
+              node.material.metalness = 1;
+              node.material.roughness = 0.2;
+              node.material.needsUpdate = true;
+            }
+          }
+        });
+      }
+
+      function setBodyColor(colorHex, objectNames = []) {
+        if (!model) return;
+
+        model.traverse((node) => {
+          if (node.isMesh && node.name.includes("Object_412")) {
+            if (node.material) {
+              node.material.color.set("#FFFFFF");
+              node.material.metalness = 1.0;
+              node.material.roughness = 0.2;
+              node.material.needsUpdate = true;
+            }
+          } else if (node.isMesh && objectNames.includes(node.name)) {
+            if (node.material) {
+              node.material.color.set(colorHex);
+              node.material.metalness = 1.0; // make it metallic
+              node.material.roughness = 0.2; // nice shiny
+              node.material.needsUpdate = true;
+            }
+          }
+        });
+      }
+
+      function setCarStrip(colorHex, objectNames = []) {
+        if (!model) return;
+
+        model.traverse((node) => {
+          if (node.isMesh && objectNames.includes(node.name)) {
+            if (node.material) {
+              node.material.color.set(colorHex);
+              node.material.metalness = 1.0;
+              node.material.roughness = 0.2;
+              node.material.needsUpdate = true;
+            }
+          }
+        });
+      }
+
+      async function applyCarColorsFromDB() {
+        if (!modelData) {
+          console.warn("No modelData available");
+          return;
+        }
+
+        try {
+          const trims = await getCarTrims(modelName);
+          console.log("Trims from DB:", trims);
+
+          const strips = await getCarStrip(modelName);
+          console.log("Strips from DB:", strips);
+
+          const body = await getCarBody(modelName);
+
+          const trimNames = trims.map((t) => t.part_name);
+          console.log("Trim names:", trimNames);
+
+          const bodyName = body.map((b) => b.part_name);
+
+          setTrimsColor("#C0C0C0", trimNames);
+
+          setBodyColor("#0A7968", bodyName);
+          setCarStrip(
+            "#C0C0C0",
+            strips.map((s) => s.part_name)
+          );
+        } catch (err) {
+          console.error("Failed to apply car colors from DB:", err);
+        }
+      }
+
+      // --- CONTROLS ---
+      const controls = new PointerLockControls(camera, document.body);
+      const overlay = document.getElementById("overlay");
+
+      document.addEventListener("click", () => {
+        controls.lock();
+      });
+
+      controls.addEventListener("lock", () => {
+        overlay.style.opacity = "0";
+        setTimeout(() => {
+          overlay.style.display = "none";
+        }, 300);
+      });
+
+      controls.addEventListener("unlock", () => {
+        overlay.style.display = "flex";
+        setTimeout(() => {
+          overlay.style.opacity = "1";
+        }, 10);
+      });
+
+      const moveState = {
+        forward: false,
+        backward: false,
+        left: false,
+        right: false,
+      };
+      const velocity = new THREE.Vector3();
+      const direction = new THREE.Vector3();
+
+      const onKeyDown = (event) => {
+        switch (event.code) {
+          case "ArrowUp":
+          case "KeyW":
+            moveState.forward = true;
+            break;
+          case "ArrowLeft":
+          case "KeyA":
+            moveState.left = true;
+            break;
+          case "ArrowDown":
+          case "KeyS":
+            moveState.backward = true;
+            break;
+          case "ArrowRight":
+          case "KeyD":
+            moveState.right = true;
+            break;
+        }
+      };
+
+      const onKeyUp = (event) => {
+        switch (event.code) {
+          case "ArrowUp":
+          case "KeyW":
+            moveState.forward = false;
+            break;
+          case "ArrowLeft":
+          case "KeyA":
+            moveState.left = false;
+            break;
+          case "ArrowDown":
+          case "KeyS":
+            moveState.backward = false;
+            break;
+          case "ArrowRight":
+          case "KeyD":
+            moveState.right = false;
+            break;
+        }
+      };
+
+      document.addEventListener("keydown", onKeyDown);
+      document.addEventListener("keyup", onKeyUp);
+
+      // --- ANIMATION LOOP (WITH COLLISION) ---
+      let prevTime = performance.now();
+
+      function animate() {
+        requestAnimationFrame(animate);
+
+        const time = performance.now();
+        const deltaMovement = (time - prevTime) / 1000;
+        prevTime = time;
+
+        // --- 🔥 UPDATE MODEL ANIMATIONS ---
+        const delta = clock.getDelta();
+        if (mixer) mixer.update(delta);
+
+        // --- MOVEMENT / COLLISIONS ---
+        if (controls.isLocked) {
+          // 1. Friction / Decay
+          velocity.x -= velocity.x * 10.0 * deltaMovement;
+          velocity.z -= velocity.z * 10.0 * deltaMovement;
+
+          // 2. Determine Direction
+          direction.z = Number(moveState.forward) - Number(moveState.backward);
+          direction.x = Number(moveState.right) - Number(moveState.left);
+          direction.normalize();
+
+          // 3. Acceleration
+          if (moveState.forward || moveState.backward)
+            velocity.z -= direction.z * 60.0 * deltaMovement;
+          if (moveState.left || moveState.right)
+            velocity.x -= direction.x * 60.0 * deltaMovement;
+
+          // 4. Save old camera position
+          const oldPosition = camera.position.clone();
+
+          // 5. Apply movement
+          controls.moveRight(-velocity.x * deltaMovement);
+          controls.moveForward(-velocity.z * deltaMovement);
+
+          // 6. Boundary collisions
+          camera.position.x = Math.max(
+            -BOUNDARY,
+            Math.min(BOUNDARY, camera.position.x)
+          );
+          camera.position.z = Math.max(
+            -BOUNDARY,
+            Math.min(BOUNDARY, camera.position.z)
+          );
+
+          // 7. Car bounding box collision
+          if (isModelLoaded && carBoundingBox.containsPoint(camera.position)) {
+            camera.position.copy(oldPosition);
+            velocity.set(0, 0, 0);
+          }
+        }
+
+        // --- RENDER THE FRAME ---
+        renderer.render(scene, camera);
+      }
+
+      animate();
+
+      window.addEventListener("resize", () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    </script>
+
+    <div id="color-picker">
+      <div id="color-tabs">
+        <button class="tab-active" data-tab="body">Body</button>
+      </div>
+      <div id="color-options"></div>
+    </div>
+  </body>
+</html>

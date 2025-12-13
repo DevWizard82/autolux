@@ -1,0 +1,243 @@
+/* Applique à tous les éléments :
+   - le modèle de boîte "border-box" pour inclure les bordures/paddings dans les dimensions
+   - enlève les marges et paddings par défaut */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Corps du document :
+   - sans marge, minimum pleine hauteur
+   - fond sombre et police lisible */
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: #111;
+  padding: 2rem;
+}
+
+/* le conteneur qui contient les informations de contact et iframe */
+.contact-container {
+  /* Utilise une grille pour disposer les éléments */
+  display: grid;
+
+  /* Définir deux colonnes de largeur égale */
+  grid-template-columns: repeat(2, 1fr);
+
+  /* Ajouter un remplissage de 50px autour du contenu */
+  padding: 50px;
+
+  /* Espacement de 40px entre les éléments de la grille */
+  gap: 40px;
+
+  /* Ajouter une marge en haut de 80px */
+  margin-top: 80px;
+}
+
+/* le div contenant le texte */
+.contact-info {
+  /* Utilise le modèle de mise en page flexible (flexbox) */
+  display: flex;
+
+  /* Aligne les éléments en colonne */
+  flex-direction: column;
+
+  /* Centre les éléments verticalement dans l'espace disponible */
+  justify-content: center;
+}
+
+.contact-info h2 {
+  /* Taille de police de 2.5rem pour le titre */
+  font-size: 2.5rem;
+
+  /* Marge inférieure de 20px sous le titre */
+  margin-bottom: 20px;
+
+  /* Couleur du texte du titre en rose (#d9287c) */
+  color: #d9287c;
+}
+
+.contact-info p {
+  /* Taille de police de 1.2rem pour le texte des paragraphes */
+  font-size: 1.2rem;
+
+  /* Marge de 10px en haut et en bas du paragraphe */
+  margin: 10px 0;
+
+  /* Couleur du texte des paragraphes en blanc */
+  color: white;
+}
+
+iframe {
+  /* Largeur de l'iframe à 100% de son conteneur parent */
+  width: 100%;
+
+  /* Hauteur de l'iframe à 100% de son conteneur parent */
+  height: 100%;
+
+  /* Supprime la bordure autour de l'iframe */
+  border: none;
+
+  /* Applique un rayon de bordure de 30px pour des coins arrondis */
+  border-radius: 30px;
+}
+
+@media (max-width: 768px) {
+  /* Lorsque la largeur de l'écran est inférieure ou égale à 768px */
+  .contact-container {
+    /* Passer à une seule colonne dans la grille */
+    grid-template-columns: 1fr;
+
+    /* Réduire le remplissage à 20px */
+    padding: 20px;
+  }
+
+  iframe {
+    /* Fixer la hauteur de l'iframe à 300px sur les écrans plus petits */
+    height: 300px;
+  }
+}
+
+.maplocation {
+  /* Couleur du texte en blanc */
+  color: white;
+
+  /* Sous-ligner le texte du lien */
+  text-decoration: underline;
+}
+
+/* Logo avec effet de dégradé comme texte */
+.logo {
+  font-size: 2.4rem;
+  font-weight: bold;
+  background: linear-gradient(90deg, #c084fc, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Barre de navigation fixe en haut avec effet de flou */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: rgba(13, 17, 23, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 999;
+}
+
+/* Liste de navigation (liens du menu) */
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+/* Chaque élément de la liste */
+li {
+  display: flex;
+  align-items: center;
+}
+
+/* Liens de navigation */
+a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: color 0.3s;
+}
+
+a:hover {
+  color: white;
+}
+
+/* Sélecteurs de langue :
+   - menu déroulant personnalisé, sombre avec bordure claire */
+.language-selector {
+  padding: 0.8rem 1.6rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  background: #0d1117;
+  color: white;
+  cursor: pointer;
+  appearance: none;
+  font-size: 18px;
+  position: relative;
+  padding-right: 30px;
+}
+
+/* Bouton de menu hamburger (mobile) caché par défaut */
+.menu-button {
+  display: none;
+}
+
+.account {
+  color: white;
+  font-size: medium;
+  cursor: pointer;
+}
+
+/* Sélecteurs dans la barre latérale prennent toute la largeur */
+.sidebar .language-selector {
+  width: 100%;
+  outline: none;
+}
+
+/* Ajustement de la marge dans la sidebar */
+.sidebar-elements {
+  padding-left: 15px;
+}
+
+/* Responsivité : cache certains éléments sur petits écrans, affiche le menu mobile */
+@media (max-width: 1050px) {
+  .hideOnmobile {
+    display: none;
+  }
+  .menu-button {
+    display: block;
+  }
+}
+
+/* Barre latérale (menu mobile) :
+   - fixe à droite, en colonne, effet flou et fond clair */
+.sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 250px;
+  z-index: 999;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1);
+  display: none;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+/* Liens dans la sidebar prennent toute la largeur */
+.sidebar li,
+.sidebar a {
+  width: 100%;
+}
+
+/* Changer la direction du texte pour le cas de l'arabe */
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+
+.ltr {
+  direction: ltr;
+  text-align: left;
+}

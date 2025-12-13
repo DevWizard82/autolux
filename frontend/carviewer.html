@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>High-Quality 3D Car Showroom - With Collision</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        background-color: #000;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      #overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        z-index: 10;
+        transition: opacity 0.3s;
+      }
+
+      #overlay h1 {
+        font-size: 2rem;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .instruction-box {
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px 40px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        text-align: center;
+        line-height: 1.6;
+      }
+
+      .key {
+        background: #fff;
+        color: #000;
+        padding: 2px 6px;
+        border-radius: 4px;
+        font-weight: bold;
+        font-size: 0.9em;
+        margin: 0 2px;
+      }
+
+      p {
+        margin: 5px 0;
+        color: #ccc;
+      }
+
+      #loading {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        color: #888;
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="overlay">
+      <div class="instruction-box">
+        <h1>Showroom Viewer</h1>
+        <p>Click anywhere to enter</p>
+        <br />
+        <p>
+          Move: <span class="key">W</span> <span class="key">A</span>
+          <span class="key">S</span> <span class="key">D</span>
+        </p>
+        <p>Look: <span class="key">MOUSE</span></p>
+        <p>Unlock: <span class="key">ESC</span></p>
+      </div>
+    </div>
+
+    <div id="loading">Waiting for user interaction...</div>
+
+    <script type="module" src="./src/js/viewer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Déclaration du jeu de caractères utilisé -->
+    <meta charset="UTF-8" />
+    <!-- Pour rendre la page responsive sur mobile -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Titre de la page -->
+    <title>Autolux maroc - form</title>
+    <!-- Lien vers le fichier CSS personnalisé -->
+    <link rel="stylesheet" href="./src/css/formulaire.css" />
+    <!-- Lien vers Font Awesome pour les icônes -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Barre de navigation principale -->
+    <nav>
+      <!-- Barre latérale (menu déroulant sur mobile) -->
+      <ul class="sidebar">
+        <!-- Bouton pour fermer la barre latérale -->
+        <li class="sidebar-elements" id="close">
+          <a href="#"><i class="fa-solid fa-xmark large"></i></a>
+        </li>
+        <!-- Sélecteur de langues dans la barre latérale -->
+        <li>
+          <select class="language-selector" id="languages1">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+        </li>
+        <!-- Liens de navigation dans la barre latérale -->
+        <li class="sidebar-elements">
+          <a class="home1" href="acceuil.html">Acceuil</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="cars1" href="cars.html">Voitures</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="book1" href="formulaire.html">Réserver</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="about1" href="about.html">À propos</a>
+        </li>
+        <li class="sidebar-elements">
+          <a class="contact1" href="contact.html">Contact</a>
+        </li>
+      </ul>
+      <!-- Logo de la marque -->
+      <div class="logo">
+        <a class="logo" href="./acceuil.html">AutoLux Maroc</a>
+      </div>
+      <!-- Menu principal pour les écrans larges -->
+      <ul>
+        <!-- Sélecteur de langue sur version bureau -->
+        <li class="hideOnmobile">
+          <select class="language-selector" id="languages">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+        </li>
+        <!-- Liens de navigation visibles uniquement sur grand écran -->
+        <li class="hideOnmobile">
+          <a class="home" href="acceuil.html">Acceuil</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="cars" href="cars.html">Voitures</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="book" href="formulaire.html">Réserver</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="about" href="about.html">À propos</a>
+        </li>
+        <li class="hideOnmobile">
+          <a class="contact" href="contact.html">Contact</a>
+        </li>
+        <!-- Bouton d'ouverture du menu latéral (hamburger icon) -->
+        <li id="sidebar" class="menu-button">
+          <a href="#"><i class="fa-solid fa-bars"></i></a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Section de formulaire -->
+    <section class="form-section" id="form-section">
+      <!-- Formulaire de réservation -->
+      <form action="/submit" method="post">
+        <p>
+          <label for="date_start" class="date_start"
+            >Date de prise en charge</label
+          >
+          <input id="date_start" type="date" name="date_start" required />
+        </p>
+        <p>
+          <label for="date_end" class="date_end">Date de retour</label>
+          <input id="date_end" type="date" name="date_end" required />
+        </p>
+        <p>
+          <label for="car_name" class="car_name"> Véhicule sélectionné </label>
+          <select name="car_name" id="car_name">
+            <option value="placeholder" selected>
+              sélectionner un véhicule
+            </option>
+          </select>
+        </p>
+        <p>
+          <label for="nom" class="nom">Nom complet</label>
+          <input
+            type="text"
+            id="nom"
+            name="nom"
+            pattern="^[A-Za-z ]+$"
+            oninvalid="this.setCustomValidity('Veuillez entrer un nom complet sans chiffres ni caractères spéciaux. ex: (prenom nom)')"
+            oninput="this.setCustomValidity('')"
+            required
+          />
+        </p>
+        <p>
+          <label for="email" class="email">Email</label>
+          <input type="email" name="email" id="email" required />
+        </p>
+        <p>
+          <label for="tel" class="tel">Téléphone</label>
+          <input
+            type="tel"
+            name="tel"
+            id="tel"
+            required
+            pattern="\+?[0-9]{1,4}([-\s]?[0-9]{1,4}){2,6}"
+            oninvalid="this.setCustomValidity('Veuillez entrer un numéro de téléphone valide (ex: +123 456 7890).')"
+            oninput="this.setCustomValidity('')"
+          />
+        </p>
+        <p>
+          <input type="submit" value="Réservez maintenant" class="submit-btn" />
+        </p>
+      </form>
+    </section>
+
+    <script type="module" src="./src/js/form.js"></script>
+  </body>
+</html>
