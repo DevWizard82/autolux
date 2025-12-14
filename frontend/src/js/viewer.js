@@ -387,6 +387,7 @@ class ControlsManager {
     requestAnimationFrame(animate);
     const delta = showroom.clock.getDelta();
     controlsManager.update(delta);
+    car.update(delta);
     showroom.render();
   }
 
