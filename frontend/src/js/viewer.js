@@ -1,7 +1,14 @@
 import * as THREE from "three";
 import { PointerLockControls } from "three/addons/controls/PointerLockControls.js";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { getmodels, getCarTrims, getCarBody, getCarStrip } from "./api.js";
+import {
+  getmodels,
+  getCarTrims,
+  getCarBody,
+  getCarStrip,
+  getTypes,
+  getColors,
+} from "./api.js";
 
 // --- SHOWROOM CLASS ---
 class Showroom {
@@ -233,38 +240,6 @@ class Car {
   update(delta) {
     if (this.mixer) this.mixer.update(delta);
   }
-
-  async applyColorsFromDB() {
-    try {
-      const trims = await getCarTrims(this.modelName);
-      const body = await getCarBody(this.modelName);
-      const strips = await getCarStrip(this.modelName);
-
-      const setColor = (arr, color) =>
-        this.model.traverse((node) => {
-          if (node.isMesh && arr.includes(node.name)) {
-            node.material.color.set(color);
-            node.material.metalness = 1;
-            node.material.roughness = 0.2;
-          }
-        });
-
-      setColor(
-        trims.map((t) => t.part_name),
-        "#C0C0C0"
-      );
-      setColor(
-        body.map((b) => b.part_name),
-        "#0A7968"
-      );
-      setColor(
-        strips.map((s) => s.part_name),
-        "#C0C0C0"
-      );
-    } catch (err) {
-      console.error("Failed to apply colors:", err);
-    }
-  }
 }
 
 // --- CONTROLS MANAGER ---
@@ -287,7 +262,10 @@ class ControlsManager {
 
   bindEvents() {
     const overlay = document.getElementById("overlay");
-    document.addEventListener("click", () => this.controls.lock());
+    const canvas = this.showroom.renderer.domElement;
+    canvas.addEventListener("click", () => {
+      if (!this.controls.isLocked) this.controls.lock();
+    });
 
     this.controls.addEventListener("lock", () => {
       if (overlay) {
@@ -300,6 +278,25 @@ class ControlsManager {
       if (overlay) {
         overlay.style.display = "flex";
         setTimeout(() => (overlay.style.opacity = "1"), 10);
+      }
+    });
+
+    this.controls.addEventListener("lock", () => {
+      document.getElementById("configurator").style.display = "none";
+    });
+
+    this.controls.addEventListener("unlock", () => {
+      document.getElementById("configurator").style.display = "block";
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.code === "KeyC") {
+        // example key to toggle configurator
+        if (this.controls.isLocked) {
+          this.controls.unlock();
+        } else {
+          this.controls.lock();
+        }
       }
     });
 
@@ -363,6 +360,162 @@ class ControlsManager {
   }
 }
 
+// --- CONFIGURATOR CLASS ---
+class Configurator {
+  constructor(car, carId, modelName) {
+    this.car = car;
+    this.carId = carId;
+    this.modelName = modelName;
+    this.tabsContainer = document.getElementById("config-tabs");
+    this.contentContainer = document.getElementById("config-content");
+    this.types = [];
+    this.selectedPartName = null;
+    this.bodyParts = [];
+    this.colors = [];
+    this.activeType = null;
+  }
+
+  async init() {
+    this.types = await getTypes(this.carId);
+    this.colors = await getColors(this.carId);
+    this.bodyParts = await getCarBody(this.modelName);
+    this.createTabs();
+  }
+
+  createTabs() {
+    this.tabsContainer.innerHTML = "";
+    this.contentContainer.innerHTML = "";
+
+    this.types.forEach((typeObj, index) => {
+      const type = typeObj.part_type;
+
+      // Create tab button
+      const tab = document.createElement("button");
+      tab.className = "tab-btn";
+      tab.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+      if (index === 0) tab.classList.add("active");
+
+      tab.addEventListener("click", () => {
+        document
+          .querySelectorAll(".tab-btn")
+          .forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+        this.loadTabContent(type);
+      });
+
+      this.tabsContainer.appendChild(tab);
+    });
+
+    // Load first tab by default
+    if (this.types.length > 0) this.loadTabContent(this.types[0].part_type);
+  }
+
+  applyBodyColor(color) {
+    console.log("Applying body color:", color);
+
+    this.car.model.traverse((node) => {
+      if (
+        node.isMesh &&
+        this.bodyParts.some((p) => p.part_name === node.name)
+      ) {
+        node.material.color.set(color);
+        node.material.metalness = 1;
+        node.material.roughness = 0.2;
+        node.material.needsUpdate = true;
+      }
+    });
+  }
+
+  async loadTabContent(type) {
+    this.contentContainer.innerHTML = "Loading...";
+
+    let parts = [];
+
+    if (type === "body") {
+      // BODY → show available colors
+      this.contentContainer.innerHTML = "";
+
+      this.colors.forEach((c) => {
+        const circle = document.createElement("div");
+        circle.className = "option";
+        circle.style.backgroundColor = c.color;
+        circle.title = c.color;
+
+        circle.addEventListener("click", () => {
+          this.applyBodyColor(c.color);
+        });
+
+        this.contentContainer.appendChild(circle);
+      });
+
+      return;
+    }
+
+    if (type === "trim") {
+      this.contentContainer.innerHTML = "";
+
+      const trimColors = [
+        { name: "Gold", color: "#FFD700" },
+        { name: "Silver", color: "#C0C0C0" },
+        { name: "Black", color: "#000000" },
+      ];
+
+      const trims = await getCarTrims(this.modelName); // get parts
+
+      trims.forEach((trimPart) => {
+        trimColors.forEach((c) => {
+          const circle = document.createElement("div");
+          circle.className = "option";
+          circle.style.backgroundColor = c.color;
+          circle.title = `${trimPart.part_name} - ${c.name}`;
+
+          circle.addEventListener("click", () => {
+            // Apply color only to this trim part
+            this.car.model.traverse((node) => {
+              if (node.isMesh && node.name === trimPart.part_name) {
+                node.material.color.set(c.color);
+                node.material.metalness = 1;
+                node.material.roughness = 0.2;
+                node.material.needsUpdate = true;
+              }
+            });
+          });
+
+          this.contentContainer.appendChild(circle);
+        });
+      });
+
+      return;
+    }
+
+    switch (type) {
+      case "strip":
+        parts = await getCarStrip(this.modelName);
+        break;
+      default:
+        parts = [];
+    }
+
+    console.log("type:", type);
+    console.log("parts:", parts);
+
+    this.contentContainer.innerHTML = "";
+
+    parts.forEach((part) => {
+      const option = document.createElement("div");
+      option.className = "option";
+      option.textContent = part.part_name;
+      option.title = part.part_name;
+
+      option.addEventListener("click", () => {
+        this.applyOption(type, part);
+      });
+
+      this.contentContainer.appendChild(option);
+    });
+  }
+}
+
 // --- INIT SHOWROOM ---
 (async () => {
   const showroom = new Showroom();
@@ -378,8 +531,12 @@ class ControlsManager {
 
   const car = new Car(`/assets/models/${modelName}`, scale, modelName);
   await car.load(modelData);
-  await car.applyColorsFromDB();
   showroom.addCar(car);
+
+  const carId = modelData.car_id;
+
+  const configurator = new Configurator(car, carId, modelName);
+  await configurator.init();
 
   const controlsManager = new ControlsManager(showroom.camera, car, showroom);
 

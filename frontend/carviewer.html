@@ -66,24 +66,70 @@
         color: #888;
         font-size: 0.9rem;
       }
+
+      #configurator {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: rgba(20, 20, 20, 0.95);
+        color: #fff;
+        font-family: sans-serif;
+        box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
+        z-index: 9999;
+      }
+
+      .tabs {
+        display: flex;
+        justify-content: flex-start;
+        border-bottom: 1px solid #444;
+        overflow-x: auto;
+      }
+
+      .tab-btn {
+        padding: 10px 20px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        color: #fff;
+        font-weight: 600;
+        transition: background 0.2s;
+      }
+
+      .tab-btn.active {
+        border-bottom: 3px solid #0af;
+      }
+
+      .tab-btn:hover {
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .tab-content {
+        padding: 15px;
+        display: flex;
+        gap: 15px;
+        overflow-x: auto;
+      }
+
+      .option {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+        border: 2px solid #fff;
+        transition: transform 0.2s;
+      }
+
+      .option:hover {
+        transform: scale(1.1);
+      }
     </style>
   </head>
   <body>
-    <div id="overlay">
-      <div class="instruction-box">
-        <h1>Showroom Viewer</h1>
-        <p>Click anywhere to enter</p>
-        <br />
-        <p>
-          Move: <span class="key">W</span> <span class="key">A</span>
-          <span class="key">S</span> <span class="key">D</span>
-        </p>
-        <p>Look: <span class="key">MOUSE</span></p>
-        <p>Unlock: <span class="key">ESC</span></p>
-      </div>
+    <div id="configurator">
+      <div id="config-tabs" class="tabs"></div>
+      <div id="config-content" class="tab-content"></div>
     </div>
-
-    <div id="loading">Waiting for user interaction...</div>
 
     <script type="module" src="./src/js/viewer.js"></script>
   </body>

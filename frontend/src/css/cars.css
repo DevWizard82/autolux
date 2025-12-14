@@ -18,6 +18,13 @@ body {
   padding: 2rem;
 }
 
+nav .logo {
+  display: flex;
+  align-items: center;
+  height: 70px; /* same as navbar height */
+  padding: 0 10px; /* optional padding */
+}
+
 /* Section des voitures :
    - un padding au-dessus et texte en blanc */
 #cars-section {
@@ -240,6 +247,7 @@ h2 {
   background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
   -webkit-background-clip: text;
   color: transparent;
+  margin-top: 20px;
 }
 
 /* Effets au survol pour le menu des villes */

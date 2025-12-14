@@ -67,3 +67,23 @@ export async function getAvailableColors(carId) {
     return [];
   }
 }
+
+export async function getTypes(carId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/types/${carId}`);
+    return response.data;
+  } catch (err) {
+    console.error("Failed to fetch car types:", err);
+    return [];
+  }
+}
+
+export async function getColors(carId) {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/colors/${carId}`);
+    return response.data;
+  } catch (err) {
+    console.error("Failed to fetch car types:", err);
+    return [];
+  }
+}
