@@ -18,6 +18,15 @@ body {
   padding: 2rem;
 }
 
+nav .logo {
+  display: flex;
+  align-items: center;
+  height: 50px; /* same as navbar height */
+  padding: 0 10px; /* optional padding */
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
 /* le conteneur dans about.html */
 .container {
   display: grid;

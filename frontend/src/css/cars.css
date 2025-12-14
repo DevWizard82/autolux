@@ -21,8 +21,10 @@ body {
 nav .logo {
   display: flex;
   align-items: center;
-  height: 70px; /* same as navbar height */
+  height: 50px; /* same as navbar height */
   padding: 0 10px; /* optional padding */
+  margin-top: 12px;
+  margin-bottom: 12px;
 }
 
 /* Section des voitures :

@@ -302,7 +302,6 @@ function updateLanguage(language) {
   //declarer les elements a changer dans la page
   const home = document.querySelector(".home");
   const cars = document.querySelector(".cars");
-  const book = document.querySelector(".book");
   const about = document.querySelector(".about");
   const fleet = document.getElementById("fleet");
   const allCities = document.querySelector(".all");
@@ -319,7 +318,6 @@ function updateLanguage(language) {
   const contact = document.querySelector(".contact");
   const homesidebar = document.querySelector(".home1");
   const carssidebar = document.querySelector(".cars1");
-  const booksidebar = document.querySelector(".book1");
   const aboutsidebar = document.querySelector(".about1");
   const contactsidebar = document.querySelector(".contact1");
 
@@ -327,7 +325,6 @@ function updateLanguage(language) {
   contact.textContent = translations[language]["contact"];
   home.textContent = translations[language]["acceuil"];
   cars.textContent = translations[language]["voitures"];
-  book.textContent = translations[language]["reserver"];
   about.textContent = translations[language]["apropos"];
   fleet.textContent = translations[language]["notreflotte"];
   allCities.textContent = translations[language]["touteslesvilles"];
@@ -343,7 +340,6 @@ function updateLanguage(language) {
   sport.textContent = translations[language]["sport"];
   homesidebar.textContent = translations[language]["acceuil"];
   carssidebar.textContent = translations[language]["voitures"];
-  booksidebar.textContent = translations[language]["reserver"];
   aboutsidebar.textContent = translations[language]["apropos"];
   contactsidebar.textContent = translations[language]["contact"];
 
