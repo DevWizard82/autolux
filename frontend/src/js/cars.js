@@ -164,39 +164,50 @@ citiesSelect.addEventListener("change", (e) => {
   displayCars(city, category, languagesSelect.value);
 });
 
-// Convertir la devise
-const convert = (amount, toCurrency) => {
-  const rate = mockRates[toCurrency];
-  if (!rate) return null;
-  const result = amount * rate;
-  return result.toFixed(2);
-};
+let exchangeRates = {};
+
+async function fetchCurrenciesRates() {
+  try {
+    const response = await fetch("https://open.er-api.com/v6/latest/EUR");
+    const data = await response.json();
+    exchangeRates = data.rates || {};
+  } catch (error) {
+    console.error("Failed to fetch exchange rates:", error);
+  }
+}
+
+async function convert(amount, toCurrency) {
+  if (!exchangeRates[toCurrency]) return null;
+  return (amount * exchangeRates[toCurrency]).toFixed(2);
+}
 
 // Met à jour tous les prix affichés en les convertissant vers la devise choisie à l'aide de la fonction convert().
-function updatePrice(toCurrency) {
-  document.querySelectorAll(".priceValue").forEach((price) => {
+async function updatePrice(toCurrency) {
+  const priceElements = document.querySelectorAll(".priceValue");
+
+  for (const price of priceElements) {
     const originalPrice = parseFloat(price.getAttribute("data-original-value"));
-    const converted = convert(originalPrice, toCurrency);
+    const converted = await convert(originalPrice, toCurrency);
     if (converted) {
       price.textContent = `${converted} ${toCurrency}`;
     } else {
       price.textContent = "Conversion failed";
     }
-  });
+  }
 }
 
 // Lors du changement de devise dans la liste déroulante principale, on met à jour la devise sélectionnée dans la sidebar, les prix affichés, et on recharge les voitures selon les filtres actuels.
-document.getElementById("currencies").addEventListener("change", (e) => {
+document.getElementById("currencies").addEventListener("change", async (e) => {
   const toCurrency = e.target.value;
   sidebarCurrencies.value = toCurrency;
-  updatePrice(toCurrency);
+  await updatePrice(toCurrency);
 });
 
 // Lors du changement de devise dans la liste déroulante de la barre laterale, on met à jour la devise sélectionnée dans le menu pricipal, les prix affichés, et on recharge les voitures selon les filtres actuels.
-document.getElementById("currencies1").addEventListener("change", (e) => {
+document.getElementById("currencies1").addEventListener("change", async (e) => {
   const toCurrency = e.target.value;
   currenciesSelect.value = toCurrency;
-  updatePrice(toCurrency);
+  await updatePrice(toCurrency);
 });
 
 //fonction qui affiche les cartes apres application de filtres (barre de recherche)
@@ -436,14 +447,22 @@ document.body.addEventListener("click", (e) => {
 async function init() {
   const cars = await getcars();
   const savedLang = localStorage.getItem("language") || "fr";
-
+  const savedCurrency = localStorage.getItem("currency") || "EUR";
+  await fetchCurrenciesRates();
   updateLanguage(savedLang);
+
+  currenciesSelect.value = savedCurrency;
+  sidebarCurrencies.value = savedCurrency;
 
   const city = citiesSelect.value;
   const category =
     document.querySelector(".category-btn.active")?.dataset.originalValue ||
     "All";
-  displayCars(cars, city, category, savedLang);
+  await displayCars(cars, city, category, savedLang);
+
+  if (savedCurrency !== "EUR") {
+    await updatePrice(savedCurrency);
+  }
 
   // Set selects
   languagesSelect.value = savedLang;
@@ -504,10 +523,12 @@ async function init() {
   // Currency
   currenciesSelect.addEventListener("change", (e) => {
     sidebarCurrencies.value = e.target.value;
+    localStorage.setItem("currency", e.target.value);
     updatePrice(e.target.value);
   });
   sidebarCurrencies.addEventListener("change", (e) => {
     currenciesSelect.value = e.target.value;
+    localStorage.setItem("currency", e.target.value);
     updatePrice(e.target.value);
   });
 
