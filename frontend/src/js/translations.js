@@ -41,6 +41,55 @@ export const translations = {
     contactus: "Contact us",
     p2: "Each vehicle in our fleet is meticulously maintained to ensure an unparalleled driving experience. We are committed to exceeding your expectations and turning every journey into a memorable moment.",
     p1: "At AutoLux, we redefine the luxury car rental experience. Our passion for automotive excellence drives us to select the most prestigious models and offer exceptional personalized service.",
+    fleet: "Fleet",
+    about: "About",
+    login: "Login",
+    discover_more: "Discover More",
+    view_fleet: "View Fleet",
+
+    hero_tagline: "The Art of Performance",
+    hero_title_1: "Unbound",
+    hero_title_2: "Luxury",
+    hero_text:
+      "Elevate your journey with an exclusive collection of the world's most prestigious automobiles.",
+
+    about_badge: "About Aura",
+    about_title: "Redefining the Driving Experience",
+    about_p1:
+      "At AURA, we believe a car is more than transportation; it is an extension of personality and status.",
+    about_p2:
+      "With white-glove service and a meticulously maintained fleet, every drive becomes extraordinary.",
+    our_story: "Our Story",
+
+    exclusive_selection: "Exclusive Selection",
+    royal_fleet: "The Royal Fleet",
+    reserve_now: "Reserve Now",
+    view_full_collection: "View Full Collection",
+
+    why_autolux: "Why Autolux?",
+    concierge_service: "Concierge Level Service",
+    pristine_title: "Pristine Condition",
+    pristine_desc:
+      "Every vehicle undergoes a rigorous inspection before delivery.",
+    airport_title: "Airport VIP Handover",
+    airport_desc:
+      "We meet you directly at the terminal with your vehicle ready.",
+    flexible_title: "Flexible Schedule",
+    flexible_desc: "Flexible pickup and drop-off times tailored to your needs.",
+
+    begin_journey: "Begin Your Journey",
+    begin_text:
+      "Ready to experience the exceptional? Contact our concierge team today.",
+    contact_concierge: "Contact Concierge",
+    book_now: "Book Now",
+
+    footer_desc:
+      "The premier destination for luxury car rentals with impeccable service.",
+    explore: "Explore",
+    services: "Services",
+    visit_us: "Visit Us",
+    privacy: "Privacy Policy",
+    terms: "Terms of Service",
   },
   fr: {
     acceuil: "Accueil",
@@ -82,6 +131,50 @@ export const translations = {
     contactus: "Contactez-nous",
     p1: "Chez AutoLux, nous redéfinissons l'expérience de la location de véhicules de luxe. Notre passion pour l'excellence automobile nous pousse à sélectionner les modèles les plus prestigieux et à offrir un service personnalisé d'exception.",
     p2: "Chaque véhicule de notre flotte est minutieusement entretenu pour garantir une expérience de conduite incomparable. Nous nous engageons à dépasser vos attentes et à transformer chaque trajet en un moment mémorable.",
+    fleet: "Flotte",
+    about: "À propos",
+    login: "Connexion",
+    discover_more: "Découvrir",
+    view_fleet: "Voir la flotte",
+
+    hero_tagline: "L'art de la performance",
+    hero_title_1: "Luxe",
+    hero_title_2: "Sans Limite",
+    hero_text:
+      "Élevez votre expérience avec une collection exclusive des automobiles les plus prestigieuses.",
+
+    about_badge: "À propos d’Aura",
+    about_title: "Redéfinir l’expérience de conduite",
+    about_p1: "Chez AURA, une voiture est bien plus qu’un moyen de transport.",
+    about_p2:
+      "Un service haut de gamme et une flotte irréprochable pour une expérience unique.",
+    our_story: "Notre histoire",
+
+    exclusive_selection: "Sélection exclusive",
+    royal_fleet: "La flotte royale",
+    reserve_now: "Réserver",
+    view_full_collection: "Voir toute la collection",
+
+    why_autolux: "Pourquoi Autolux ?",
+    concierge_service: "Service Conciergerie",
+    pristine_title: "État impeccable",
+    pristine_desc: "Chaque véhicule est inspecté avec le plus grand soin.",
+    airport_title: "Remise VIP à l’aéroport",
+    airport_desc: "Accueil direct au terminal avec votre véhicule prêt.",
+    flexible_title: "Horaires flexibles",
+    flexible_desc: "Horaires adaptés à votre emploi du temps.",
+
+    begin_journey: "Commencez votre voyage",
+    begin_text: "Prêt à vivre l’exceptionnel ? Contactez notre conciergerie.",
+    contact_concierge: "Contacter la conciergerie",
+    book_now: "Réserver",
+
+    footer_desc: "La référence en location de voitures de luxe.",
+    explore: "Explorer",
+    services: "Services",
+    visit_us: "Nous rendre visite",
+    privacy: "Politique de confidentialité",
+    terms: "Conditions d’utilisation",
   },
   it: {
     acceuil: "Home",
@@ -123,6 +216,51 @@ export const translations = {
     contactus: "Contattaci",
     p1: "Da AutoLux, ridefiniamo l’esperienza del noleggio di auto di lusso. La nostra passione per l’eccellenza automobilistica ci spinge a selezionare i modelli più prestigiosi e a offrire un servizio personalizzato eccezionale.",
     p2: "Ogni veicolo della nostra flotta è meticolosamente mantenuto per garantire un'esperienza di guida senza pari. Siamo impegnati a superare le vostre aspettative e a trasformare ogni viaggio in un momento indimenticabile.",
+    fleet: "La Flotta",
+    about: "Chi Siamo",
+    login: "Accedi",
+    discover_more: "Scopri di più",
+    view_fleet: "Vedi la flotta",
+
+    hero_tagline: "L'arte della prestazione",
+    hero_title_1: "Lusso",
+    hero_title_2: "Senza confini",
+    hero_text:
+      "Eleva il tuo viaggio con una selezione esclusiva delle auto più prestigiose al mondo.",
+
+    about_badge: "Su Aura",
+    about_title: "Ridefinire l'esperienza di guida",
+    about_p1:
+      "In AURA crediamo che un'auto sia espressione di personalità e status.",
+    about_p2: "Servizio impeccabile e una flotta curata nei minimi dettagli.",
+    our_story: "La nostra storia",
+
+    exclusive_selection: "Selezione Esclusiva",
+    royal_fleet: "Flotta Reale",
+    reserve_now: "Prenota ora",
+    view_full_collection: "Vedi l'intera collezione",
+
+    why_autolux: "Perché Autolux?",
+    concierge_service: "Servizio Concierge",
+    pristine_title: "Condizioni perfette",
+    pristine_desc: "Ispezione rigorosa di ogni veicolo prima della consegna.",
+    airport_title: "Consegna VIP in aeroporto",
+    airport_desc: "Ti accogliamo direttamente al tuo arrivo.",
+    flexible_title: "Orari flessibili",
+    flexible_desc: "Appuntamenti che si adattano ai tuoi impegni.",
+
+    begin_journey: "Inizia il tuo viaggio",
+    begin_text: "Sei pronto per un'esperienza straordinaria?",
+    contact_concierge: "Contatta il Concierge",
+    book_now: "Prenota ora",
+
+    footer_desc:
+      "La tua destinazione principale per il noleggio auto di lusso.",
+    explore: "Esplora",
+    services: "Servizi",
+    visit_us: "Visitaci",
+    privacy: "Privacy Policy",
+    terms: "Termini di servizio",
   },
   pt: {
     acceuil: "Início",
@@ -164,6 +302,50 @@ export const translations = {
     contactus: "Contacte-nos",
     p1: "Na AutoLux, redefinimos a experiência de aluguel de carros de luxo. Nossa paixão pela excelência automotiva nos leva a selecionar os modelos mais prestigiados e a oferecer um serviço personalizado excepcional.",
     p2: "Cada veículo da nossa frota é cuidadosamente mantido para garantir uma experiência de condução incomparável. Comprometemo-nos a superar as suas expectativas e a transformar cada viagem em um momento inesquecível.",
+    fleet: "Frota",
+    about: "Sobre nós",
+    login: "Entrar",
+    discover_more: "Descubra mais",
+    view_fleet: "Ver frota",
+
+    hero_tagline: "A arte da performance",
+    hero_title_1: "Luxo",
+    hero_title_2: "Sem limites",
+    hero_text:
+      "Eleve a sua viagem com uma seleção exclusiva dos melhores carros do mundo.",
+
+    about_badge: "Sobre a Aura",
+    about_title: "Redefinindo a experiência de condução",
+    about_p1:
+      "Na AURA, acreditamos que o carro é uma expressão de personalidade e status.",
+    about_p2: "Serviço de luxo e uma frota mantida com cuidado meticuloso.",
+    our_story: "Nossa história",
+
+    exclusive_selection: "Seleção Exclusiva",
+    royal_fleet: "Frota Real",
+    reserve_now: "Reservar agora",
+    view_full_collection: "Ver coleção completa",
+
+    why_autolux: "Por que Autolux?",
+    concierge_service: "Serviço de Concierge",
+    pristine_title: "Condição impecável",
+    pristine_desc: "Inspeção rigorosa de cada veículo antes da entrega.",
+    airport_title: "Entrega VIP no Aeroporto",
+    airport_desc: "Recebemos você diretamente no aeroporto.",
+    flexible_title: "Horários flexíveis",
+    flexible_desc: "Agendamentos que se adaptam à sua rotina.",
+
+    begin_journey: "Comece sua jornada",
+    begin_text: "Você está pronto para uma experiência excepcional?",
+    contact_concierge: "Falar com Concierge",
+    book_now: "Reservar agora",
+
+    footer_desc: "O seu destino premium para aluguel de carros de luxo.",
+    explore: "Explorar",
+    services: "Serviços",
+    visit_us: "Visite-nos",
+    privacy: "Política de Privacidade",
+    terms: "Termos de Serviço",
   },
   zh: {
     acceuil: "首页",
@@ -205,6 +387,48 @@ export const translations = {
     contactus: "联系我们",
     p1: "在 AutoLux，我们重新定义豪华汽车租赁体验。我们对汽车卓越的热情促使我们挑选最负盛名的车型，并提供卓越的个性化服务。",
     p2: "我们车队中的每一辆车都经过精心维护，以确保无与伦比的驾驶体验。我们致力于超越您的期望，将每一段旅程转化为难忘的时刻。",
+    fleet: "车队",
+    about: "关于我们",
+    login: "登录",
+    discover_more: "发现更多",
+    view_fleet: "查看车队",
+
+    hero_tagline: "性能的艺术",
+    hero_title_1: "奢华",
+    hero_title_2: "无界",
+    hero_text: "精选全球顶级豪车，提升您的非凡旅程。",
+
+    about_badge: "关于 Aura",
+    about_title: "重新定义驾驶体验",
+    about_p1: "在 AURA，我们要相信汽车是个性与地位的象征。",
+    about_p2: "奢华的服务与精心养护的车队。",
+    our_story: "品牌故事",
+
+    exclusive_selection: "独家精选",
+    royal_fleet: "皇家车队",
+    reserve_now: "立即预订",
+    view_full_collection: "查看完整系列",
+
+    why_autolux: "为什么选择 Autolux？",
+    concierge_service: "礼宾服务",
+    pristine_title: "完美车况",
+    pristine_desc: "交付前对每辆车进行严格检查。",
+    airport_title: "机场 VIP 接送",
+    airport_desc: "我们在机场直接迎接您。",
+    flexible_title: "灵活时间",
+    flexible_desc: "配合您的日程安排。",
+
+    begin_journey: "开启旅程",
+    begin_text: "准备好迎接非凡体验了吗？",
+    contact_concierge: "联系礼宾部",
+    book_now: "立即预订",
+
+    footer_desc: "豪华汽车租赁的首选之地。",
+    explore: "探索",
+    services: "服务",
+    visit_us: "光临我们",
+    privacy: "隐私政策",
+    terms: "服务条款",
   },
   ja: {
     acceuil: "ホーム",
@@ -246,6 +470,48 @@ export const translations = {
     contactus: "お問い合わせ",
     p1: "AutoLuxでは、高級車レンタルの体験を再定義しています。自動車の卓越性への情熱から、最も名高いモデルを厳選し、卓越したパーソナルサービスを提供しています。",
     p2: "私たちのフリートの各車両は、比類のないドライビング体験を保証するために細心の注意を払って維持されています。私たちは、お客様の期待を超え、すべての旅を忘れられない瞬間に変えることをお約束します。",
+    fleet: "車両一覧",
+    about: "私たちについて",
+    login: "ログイン",
+    discover_more: "もっと見る",
+    view_fleet: "車両を見る",
+
+    hero_tagline: "パフォーマンスの芸術",
+    hero_title_1: "ラグジュアリー",
+    hero_title_2: "無限",
+    hero_text: "世界最高峰の車で、あなたの旅を格上げしましょう。",
+
+    about_badge: "Auraについて",
+    about_title: "ドライビング体験の再定義",
+    about_p1: "AURAでは、車は個性とステータスの表現であると信じています。",
+    about_p2: "贅沢なサービスと、細部まで手入れされた車両。",
+    our_story: "ストーリー",
+
+    exclusive_selection: "厳選されたコレクション",
+    royal_fleet: "ロイヤルフリート",
+    reserve_now: "今すぐ予約",
+    view_full_collection: "全コレクションを見る",
+
+    why_autolux: "Autoluxが選ばれる理由",
+    concierge_service: "コンシェルジュサービス",
+    pristine_title: "完璧な状態",
+    pristine_desc: "納車前に全車両を厳格に点検。",
+    airport_title: "空港VIPデリバリー",
+    airport_desc: "空港で直接お出迎えいたします。",
+    flexible_title: "柔軟なスケジュール",
+    flexible_desc: "お客様のご予定に合わせた対応。",
+
+    begin_journey: "旅を始める",
+    begin_text: "極上の体験をする準備はできていますか？",
+    contact_concierge: "コンシェルジュに連絡",
+    book_now: "今すぐ予約",
+
+    footer_desc: "高級レンタカーの最高峰。",
+    explore: "探索",
+    services: "サービス",
+    visit_us: "アクセス",
+    privacy: "プライバシーポリシー",
+    terms: "利用規約",
   },
   ar: {
     acceuil: "الرئيسية",
@@ -287,6 +553,48 @@ export const translations = {
     contactus: "اتصل بنا",
     p1: "في أوتو لوكس، نعيد تعريف تجربة تأجير السيارات الفاخرة. يدفعنا شغفنا بالتميز في السيارات إلى اختيار أكثر الطرازات شهيرة وتقديم خدمة شخصية استثنائية.",
     p2: "كل مركبة في أسطولنا تتم صيانتها بعناية لضمان تجربة قيادة لا مثيل لها. نحن ملتزمون بتجاوز توقعاتكم وتحويل كل رحلة إلى لحظة لا تُنسى.",
+    fleet: "الأسطول",
+    about: "من نحن",
+    login: "تسجيل الدخول",
+    discover_more: "اكتشف المزيد",
+    view_fleet: "عرض الأسطول",
+
+    hero_tagline: "فن الأداء",
+    hero_title_1: "فخامة",
+    hero_title_2: "بلا حدود",
+    hero_text: "ارتقِ برحلتك مع مجموعة حصرية من أرقى السيارات في العالم.",
+
+    about_badge: "عن Aura",
+    about_title: "إعادة تعريف تجربة القيادة",
+    about_p1: "نؤمن في AURA أن السيارة تعبير عن الشخصية والمكانة.",
+    about_p2: "خدمة فاخرة وأسطول مُعتنى به بعناية فائقة.",
+    our_story: "قصتنا",
+
+    exclusive_selection: "اختيار حصري",
+    royal_fleet: "الأسطول الملكي",
+    reserve_now: "احجز الآن",
+    view_full_collection: "عرض المجموعة كاملة",
+
+    why_autolux: "لماذا Autolux؟",
+    concierge_service: "خدمة كونسيرج",
+    pristine_title: "حالة مثالية",
+    pristine_desc: "فحص دقيق لكل سيارة قبل التسليم.",
+    airport_title: "تسليم VIP في المطار",
+    airport_desc: "نستقبلك مباشرة في المطار.",
+    flexible_title: "مواعيد مرنة",
+    flexible_desc: "مواعيد تناسب جدولك.",
+
+    begin_journey: "ابدأ رحلتك",
+    begin_text: "هل أنت مستعد لتجربة استثنائية؟",
+    contact_concierge: "تواصل مع الكونسيرج",
+    book_now: "احجز الآن",
+
+    footer_desc: "وجهتك الأولى لتأجير السيارات الفاخرة.",
+    explore: "استكشف",
+    services: "الخدمات",
+    visit_us: "زورونا",
+    privacy: "سياسة الخصوصية",
+    terms: "شروط الخدمة",
   },
   es: {
     acceuil: "Inicio",
@@ -328,6 +636,50 @@ export const translations = {
     contactus: "Contáctanos",
     p1: "En AutoLux, redefinimos la experiencia del alquiler de coches de lujo. Nuestra pasión por la excelencia automotriz nos impulsa a seleccionar los modelos más prestigiosos y ofrecer un servicio personalizado excepcional.",
     p2: "Cada vehículo de nuestra flota está meticulosamente mantenido para garantizar una experiencia de conducción inigualable. Nos comprometemos a superar sus expectativas y a convertir cada viaje en un momento inolvidable.",
+    fleet: "Flota",
+    about: "Nosotros",
+    login: "Iniciar sesión",
+    discover_more: "Descubrir más",
+    view_fleet: "Ver flota",
+
+    hero_tagline: "El arte del rendimiento",
+    hero_title_1: "Lujo",
+    hero_title_2: "Sin límites",
+    hero_text:
+      "Eleve su viaje con una selección exclusiva de los mejores automóviles del mundo.",
+
+    about_badge: "Sobre Aura",
+    about_title: "Redefiniendo la experiencia de conducción",
+    about_p1:
+      "En AURA creemos que un coche es una expresión de personalidad y estatus.",
+    about_p2: "Servicio de lujo y una flota cuidada meticulosamente.",
+    our_story: "Nuestra historia",
+
+    exclusive_selection: "Selección exclusiva",
+    royal_fleet: "Flota Real",
+    reserve_now: "Reservar ahora",
+    view_full_collection: "Ver colección completa",
+
+    why_autolux: "¿Por qué Autolux?",
+    concierge_service: "Servicio de Conserjería",
+    pristine_title: "Condición impecable",
+    pristine_desc: "Inspección rigurosa de cada vehículo antes de la entrega.",
+    airport_title: "Entrega VIP en aeropuerto",
+    airport_desc: "Le recibimos directamente en el aeropuerto.",
+    flexible_title: "Horarios flexibles",
+    flexible_desc: "Citas que se adaptan a su agenda.",
+
+    begin_journey: "Comience su viaje",
+    begin_text: "¿Está listo para una experiencia excepcional?",
+    contact_concierge: "Contactar Conserjería",
+    book_now: "Reservar ahora",
+
+    footer_desc: "Su destino principal para el alquiler de coches de lujo.",
+    explore: "Explorar",
+    services: "Servicios",
+    visit_us: "Visítenos",
+    privacy: "Política de privacidad",
+    terms: "Términos de servicio",
   },
   de: {
     acceuil: "Startseite",
@@ -370,6 +722,50 @@ export const translations = {
     contactus: "Kontaktieren Sie uns",
     p1: "Bei AutoLux definieren wir das Erlebnis der Luxusautovermietung neu. Unsere Leidenschaft für automobile Exzellenz treibt uns dazu, die renommiertesten Modelle auszuwählen und einen außergewöhnlich persönlichen Service zu bieten.",
     p2: "Jedes Fahrzeug in unserer Flotte wird sorgfältig gewartet, um ein unvergleichliches Fahrerlebnis zu gewährleisten. Wir verpflichten uns, Ihre Erwartungen zu übertreffen und jede Fahrt in einen unvergesslichen Moment zu verwandeln.",
+    fleet: "Fuhrpark",
+    about: "Über uns",
+    login: "Anmelden",
+    discover_more: "Mehr entdecken",
+    view_fleet: "Flotte ansehen",
+
+    hero_tagline: "Die Kunst der Leistung",
+    hero_title_1: "Luxus",
+    hero_title_2: "Grenzenlos",
+    hero_text:
+      "Veredeln Sie Ihre Reise mit einer exklusiven Auswahl der besten Autos der Welt.",
+
+    about_badge: "Über Aura",
+    about_title: "Fahrerlebnis neu definiert",
+    about_p1:
+      "Bei AURA glauben wir, dass ein Auto Ausdruck von Persönlichkeit und Status ist.",
+    about_p2: "Erstklassiger Service und ein sorgfältig gepflegter Fuhrpark.",
+    our_story: "Unsere Geschichte",
+
+    exclusive_selection: "Exklusive Auswahl",
+    royal_fleet: "Königliche Flotte",
+    reserve_now: "Jetzt buchen",
+    view_full_collection: "Ganze Kollektion ansehen",
+
+    why_autolux: "Warum Autolux?",
+    concierge_service: "Concierge-Service",
+    pristine_title: "Tadelloser Zustand",
+    pristine_desc: "Strenge Inspektion jedes Fahrzeugs vor der Übergabe.",
+    airport_title: "VIP-Flughafenübergabe",
+    airport_desc: "Wir empfangen Sie direkt am Flughafen.",
+    flexible_title: "Flexible Zeiten",
+    flexible_desc: "Termine, die zu Ihrem Zeitplan passen.",
+
+    begin_journey: "Beginnen Sie Ihre Reise",
+    begin_text: "Sind Sie bereit für ein außergewöhnliches Erlebnis?",
+    contact_concierge: "Concierge kontaktieren",
+    book_now: "Jetzt buchen",
+
+    footer_desc: "Ihre erste Adresse für Luxusautovermietung.",
+    explore: "Entdecken",
+    services: "Dienstleistungen",
+    visit_us: "Besuchen Sie uns",
+    privacy: "Datenschutz",
+    terms: "AGB",
   },
 
   ru: {
@@ -413,5 +809,49 @@ export const translations = {
     contactus: "Свяжитесь с нами",
     p1: "В AutoLux мы переосмысливаем опыт аренды роскошных автомобилей. Наша страсть к автомобильному совершенству побуждает нас выбирать самые престижные модели и предлагать исключительный персонализированный сервис.",
     p2: "Каждое транспортное средство в нашем автопарке тщательно обслуживается, чтобы гарантировать непревзойденный опыт вождения. Мы стремимся превзойти ваши ожидания и превратить каждую поездку в незабываемый момент.",
+    fleet: "Автопарк",
+    about: "О нас",
+    login: "Войти",
+    discover_more: "Узнать больше",
+    view_fleet: "Смотреть автопарк",
+
+    hero_tagline: "Искусство динамики",
+    hero_title_1: "Роскошь",
+    hero_title_2: "Без границ",
+    hero_text:
+      "Сделайте ваше путешествие незабываемым с эксклюзивной коллекцией лучших автомобилей мира.",
+
+    about_badge: "Об Aura",
+    about_title: "Новый взгляд на вождение",
+    about_p1:
+      "В AURA мы верим, что автомобиль — это выражение индивидуальности и статуса.",
+    about_p2: "Премиальный сервис и безупречно обслуживаемый автопарк.",
+    our_story: "Наша история",
+
+    exclusive_selection: "Эксклюзивный выбор",
+    royal_fleet: "Королевский флот",
+    reserve_now: "Забронировать",
+    view_full_collection: "Посмотреть всю коллекцию",
+
+    why_autolux: "Почему Autolux?",
+    concierge_service: "Консьерж-сервис",
+    pristine_title: "Идеальное состояние",
+    pristine_desc: "Тщательная проверка каждого автомобиля перед подачей.",
+    airport_title: "VIP-доставка в аэропорт",
+    airport_desc: "Мы встретим вас прямо в аэропорту.",
+    flexible_title: "Гибкое расписание",
+    flexible_desc: "Время, удобное именно вам.",
+
+    begin_journey: "Начните путешествие",
+    begin_text: "Готовы к исключительным впечатлениям?",
+    contact_concierge: "Связаться с консьержем",
+    book_now: "Забронировать",
+
+    footer_desc: "Ваш главный пункт назначения для аренды элитных автомобилей.",
+    explore: "Исследовать",
+    services: "Услуги",
+    visit_us: "Посетите нас",
+    privacy: "Конфиденциальность",
+    terms: "Условия использования",
   },
 };

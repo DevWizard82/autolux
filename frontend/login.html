@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autolux - Login</title>
+    <link rel="stylesheet" href="./src/css/login.css" />
+    <!-- Google Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="login-wrapper">
+      <form id="login-form" class="login-card">
+        <h1 class="brand">AUTOLUX</h1>
+        <h2 class="title">Welcome back</h2>
+        <p class="subititle">Sign in to continue</p>
+
+        <div class="input-group">
+          <input type="email" id="email" required />
+          <label for="email">Email</label>
+        </div>
+
+        <div class="input-group">
+          <input type="password" id="password" required />
+          <label for="password">Password</label>
+        </div>
+
+        <button type="submit" class="login-btn">Login</button>
+
+        <p class="switch-auth">
+          Don't have an account ?
+          <a href="register.html">Create one</a>
+        </p>
+
+        <p id="error-msg" class="error-msg"></p>
+      </form>
+    </div>
+
+    <script type="module">
+      const form = document.getElementById("login-form");
+      const errorMsg = document.getElementById("error-msg");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        try {
+          const res = await fetch("http://localhost:3000/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email, password }),
+          });
+          const data = await res.json();
+
+          if (data.token) {
+            localStorage.setItem("token", data.token);
+            localStorage.setItem("first_name", data.first_name);
+            localStorage.setItem("last_name", data.last_name);
+            localStorage.setItem("email", data.email);
+            window.location.href = "cars.html";
+          } else {
+            errorMsg.textContent = data.error || "Login failed";
+          }
+        } catch (err) {
+          errorMsg.textContent = "Server error";
+        }
+      });
+    </script>
+  </body>
+</html>

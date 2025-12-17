@@ -7,6 +7,8 @@
   padding: 0;
 }
 
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap");
+
 /* Corps du document :
    - sans marge, minimum pleine hauteur
    - fond sombre et police lisible */
@@ -46,6 +48,21 @@ nav .logo {
   max-width: 800px;
 }
 
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #f39c12; /* choose a color or generate dynamically */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  text-transform: uppercase;
+  margin-right: 8px;
+}
+
 /* Boutons de catégorie */
 .category-btn {
   padding: 15px 30px;
@@ -62,11 +79,30 @@ nav .logo {
   max-width: 150px;
   text-align: center;
   height: 50px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+h1,
+h2,
+h3,
+.category-btn {
+  font-family: "Playfair Display", serif;
+  font-weight: 700;
+}
+
+body,
+p,
+li {
+  font-family: "Lora", serif;
+  font-weight: 400;
+  line-height: 1.6;
 }
 
 /* Bouton actif (sélectionné) avec fond en dégradé */
 .category-btn.active {
-  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  background: linear-gradient(97deg, #ffd700 0%, #ff8c00 77%);
   color: black;
 }
 
@@ -137,8 +173,10 @@ nav .logo {
 .card_content .price {
   margin-top: auto;
   font-size: 1rem;
-  color: #c084fc;
   font-weight: bold;
+  background: linear-gradient(97deg, #ffd700 0%, #ff8c00 77%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* Conteneur des boutons de réservation et modèle */
@@ -155,10 +193,10 @@ nav .logo {
   flex: 1;
   padding: 12px 20px;
   font-size: 16px;
-  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  background: linear-gradient(97deg, #ffd700 0%, #ff8c00 77%);
   border: none;
   border-radius: 30px;
-  color: white;
+  color: #000;
   font-weight: bold;
   font-family: cursive;
   transition: filter 0.3s ease, transform 0.3s ease;
@@ -242,11 +280,11 @@ nav .logo {
 }
 
 /* Titre principal */
-h2 {
+#fleet {
   font-size: 60px;
   text-align: center;
   font-weight: bold;
-  background: linear-gradient(97deg, #9c32dc 0%, #d9287c 77%);
+  background: linear-gradient(97deg, #ffd700 0%, #ff8c00 77%);
   -webkit-background-clip: text;
   color: transparent;
   margin-top: 20px;
@@ -496,4 +534,96 @@ a:hover {
 .fade-out {
   opacity: 0;
   transition: all 0.54s ease;
+}
+
+/* ===== AVATAR ===== */
+.avatar-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5b4fff, #d4af37);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.35);
+}
+
+.avatar-circle.large {
+  width: 52px;
+  height: 52px;
+  font-size: 18px;
+}
+
+.avatar-initials {
+  letter-spacing: 1px;
+}
+
+/* ===== MODAL BACKDROP ===== */
+.user-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.user-modal.hidden {
+  display: none;
+}
+
+/* ===== MODAL BOX ===== */
+.user-modal-content {
+  width: 280px;
+  background: rgba(20, 20, 30, 0.85);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== HEADER ===== */
+.user-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.user-text strong {
+  display: block;
+  color: white;
+}
+
+.user-text small {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.user-modal hr {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 16px 0;
+}
+
+/* ===== LOGOUT BUTTON ===== */
+.logout-btn-modal {
+  width: 100%;
+  padding: 10px;
+  background: transparent;
+  border: none;
+  color: #ff6b6b;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.logout-btn-modal:hover {
+  background: rgba(255, 107, 107, 0.12);
 }

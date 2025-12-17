@@ -4,6 +4,7 @@ import cors from "cors";
 import authRoutes from "./routes/auth.js";
 import reservationRoutes from "./routes/reservations.js";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 
 dotenv.config();
 
@@ -11,7 +12,9 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use(express.json());
+// ✅ BODY PARSING (MUST BE BEFORE ROUTES)
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
 app.use("/api/reservations", reservationRoutes);

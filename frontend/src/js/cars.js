@@ -13,18 +13,6 @@ const searchEl = document.getElementById("search");
 let languagesSelect = document.getElementById("languages");
 let languagesSelectSidebar = document.getElementById("languages1");
 
-//ouvrir la barre laterale
-document.getElementById("sidebar").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "flex";
-});
-
-//fermer la barre laterale
-document.getElementById("close").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "none";
-});
-
 //fonction qui affiche les voitures selon les filtres choisis tel que les villes ou bien encore les differentes categories
 async function displayCars(
   cars,
@@ -134,9 +122,6 @@ function add3Deffect(card) {
     card.style.transform = `rotateX(0deg) rotateY(0deg)`;
   });
 }
-
-//premier appel pour afficher toutes les voitures
-displayCars();
 
 // Active visuellement le bouton de catégorie marqué comme sélectionné par défaut qui est "All".
 document
@@ -300,9 +285,7 @@ function updateLanguage(language) {
   localStorage.setItem("language", language);
 
   //declarer les elements a changer dans la page
-  const home = document.querySelector(".home");
-  const cars = document.querySelector(".cars");
-  const about = document.querySelector(".about");
+
   const fleet = document.getElementById("fleet");
   const allCities = document.querySelector(".all");
   const casa = document.querySelector(".casa");
@@ -315,17 +298,8 @@ function updateLanguage(language) {
   const luxury = document.getElementById("luxury");
   const electric = document.getElementById("electric");
   const sport = document.getElementById("sport");
-  const contact = document.querySelector(".contact");
-  const homesidebar = document.querySelector(".home1");
-  const carssidebar = document.querySelector(".cars1");
-  const aboutsidebar = document.querySelector(".about1");
-  const contactsidebar = document.querySelector(".contact1");
 
   //changer les elements de la page
-  contact.textContent = translations[language]["contact"];
-  home.textContent = translations[language]["acceuil"];
-  cars.textContent = translations[language]["voitures"];
-  about.textContent = translations[language]["apropos"];
   fleet.textContent = translations[language]["notreflotte"];
   allCities.textContent = translations[language]["touteslesvilles"];
   casa.textContent = translations[language]["casablanca"];
@@ -338,10 +312,6 @@ function updateLanguage(language) {
   luxury.textContent = translations[language]["luxe"];
   electric.textContent = translations[language]["electrique"];
   sport.textContent = translations[language]["sport"];
-  homesidebar.textContent = translations[language]["acceuil"];
-  carssidebar.textContent = translations[language]["voitures"];
-  aboutsidebar.textContent = translations[language]["apropos"];
-  contactsidebar.textContent = translations[language]["contact"];
 
   //attendre 50ms avant de changer ces elements puisque les voitures sont chargees dynamiquement
   setTimeout(() => {
@@ -464,14 +434,6 @@ async function init() {
   languagesSelect.value = savedLang;
   languagesSelectSidebar.value = savedLang;
 
-  // ---- Event listeners ----
-  document.getElementById("sidebar").addEventListener("click", () => {
-    document.querySelector(".sidebar").style.display = "flex";
-  });
-  document.getElementById("close").addEventListener("click", () => {
-    document.querySelector(".sidebar").style.display = "none";
-  });
-
   categoriesSelect.forEach((button) => {
     button.addEventListener("click", () => {
       categoriesSelect.forEach((btn) => btn.classList.remove("active"));
@@ -546,7 +508,131 @@ async function init() {
       setTimeout(() => (window.location.href = "formulaire.html"), 500);
     }
   });
+
+  updateNavbarUser();
 }
 
+document.querySelectorAll(".logout-btn, .logout-btn-sidebar").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("first_name");
+    updateNavbarUser();
+  });
+});
+
 // ---- Start App ----
-init();
+await init();
+
+// ======================================================
+// UPDATED AVATAR & MODAL LOGIC
+// ======================================================
+
+function updateNavbarUser() {
+  const firstname = localStorage.getItem("first_name") || "Client";
+  const lastname = localStorage.getItem("last_name") || "";
+  // Check if a token exists to determine auth status
+  // (Adjust key 'token' if you use a different one)
+  const isAuthenticated = localStorage.getItem("token") !== null;
+
+  const loginBtn = document.querySelector(".login-btn");
+  const loginBtnSidebar = document.querySelector(".login-btn-sidebar");
+  const userInfoContainers = document.querySelectorAll(
+    ".user-info, .user-info-sidebar"
+  );
+
+  if (isAuthenticated) {
+    // 1. Hide Login Buttons
+    if (loginBtn) loginBtn.style.display = "none";
+    if (loginBtnSidebar) loginBtnSidebar.style.display = "none";
+
+    // 2. Prepare User Details
+    const initials = (firstname[0] + (lastname[0] || "")).toUpperCase() || "U";
+    const fullName = `${firstname} ${lastname}`.trim();
+    const email = localStorage.getItem("email") || "client@autolux.ma"; // Fallback email
+
+    // 3. Inject Avatar HTML into all user-info containers (Mobile & Desktop)
+    userInfoContainers.forEach((container) => {
+      container.style.display = "flex";
+      container.innerHTML = ""; // Clear any previous content
+
+      // Create Avatar Button
+      const avatarBtn = document.createElement("button");
+      avatarBtn.className = "custom-avatar-btn";
+      avatarBtn.textContent = initials;
+      avatarBtn.title = fullName;
+
+      // Create Dropdown Menu
+      const dropdown = document.createElement("div");
+      dropdown.className = "glass-dropdown";
+      dropdown.innerHTML = `
+        <div class="dropdown-header">
+          <p class="dropdown-name">${fullName}</p>
+          <p class="dropdown-email">${email}</p>
+        </div>
+        <div class="dropdown-item-container">
+          <button class="dropdown-item">
+            <i class="fa-solid fa-user"></i> Profile
+          </button>
+           <button class="dropdown-item">
+            <i class="fa-solid fa-gear"></i> Settings
+          </button>
+        </div>
+        <div class="dropdown-divider"></div>
+        <button class="dropdown-item logout" id="logout-action-btn">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+        </button>
+      `;
+
+      // Append to container
+      container.appendChild(avatarBtn);
+      container.appendChild(dropdown);
+
+      // Toggle Logic
+      avatarBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        // Close other dropdowns first (if any)
+        document.querySelectorAll(".glass-dropdown").forEach((d) => {
+          if (d !== dropdown) d.classList.remove("active");
+        });
+        dropdown.classList.toggle("active");
+      });
+
+      // Handle Logout Click inside dropdown
+      const logoutBtn = dropdown.querySelector("#logout-action-btn");
+      logoutBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        handleLogout();
+      });
+    });
+  } else {
+    // Show login buttons
+    if (loginBtn) loginBtn.style.display = "block";
+    if (loginBtnSidebar) loginBtnSidebar.style.display = "block";
+
+    // Hide user info
+    userInfoContainers.forEach((c) => (c.style.display = "none"));
+  }
+}
+
+// Global click listener to close dropdowns when clicking outside
+document.addEventListener("click", (e) => {
+  if (
+    !e.target.closest(".user-info") &&
+    !e.target.closest(".user-info-sidebar")
+  ) {
+    document.querySelectorAll(".glass-dropdown").forEach((dropdown) => {
+      dropdown.classList.remove("active");
+    });
+  }
+});
+
+function handleLogout() {
+  localStorage.removeItem("token");
+  localStorage.removeItem("first_name");
+  localStorage.removeItem("last_name");
+  localStorage.removeItem("email");
+  // Re-run update to reset UI
+  updateNavbarUser();
+  // Optional: Redirect to home or reload
+  // window.location.reload();
+}

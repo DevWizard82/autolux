@@ -65,15 +65,21 @@ class Showroom {
     spot.shadow.bias = -0.0001;
     this.scene.add(spot);
 
-    // Ceiling industrial lights
-    [
+    // Ceiling industrial lights positions
+    const positions = [
       [-15, -15],
       [15, -15],
       [-15, 15],
       [15, 15],
-    ].forEach(([x, z]) => {
+    ];
+
+    positions.forEach(([x, z]) => {
+      // --- Attach PointLight to lamp ---
       const light = new THREE.PointLight(0xffffff, 40, 45);
       light.position.set(x, this.ROOM_HEIGHT - 2, z);
+      light.castShadow = true;
+      light.shadow.mapSize.width = 1024;
+      light.shadow.mapSize.height = 1024;
       this.scene.add(light);
     });
   }
@@ -380,6 +386,10 @@ class Configurator {
     this.colors = await getColors(this.carId);
     this.bodyParts = await getCarBody(this.modelName);
     this.createTabs();
+
+    if (this.colors.length > 0) {
+      this.applyBodyColor(this.colors[0].color);
+    }
   }
 
   createTabs() {
@@ -419,8 +429,8 @@ class Configurator {
         this.bodyParts.some((p) => p.part_name === node.name)
       ) {
         node.material.color.set(color);
-        node.material.metalness = 1;
-        node.material.roughness = 0.2;
+        node.material.metalness = 0.1;
+        node.material.roughness = 0.25;
         node.material.needsUpdate = true;
       }
     });
@@ -488,12 +498,41 @@ class Configurator {
       return;
     }
 
-    switch (type) {
-      case "strip":
-        parts = await getCarStrip(this.modelName);
-        break;
-      default:
-        parts = [];
+    if (type === "strip") {
+      this.contentContainer.innerHTML = "";
+
+      const trimColors = [
+        { name: "Gold", color: "#FFD700" },
+        { name: "Silver", color: "#C0C0C0" },
+        { name: "Black", color: "#000000" },
+      ];
+
+      const strips = await getCarStrip(this.modelName); // get parts
+
+      strips.forEach((strip) => {
+        trimColors.forEach((c) => {
+          const circle = document.createElement("div");
+          circle.className = "option";
+          circle.style.backgroundColor = c.color;
+          circle.title = `${strip.part_name} - ${c.name}`;
+
+          circle.addEventListener("click", () => {
+            // Apply color only to this trim part
+            this.car.model.traverse((node) => {
+              if (node.isMesh && node.name === strip.part_name) {
+                node.material.color.set(c.color);
+                node.material.metalness = 1;
+                node.material.roughness = 0.2;
+                node.material.needsUpdate = true;
+              }
+            });
+          });
+
+          this.contentContainer.appendChild(circle);
+        });
+      });
+
+      return;
     }
 
     console.log("type:", type);

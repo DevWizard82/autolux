@@ -1,0 +1,168 @@
+/* ---------- RESET ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ---------- THEME ---------- */
+:root {
+  --navy-dark: #0d1115;
+  --navy-deep: #0f1a2b;
+  --gold: #d4af37;
+  --gold-soft: #ffb733;
+  --text-light: #e5e7eb;
+  --text-muted: #9ca3af;
+}
+
+/* ---------- BODY ---------- */
+body {
+  min-height: 100vh;
+  font-family: "Montserrat", sans-serif;
+  background: radial-gradient(
+    circle at top,
+    #141d2f 0%,
+    var(--navy-deep) 40%,
+    var(--navy-dark) 100%
+  );
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-light);
+}
+
+/* ---------- WRAPPER ---------- */
+.login-wrapper {
+  width: 100%;
+  max-width: 420px;
+  padding: 1.5rem;
+}
+
+/* ---------- CARD ---------- */
+.login-card {
+  background: rgba(17, 24, 39, 0.9);
+  backdrop-filter: blur(18px);
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 18px;
+  padding: 3rem 2.5rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6);
+  text-align: center;
+}
+
+/* ---------- HEADINGS ---------- */
+.brand {
+  font-family: "Playfair Display", serif;
+  font-size: 1.8rem;
+  letter-spacing: 0.35em;
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+}
+
+/* ---------- INPUTS ---------- */
+.input-group {
+  position: relative;
+  margin-bottom: 1.6rem;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 0.9rem 0.8rem;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fff;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.input-group label {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+/* Floating label */
+.input-group input:focus + label,
+.input-group input:valid + label {
+  top: -6px;
+  font-size: 0.65rem;
+  color: var(--gold);
+}
+
+/* ---------- BUTTON ---------- */
+.login-btn {
+  width: 100%;
+  margin-top: 1.5rem;
+  padding: 0.85rem;
+  border-radius: 999px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--gold-soft), var(--gold));
+  color: #000;
+  transition: all 0.3s ease;
+}
+
+.login-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.45);
+}
+
+/* ---------- ERROR ---------- */
+.error-msg {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #fca5a5;
+  min-height: 1em;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  #login-form {
+    margin: 3rem 1rem;
+    padding: 2rem 1.5rem;
+  }
+
+  #login-form h2 {
+    font-size: 2rem;
+  }
+}
+
+/* ---------- SWITCH LOGIN / REGISTER ---------- */
+.switch-auth {
+  margin-top: 1.6rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.switch-auth a {
+  color: var(--gold);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: color 0.25s ease;
+}
+
+.switch-auth a:hover {
+  color: var(--gold-soft);
+}

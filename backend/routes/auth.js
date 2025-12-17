@@ -18,12 +18,16 @@ router.post("/register", async (req, res) => {
     );
 
     const token = jwt.sign(
-      { id: result.rows[0].id, email: result.rows[0].email },
+      {
+        id: result.rows[0].id,
+        email: result.rows[0].email,
+        first_name: result.rows[0].first_name,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.json({ token });
+    res.json({ token, success: true });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
@@ -48,12 +52,23 @@ router.post("/login", async (req, res) => {
   }
 
   const token = jwt.sign(
-    { id: user.id, email: user.email },
+    {
+      id: user.id,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+    },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
   );
 
-  res.json({ token });
+  res.json({
+    token,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.email,
+  });
 });
 
 export default router;

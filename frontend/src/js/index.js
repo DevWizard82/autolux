@@ -5,18 +5,6 @@ import { translations } from "./translations.js";
 let languagesSelect = document.getElementById("languages");
 let languagesSelectSidebar = document.getElementById("languages1");
 
-//ouvrir la barre laterale
-document.getElementById("sidebar").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "flex";
-});
-
-//fermer la barre laterale
-document.getElementById("close").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "none";
-});
-
 // Lorsque le contenu de la page est entièrement chargé, ce code récupère la langue précédemment choisie par l'utilisateur (depuis le localStorage)
 // ou utilise "fr" (français) comme langue par défaut si aucune n'est trouvée.
 // Ensuite, il met à jour l'interface avec la langue sélectionnée et synchronise les menus déroulants principaux et de la barre latérale avec cette langue.
@@ -41,42 +29,163 @@ document.getElementById("languages").addEventListener("change", (e) => {
   languagesSelectSidebar.value = language;
 });
 
-// Met à jour la langue de l’interface en fonction du choix de l’utilisateur et modifie le texte de tous les éléments concernés.
 function updateLanguage(language) {
-  // Enregistre la langue choisie dans le stockage local du navigateur.
+  if (!language) return;
+
   localStorage.setItem("language", language);
 
-  // Récupère tous les éléments de la page qui doivent être traduits selon la langue sélectionnée.
-  const home = document.querySelector(".home");
-  const cars = document.querySelector(".cars");
-  const about = document.querySelector(".about");
-  const homesidebar = document.querySelector(".home1");
-  const carssidebar = document.querySelector(".cars1");
-  const aboutsidebar = document.querySelector(".about1");
-  const contactsidebar = document.querySelector(".contact1");
-  const hero = document.getElementById("hero-title");
-  const contact = document.querySelector(".contact");
-  const herotext = document.querySelector(".hero-text");
-  const explorebtn = document.getElementById("explore-btn");
+  // ===== NAV =====
+  const navFleet = document.querySelectorAll("a[href*='cars.html']");
+  const navAbout = document.querySelectorAll("a[href*='about.html']");
+  const navLogin = document.querySelectorAll("a[href*='login.html']");
 
-  // Met à jour le texte de chaque élément avec la traduction correspondant à la langue choisie.
-  homesidebar.textContent = translations[language]["acceuil"];
-  carssidebar.textContent = translations[language]["voitures"];
-  aboutsidebar.textContent = translations[language]["apropos"];
-  contactsidebar.textContent = translations[language]["contact"];
-  contact.textContent = translations[language]["contact"];
-  home.textContent = translations[language]["acceuil"];
-  cars.textContent = translations[language]["voitures"];
-  about.textContent = translations[language]["apropos"];
-  explorebtn.textContent = translations[language]["explorebtn"];
-  hero.textContent = translations[language]["hero"];
-  herotext.textContent = translations[language]["herotext"];
+  navFleet.forEach((el) => (el.textContent = translations[language]["fleet"]));
+  navAbout.forEach((el) => (el.textContent = translations[language]["about"]));
+  navLogin.forEach((el) => (el.textContent = translations[language]["login"]));
+
+  // ===== HERO =====
+  const heroTagline = document.querySelector("header p");
+  const heroTitle1 = document.querySelector("header h1");
+  const heroDesc = document.querySelector("header p.text-gray-300");
+
+  if (heroTagline)
+    heroTagline.textContent = translations[language]["hero_tagline"];
+
+  if (heroTitle1)
+    heroTitle1.innerHTML = `
+      ${translations[language]["hero_title_1"]} <br />
+      <span class="text-gradient">${translations[language]["hero_title_2"]}</span>
+    `;
+
+  if (heroDesc) heroDesc.textContent = translations[language]["hero_text"];
+
+  // ===== HERO BUTTONS =====
+  document.querySelectorAll("a[href='#featured']").forEach((el) => {
+    el.textContent = translations[language]["discover_more"];
+  });
+
+  document.querySelectorAll("a[href='cars.html']").forEach((el) => {
+    if (el.classList.contains("btn-glow"))
+      el.textContent = translations[language]["view_fleet"];
+  });
+
+  // ===== ABOUT SECTION =====
+  const aboutBadge = document.querySelector("#about span.text-luxury-gold");
+  const aboutTitle = document.querySelector("#about h2");
+  const aboutParagraphs = document.querySelectorAll("#about p");
+  const ourStory = document.querySelector("#about a span");
+
+  if (aboutBadge)
+    aboutBadge.textContent = translations[language]["about_badge"];
+
+  if (aboutTitle)
+    aboutTitle.innerHTML = `
+      ${translations[language]["about_title"]
+        .split(" ")
+        .slice(0, 2)
+        .join(" ")} <br />
+      <span class="text-gradient">${translations[language]["about_title"]
+        .split(" ")
+        .slice(2)
+        .join(" ")}</span>
+    `;
+
+  if (aboutParagraphs[0])
+    aboutParagraphs[0].textContent = translations[language]["about_p1"];
+
+  if (aboutParagraphs[1])
+    aboutParagraphs[1].textContent = translations[language]["about_p2"];
+
+  if (ourStory) ourStory.textContent = translations[language]["our_story"];
+
+  // ===== FEATURED =====
+  const featuredBadge = document.querySelector("#featured span");
+  const featuredTitle = document.querySelector("#featured h2");
+
+  if (featuredBadge)
+    featuredBadge.textContent = translations[language]["exclusive_selection"];
+
+  if (featuredTitle)
+    featuredTitle.textContent = translations[language]["royal_fleet"];
+
+  document.querySelectorAll(".card-hover a").forEach((btn) => {
+    btn.textContent = translations[language]["reserve_now"];
+  });
+
+  const fullCollection = document.querySelector(
+    "#featured a.inline-block span.relative"
+  );
+  if (fullCollection)
+    fullCollection.textContent = translations[language]["view_full_collection"];
+
+  // ===== SERVICES =====
+  const why = document.querySelector("#services span");
+  const serviceTitle = document.querySelector("#services h2");
+
+  if (why) why.textContent = translations[language]["why_autolux"];
+
+  if (serviceTitle)
+    serviceTitle.innerHTML = `
+      ${translations[language]["concierge_service"]
+        .split(" ")
+        .slice(0, 2)
+        .join(" ")} <br />
+      ${translations[language]["concierge_service"]
+        .split(" ")
+        .slice(2)
+        .join(" ")}
+    `;
+
+  const serviceTitles = document.querySelectorAll("#services h4");
+  const serviceDescs = document.querySelectorAll("#services p");
+
+  if (serviceTitles[0])
+    serviceTitles[0].textContent = translations[language]["pristine_title"];
+  if (serviceDescs[0])
+    serviceDescs[0].textContent = translations[language]["pristine_desc"];
+
+  if (serviceTitles[1])
+    serviceTitles[1].textContent = translations[language]["airport_title"];
+  if (serviceDescs[1])
+    serviceDescs[1].textContent = translations[language]["airport_desc"];
+
+  if (serviceTitles[2])
+    serviceTitles[2].textContent = translations[language]["flexible_title"];
+  if (serviceDescs[2])
+    serviceDescs[2].textContent = translations[language]["flexible_desc"];
+
+  // ===== CTA =====
+  const ctaTitle = document.querySelector("section h2.text-5xl");
+  const ctaText = document.querySelector("section p.text-xl");
+  const ctaButtons = document.querySelectorAll("a[href='contact.html']");
+
+  if (ctaTitle) ctaTitle.textContent = translations[language]["begin_journey"];
+
+  if (ctaText) ctaText.textContent = translations[language]["begin_text"];
+
+  ctaButtons.forEach((btn, index) => {
+    btn.textContent =
+      index === 0
+        ? translations[language]["book_now"]
+        : translations[language]["contact_concierge"];
+  });
+
+  // ===== FOOTER =====
+  const footerDesc = document.querySelector("footer p.text-gray-500");
+  if (footerDesc)
+    footerDesc.textContent = translations[language]["footer_desc"];
+
+  document.querySelectorAll("footer h4").forEach((h4, index) => {
+    if (index === 0)
+      h4.childNodes[0].textContent = translations[language]["explore"];
+    if (index === 1)
+      h4.childNodes[0].textContent = translations[language]["visit_us"];
+  });
+
+  document.querySelectorAll("footer a").forEach((link) => {
+    if (link.textContent.includes("Privacy"))
+      link.textContent = translations[language]["privacy"];
+    if (link.textContent.includes("Terms"))
+      link.textContent = translations[language]["terms"];
+  });
 }
-
-// Lorsqu’on clique sur le bouton "Explorer", applique un effet de fondu puis redirige vers la page cars.html après 0,5 seconde.
-document.getElementById("explore-btn").addEventListener("click", () => {
-  document.body.classList.add("fade-out");
-  setTimeout(() => {
-    window.location.href = "cars.html";
-  }, 500);
-});
