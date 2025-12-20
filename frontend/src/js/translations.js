@@ -2,6 +2,7 @@
 
 export const translations = {
   en: {
+    who: "Who We Are",
     acceuil: "Home",
     voitures: "Cars",
     reserver: "Book",
@@ -92,6 +93,7 @@ export const translations = {
     terms: "Terms of Service",
   },
   fr: {
+    who: "Qui sommes-nous",
     acceuil: "Accueil",
     voitures: "Voitures",
     reserver: "Réserver",
@@ -177,6 +179,7 @@ export const translations = {
     terms: "Conditions d’utilisation",
   },
   it: {
+    who: "Chi siamo",
     acceuil: "Home",
     voitures: "Auto",
     reserver: "Prenota",
@@ -263,6 +266,7 @@ export const translations = {
     terms: "Termini di servizio",
   },
   pt: {
+    who: "Quem somos",
     acceuil: "Início",
     voitures: "Carros",
     reserver: "Reservar",
@@ -348,6 +352,7 @@ export const translations = {
     terms: "Termos de Serviço",
   },
   zh: {
+    who: "我们是谁",
     acceuil: "首页",
     voitures: "汽车",
     reserver: "预订",
@@ -431,6 +436,7 @@ export const translations = {
     terms: "服务条款",
   },
   ja: {
+    who: "私たちについて",
     acceuil: "ホーム",
     voitures: "車",
     reserver: "予約する",
@@ -514,6 +520,7 @@ export const translations = {
     terms: "利用規約",
   },
   ar: {
+    who: "من نحن",
     acceuil: "الرئيسية",
     voitures: "السيارات",
     reserver: "حجز",
@@ -597,6 +604,7 @@ export const translations = {
     terms: "شروط الخدمة",
   },
   es: {
+    who: "Quienes somos",
     acceuil: "Inicio",
     voitures: "Coches",
     reserver: "Reservar",
@@ -682,6 +690,7 @@ export const translations = {
     terms: "Términos de servicio",
   },
   de: {
+    who: "wer wir sind",
     acceuil: "Startseite",
     voitures: "Autos",
     reserver: "Buchen",
@@ -769,6 +778,7 @@ export const translations = {
   },
 
   ru: {
+    who: "кто мы",
     acceuil: "Главная",
     voitures: "Авто",
     reserver: "Забронировать",

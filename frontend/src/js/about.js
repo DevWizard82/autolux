@@ -1,96 +1,91 @@
-// Importer l'objet de traductions depuis le fichier translations.js
+//importer l'objet translations
 import { translations } from "./translations.js";
 
-// Récupérer les éléments de sélection de langue dans le header et la sidebar
+//declarer les selecteurs de langues
 let languagesSelect = document.getElementById("languages");
 let languagesSelectSidebar = document.getElementById("languages1");
 
-// Quand le contenu de la page est entièrement chargé
 window.addEventListener("DOMContentLoaded", () => {
-  // Récupérer la langue enregistrée dans le localStorage, ou utiliser "fr" par défaut
   const savedLang = localStorage.getItem("language") || "fr";
-
-  // Appliquer la langue choisie à tous les éléments du site
   updateLanguage(savedLang);
-
-  // Mettre à jour la valeur des menus déroulants de langue
   languagesSelect.value = savedLang;
   languagesSelectSidebar.value = savedLang;
 });
 
-// Afficher la sidebar quand on clique sur l'icône du menu
-document.getElementById("sidebar").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "flex"; // Afficher la sidebar
-});
-
-// Cacher la sidebar quand on clique sur le bouton de fermeture
-document.getElementById("close").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "none"; // Masquer la sidebar
-});
-
-/**
- * Met à jour les textes de la page selon la langue sélectionnée
- * Le code de la langue (ex : "fr", "en", "ar")
- */
-function updateLanguage(language) {
-  // Enregistrer la langue choisie dans le localStorage
-  localStorage.setItem("language", language);
-
-  // Récupérer les éléments HTML à traduire
-  const home = document.querySelector(".home");
-  const cars = document.querySelector(".cars");
-  const book = document.querySelector(".book");
-  const about = document.querySelector(".about");
-  const titre = document.querySelector(".titreabout");
-  const paragraph1 = document.getElementById("p1");
-  const paragraph2 = document.getElementById("p2");
-  const contact = document.querySelector(".contact");
-  const homesidebar = document.querySelector(".home1");
-  const carssidebar = document.querySelector(".cars1");
-  const booksidebar = document.querySelector(".book1");
-  const aboutsidebar = document.querySelector(".about1");
-  const contactsidebar = document.querySelector(".contact1");
-
-  // Mettre à jour les contenus textes avec la langue choisie
-  contact.textContent = translations[language]["contact"];
-  home.textContent = translations[language]["acceuil"];
-  cars.textContent = translations[language]["voitures"];
-  book.textContent = translations[language]["reserver"];
-  about.textContent = translations[language]["apropos"];
-  titre.textContent = translations[language]["titre"];
-  homesidebar.textContent = translations[language]["acceuil"];
-  carssidebar.textContent = translations[language]["voitures"];
-  booksidebar.textContent = translations[language]["reserver"];
-  aboutsidebar.textContent = translations[language]["apropos"];
-  contactsidebar.textContent = translations[language]["contact"];
-
-  // Cas particulier pour la langue arabe (alignement à droite + suppression des points)
-  if (language == "ar") {
-    paragraph1.textContent = translations[language]["p1"].replace(/[.]/g, "");
-    paragraph1.style.textAlign = "right";
-    paragraph2.textContent = translations[language]["p1"].replace(/[.]/g, "");
-    paragraph2.style.textAlign = "right";
-  } else {
-    // Autres langues : alignement à gauche avec texte normal
-    paragraph1.textContent = translations[language]["p1"];
-    paragraph1.style.textAlign = "left";
-    paragraph2.textContent = translations[language]["p1"];
-    paragraph2.style.textAlign = "left";
-  }
-}
-
-// Quand l'utilisateur change la langue dans la sidebar
+//changer la langue si la valeur du selecteur de langues au niveau de la barre laterale change
 document.getElementById("languages1").addEventListener("change", (e) => {
   const language = e.target.value;
-  languagesSelect.value = language; // Synchroniser avec le menu principal
-  updateLanguage(language); // Appliquer la traduction
+  languagesSelect.value = language;
+  updateLanguage(language);
 });
 
-// Quand l'utilisateur change la langue dans le menu principal (navbar)
+//changer la langue si la valeur du selecteur de langues change
 document.getElementById("languages").addEventListener("change", (e) => {
   const language = e.target.value;
-  updateLanguage(language); // Appliquer la traduction
-  languagesSelectSidebar.value = language; // Synchroniser avec la sidebar
+  updateLanguage(language);
+  languagesSelectSidebar.value = language;
 });
+
+function updateLanguage(language) {
+  if (!language) return;
+
+  localStorage.setItem("language", language);
+
+  // ===== NAV =====
+  const navFleet = document.querySelectorAll("a[href*='cars.html']");
+  const navAbout = document.querySelectorAll("a[href*='about.html']");
+  const navLogin = document.querySelectorAll("a[href*='login.html']");
+
+  navFleet.forEach((el) => (el.textContent = translations[language]["fleet"]));
+  navAbout.forEach((el) => (el.textContent = translations[language]["about"]));
+  navLogin.forEach((el) => (el.textContent = translations[language]["login"]));
+
+  // ===== HERO =====
+  const heroTagline = document.querySelector("header p");
+  const heroTitle1 = document.querySelector("header h1");
+  const heroDesc = document.querySelector("header p.text-gray-300");
+
+  if (heroTagline)
+    heroTagline.textContent = translations[language]["hero_tagline"];
+
+  if (heroTitle1)
+    heroTitle1.innerHTML = `
+      ${translations[language]["hero_title_1"]} <br />
+      <span class="text-gradient">${translations[language]["hero_title_2"]}</span>
+    `;
+
+  if (heroDesc) heroDesc.textContent = translations[language]["hero_text"];
+
+  const who = document.getElementById("who");
+  const ourStory = document.getElementById("our_story");
+  who.textContent = translations[language]["who"];
+  ourStory.textContent = translations[language]["our_story"];
+}
+
+// 1. Navbar Scroll Effect
+const navbar = document.getElementById("navbar");
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add("glass-nav");
+    navbar.classList.remove("py-6");
+    navbar.classList.add("py-4");
+  } else {
+    navbar.classList.remove("glass-nav");
+    navbar.classList.remove("py-4");
+    navbar.classList.add("py-6");
+  }
+});
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      } else {
+        entry.target.classList.remove("active");
+      }
+    });
+  },
+  { threshold: 0.1 }
+);
+document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));

@@ -1,11 +1,12 @@
-import { translations } from "./translations.js"; // On importe l'objet contenant toutes les traductions
+import { translations } from "./translations.js";
+import axios from "axios";
 
 // On récupère les éléments <select> du menu principal et de la sidebar
 let languagesSelect = document.getElementById("languages");
 let languagesSelectSidebar = document.getElementById("languages1");
 
 // Quand la page est entièrement chargée
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   // On récupère la langue sauvegardée dans le stockage local, ou on met "fr" par défaut
   const savedLang = localStorage.getItem("language") || "fr";
 
@@ -15,18 +16,54 @@ window.addEventListener("DOMContentLoaded", () => {
   // On met à jour la sélection dans les deux menus déroulants
   languagesSelect.value = savedLang;
   languagesSelectSidebar.value = savedLang;
-});
 
-// Quand on clique sur l'icône du menu (hamburger ou autre)
-document.getElementById("sidebar").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "flex"; // On affiche la sidebar
-});
+  const mapContainer = document.getElementById("map-container");
 
-// Quand on clique sur la croix de fermeture de la sidebar
-document.getElementById("close").addEventListener("click", () => {
-  const sidebar = document.querySelector(".sidebar");
-  sidebar.style.display = "none"; // On cache la sidebar
+  // Create select dynamically
+  const select = document.createElement("select");
+  select.id = "location-select";
+  select.className =
+    "w-full sm:w-1/2 bg-luxury-base border border-white/10 text-white px-4 py-3 rounded shadow-inner mb-4";
+
+  mapContainer.parentNode.insertBefore(select, mapContainer);
+
+  // Create iframe for the map
+  const mapIframe = document.createElement("iframe");
+  mapIframe.id = "map-iframe";
+  mapIframe.className = "w-full h-full border-0";
+  mapIframe.allowFullscreen = true;
+  mapIframe.loading = "lazy";
+  mapIframe.referrerPolicy = "no-referrer-when-downgrade";
+
+  mapContainer.appendChild(mapIframe);
+
+  try {
+    // Fetch locations from backend
+    const response = await axios.get("http://localhost:3000/api/locations");
+    const locations = response.data; // array of { city_name, map_embed_url }
+
+    // Populate select options
+    locations.forEach((loc, idx) => {
+      const option = document.createElement("option");
+      option.value = loc.city_name;
+      option.textContent = loc.city_name;
+      select.appendChild(option);
+
+      // Set first location as default
+      if (idx === 0) mapIframe.src = loc.map_embed_url;
+    });
+
+    // Change map when selecting a city
+    select.addEventListener("change", (e) => {
+      const selected = locations.find(
+        (loc) => loc.city_name === e.target.value
+      );
+      if (selected) mapIframe.src = selected.map_embed_url;
+    });
+  } catch (error) {
+    console.error("Error fetching locations:", error);
+    mapIframe.src = ""; // optional fallback
+  }
 });
 
 // Fonction pour mettre à jour les textes de l’interface selon la langue choisie
@@ -35,59 +72,10 @@ function updateLanguage(language) {
   localStorage.setItem("language", language);
 
   // On récupère les éléments de navigation
-  const home = document.querySelector(".home");
-  const cars = document.querySelector(".cars");
-  const book = document.querySelector(".book");
-  const about = document.querySelector(".about");
   const contact = document.querySelector(".contact");
-  const contactus = document.querySelector(".contactus");
-  const contacttel = document.querySelector(".contact-tel");
-  const contactemail = document.querySelector(".contact-email");
-  const contactadresse = document.querySelector(".contact-adresse");
-  const contacthoraire = document.querySelector(".contact-horaire");
-  const homesidebar = document.querySelector(".home1");
-  const carssidebar = document.querySelector(".cars1");
-  const booksidebar = document.querySelector(".book1");
-  const aboutsidebar = document.querySelector(".about1");
-  const contactsidebar = document.querySelector(".contact1");
 
   // On met à jour les textes avec les traductions correspondant à la langue choisie
   contact.textContent = translations[language]["contact"];
-  home.textContent = translations[language]["acceuil"];
-  cars.textContent = translations[language]["voitures"];
-  book.textContent = translations[language]["reserver"];
-  about.textContent = translations[language]["apropos"];
-  homesidebar.textContent = translations[language]["acceuil"];
-  carssidebar.textContent = translations[language]["voitures"];
-  booksidebar.textContent = translations[language]["reserver"];
-  aboutsidebar.textContent = translations[language]["apropos"];
-  contactsidebar.textContent = translations[language]["contact"];
-
-  if (language == "ar") {
-    // Cas de la langue arabe: alignement à droite
-    contacttel.textContent = translations[language]["contacttel"];
-    contacttel.style.textAlign = "right";
-    contactemail.textContent = translations[language]["contactemail"];
-    contactemail.style.textAlign = "right";
-    contactadresse.textContent = translations[language]["contactadresse"];
-    contactadresse.style.textAlign = "right";
-    contacthoraire.textContent = translations[language]["contacthoraire"];
-    contacthoraire.style.textAlign = "right";
-    contactus.textContent = translations[language]["contactus"];
-    contactus.style.textAlign = "right";
-  } else {
-    // Autres langues : alignement à gauche avec texte normal
-    contacttel.textContent = translations[language]["contacttel"];
-    contacttel.style.textAlign = "left";
-    contactemail.textContent = translations[language]["contactemail"];
-    contactemail.style.textAlign = "left";
-    contactadresse.textContent = translations[language]["contactadresse"];
-    contactadresse.style.textAlign = "left";
-    contacthoraire.textContent = translations[language]["contacthoraire"];
-    contacthoraire.style.textAlign = "left";
-    contactus.textContent = translations[language]["contactus"];
-    contactus.style.textAlign = "left";
-  }
 }
 
 // Quand l’utilisateur change la langue dans la sidebar
@@ -103,3 +91,30 @@ document.getElementById("languages").addEventListener("change", (e) => {
   updateLanguage(language); // On applique la langue
   languagesSelectSidebar.value = language; // On synchronise la sidebar
 });
+
+const navbar = document.getElementById("navbar");
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    navbar.classList.add("glass-nav");
+    navbar.classList.remove("py-6");
+    navbar.classList.add("py-4");
+  } else {
+    navbar.classList.remove("glass-nav");
+    navbar.classList.remove("py-4");
+    navbar.classList.add("py-6");
+  }
+});
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("active");
+      } else {
+        entry.target.classList.remove("active");
+      }
+    });
+  },
+  { threshold: 0.1 }
+);
+document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));

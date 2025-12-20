@@ -298,6 +298,9 @@ function updateLanguage(language) {
   const luxury = document.getElementById("luxury");
   const electric = document.getElementById("electric");
   const sport = document.getElementById("sport");
+  const navFleet = document.querySelectorAll("a[href*='cars.html']");
+  const navAbout = document.querySelectorAll("a[href*='about.html']");
+  const navLogin = document.querySelectorAll("a[href*='login.html']");
 
   //changer les elements de la page
   fleet.textContent = translations[language]["notreflotte"];
@@ -312,6 +315,9 @@ function updateLanguage(language) {
   luxury.textContent = translations[language]["luxe"];
   electric.textContent = translations[language]["electrique"];
   sport.textContent = translations[language]["sport"];
+  navFleet.forEach((el) => (el.textContent = translations[language]["fleet"]));
+  navAbout.forEach((el) => (el.textContent = translations[language]["about"]));
+  navLogin.forEach((el) => (el.textContent = translations[language]["login"]));
 
   //attendre 50ms avant de changer ces elements puisque les voitures sont chargees dynamiquement
   setTimeout(() => {

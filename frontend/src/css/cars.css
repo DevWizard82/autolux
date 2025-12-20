@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap");
+
 /* Applique à tous les éléments :
    - le modèle de boîte "border-box" pour inclure les bordures/paddings dans les dimensions
    - enlève les marges et paddings par défaut */
@@ -6,8 +8,6 @@
   margin: 0;
   padding: 0;
 }
-
-@import url("https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Playfair+Display:wght@400;700&display=swap");
 
 /* Corps du document :
    - sans marge, minimum pleine hauteur

@@ -12,7 +12,6 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-// ✅ BODY PARSING (MUST BE BEFORE ROUTES)
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -127,6 +126,18 @@ app.get("/api/types/:carId", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch car types" });
+  }
+});
+
+app.get("/api/locations", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT city_name, map_embed_url FROM locations ORDER BY city_name ASC"
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong." });
   }
 });
 
