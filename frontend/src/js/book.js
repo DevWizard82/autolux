@@ -1,3 +1,4 @@
+import axios from "axios";
 import { getcars, getLocations } from "./api.js";
 
 // Check if user is logged in
@@ -8,6 +9,8 @@ if (!token) {
 
 const carSelect = document.getElementById("car-select");
 const locationSelect = document.getElementById("location");
+const pickupDate = document.getElementById("pickup-date");
+const returnDate = document.getElementById("return-date");
 
 // Fetch cars from database
 async function loadCars() {
@@ -52,46 +55,37 @@ loadCars();
 loadLocations();
 
 // Handle booking submission
-const bookingForm = document.getElementById("booking-form");
-bookingForm.addEventListener("submit", async (e) => {
+const form = document.getElementById("booking-form");
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const selectedCarId = carSelect.value;
-  const pickupDate = document.getElementById("pickup-date").value;
-  const returnDate = document.getElementById("return-date").value;
-  const location = locationSelect.value;
+  const car_id = document.getElementById("car-select").value;
+  const rental_start = document.getElementById("pickup-date").value;
+  const rental_end = document.getElementById("return-date").value;
 
-  if (!selectedCarId || !pickupDate || !returnDate || !location) {
+  if (!car_id || !rental_start || !rental_end) {
     alert("Veuillez remplir tous les champs.");
     return;
   }
 
-  const bookingData = {
-    carId: selectedCarId,
-    pickupDate,
-    returnDate,
-    location,
-    token,
-  };
-
   try {
-    // Replace with your backend API call
-    const response = await fetch("/api/bookCar", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(bookingData),
+    const res = await axios.post("http://localhost:3000/api/rentals", {
+      client_id: parseInt(localStorage.getItem("clientId")),
+      car_id: parseInt(car_id),
+      rental_start,
+      rental_end,
     });
 
-    if (!response.ok) throw new Error("Erreur lors de la réservation");
-
-    alert("Votre réservation a été enregistrée avec succès !");
-    bookingForm.reset();
-  } catch (error) {
-    console.error(error);
-    alert("Impossible d'effectuer la réservation. Veuillez réessayer.");
+    alert("Réservation confirmée !");
+    console.log(res.data);
+    form.reset();
+  } catch (err) {
+    if (err.response) {
+      alert(`${err.response.data.error}`);
+    } else {
+      alert("Erreur serveur");
+    }
   }
 });
 

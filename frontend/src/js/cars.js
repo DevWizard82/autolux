@@ -418,7 +418,7 @@ document.body.addEventListener("click", (e) => {
     document.body.classList.add("fade-out");
     // Après 500ms, rediriger vers la page 'formulaire.html'
     setTimeout(() => {
-      window.location.href = "formulaire.html";
+      window.location.href = "book.html";
     }, 500);
   }
 });
@@ -519,7 +519,7 @@ async function init() {
       const id = reserverBtn.id;
       localStorage.setItem("id", id);
       document.body.classList.add("fade-out");
-      setTimeout(() => (window.location.href = "formulaire.html"), 500);
+      setTimeout(() => (window.location.href = "book.html"), 500);
     }
   });
 

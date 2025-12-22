@@ -2,7 +2,6 @@ import express from "express";
 import pool from "./db/pool.js";
 import cors from "cors";
 import authRoutes from "./routes/auth.js";
-import reservationRoutes from "./routes/reservations.js";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import nodemailer from "nodemailer";
@@ -17,7 +16,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
-app.use("/api/reservations", reservationRoutes);
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -195,6 +193,87 @@ app.post("/api/send-message", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Failed to send message." });
+  }
+});
+
+app.post("/api/rentals", async (req, res) => {
+  const { client_id, car_id, rental_start, rental_end } = req.body;
+
+  if (!client_id || !car_id || !rental_start || !rental_end) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const start = new Date(rental_start);
+  const end = new Date(rental_end);
+
+  if (end <= start) {
+    return res.status(400).json({ error: "Invalid rental dates" });
+  }
+
+  try {
+    const carRes = await pool.query("SELECT price FROM cars WHERE id = $1", [
+      car_id,
+    ]);
+
+    if (carRes.rowCount === 0) {
+      return res.status(404).json({ error: "Car model not found" });
+    }
+
+    const dayPrice = carRes.rows[0].price;
+
+    const unitRes = await pool.query(
+      `
+      SELECT cu.id
+      FROM car_units cu
+      WHERE cu.car_id = $1
+      AND cu.id NOT IN (
+        SELECT r.car_id
+        FROM rentals r
+        WHERE r.status = 'rented'
+        AND r.rental_start <= $3
+        AND r.rental_end >= $2
+      )
+      LIMIT 1
+      `,
+      [car_id, rental_start, rental_end]
+    );
+
+    if (unitRes.rowCount === 0) {
+      return res.status(409).json({
+        error: "No available vehicle for selected dates",
+      });
+    }
+
+    const carUnitId = unitRes.rows[0].id;
+
+    // 3️⃣ Calculate total price
+    const days = (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24);
+    const totalPrice = days * dayPrice;
+
+    // 4️⃣ Insert rental
+    const rentalRes = await pool.query(
+      `
+      INSERT INTO rentals (
+        car_id,
+        client_id,
+        rental_start,
+        rental_end,
+        price,
+        status
+      )
+      VALUES ($1, $2, $3, $4, $5, 'rented')
+      RETURNING *
+      `,
+      [carUnitId, client_id, rental_start, rental_end, totalPrice]
+    );
+
+    res.status(201).json({
+      message: "Booking confirmed",
+      rental: rentalRes.rows[0],
+    });
+  } catch (err) {
+    console.error("RENTAL ERROR:", err);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
