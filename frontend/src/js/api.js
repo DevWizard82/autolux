@@ -87,3 +87,23 @@ export async function getColors(carId) {
     return [];
   }
 }
+
+export async function getArrivals() {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/arrivals`);
+    return response.data;
+  } catch (err) {
+    console.error("Failed to fetch latest arrivals:", err);
+    return [];
+  }
+}
+
+export async function getLocations() {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/locations`);
+    return response.data;
+  } catch (err) {
+    console.error("Failed to fetch showroom locations:", err);
+    return [];
+  }
+}

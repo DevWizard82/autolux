@@ -1,5 +1,6 @@
 //importer l'objet translations
 import { translations } from "./translations.js";
+import { getArrivals } from "./api.js";
 
 //declarer les selecteurs de langues
 let languagesSelect = document.getElementById("languages");
@@ -10,6 +11,7 @@ window.addEventListener("DOMContentLoaded", () => {
   updateLanguage(savedLang);
   languagesSelect.value = savedLang;
   languagesSelectSidebar.value = savedLang;
+  loadLatestArrivals(savedLang);
 });
 
 //changer la langue si la valeur du selecteur de langues au niveau de la barre laterale change
@@ -32,7 +34,7 @@ function updateLanguage(language) {
   localStorage.setItem("language", language);
 
   // ===== NAV =====
-  const navFleet = document.querySelectorAll("a[href*='cars.html']");
+  const navFleet = document.querySelectorAll("nav a[href*='cars.html']");
   const navAbout = document.querySelectorAll("a[href*='about.html']");
   const navLogin = document.querySelectorAll("a[href*='login.html']");
 
@@ -61,9 +63,8 @@ function updateLanguage(language) {
     el.textContent = translations[language]["discover_more"];
   });
 
-  document.querySelectorAll("a[href='cars.html']").forEach((el) => {
-    if (el.classList.contains("btn-glow"))
-      el.textContent = translations[language]["view_fleet"];
+  document.querySelectorAll("#reserve_now").forEach((el) => {
+    el.textContent = translations[language]["reserve_now"];
   });
 
   // ===== ABOUT SECTION =====
@@ -71,6 +72,8 @@ function updateLanguage(language) {
   const aboutTitle = document.querySelector("#about h2");
   const aboutParagraphs = document.querySelectorAll("#about p");
   const ourStory = document.querySelector("#about a span");
+  document.getElementById("book_now").textContent =
+    translations[language]["booknow"];
 
   if (aboutBadge)
     aboutBadge.textContent = translations[language]["about_badge"];
@@ -109,11 +112,10 @@ function updateLanguage(language) {
     btn.textContent = translations[language]["reserve_now"];
   });
 
-  const fullCollection = document.querySelector(
-    "#featured a.inline-block span.relative"
-  );
-  if (fullCollection)
-    fullCollection.textContent = translations[language]["view_full_collection"];
+  const cta = document.querySelector(".cta-full-collection");
+  if (cta) {
+    cta.textContent = translations[language]["view_full_collection"];
+  }
 
   // ===== SERVICES =====
   const why = document.querySelector("#services span");
@@ -179,12 +181,26 @@ function updateLanguage(language) {
       h4.childNodes[0].textContent = translations[language]["visit_us"];
   });
 
-  document.querySelectorAll("footer a").forEach((link) => {
-    if (link.textContent.includes("Privacy"))
-      link.textContent = translations[language]["privacy"];
-    if (link.textContent.includes("Terms"))
-      link.textContent = translations[language]["terms"];
-  });
+  document.getElementById("view_fleet").textContent =
+    translations[language]["view_fleet"];
+
+  document.getElementById("fleet_footer").innerHTML = `
+  <i class="fas fa-chevron-right text-[10px] text-luxury-orange"></i> ${translations[language]["fleet"]}
+  `;
+
+  document.getElementById("services_footer").innerHTML = `
+  <i class="fas fa-chevron-right text-[10px] text-luxury-orange"></i> ${translations[language]["services"]}
+  `;
+
+  document.getElementById("about_footer").innerHTML = `
+  <i class="fas fa-chevron-right text-[10px] text-luxury-orange"></i> ${translations[language]["about"]}
+  `;
+
+  document.getElementById("contact_footer").innerHTML = `
+  <i class="fas fa-chevron-right text-[10px] text-luxury-orange"></i> ${translations[language]["contact"]}
+  `;
+
+  loadLatestArrivals(language);
 }
 
 // 1. Navbar Scroll Effect
@@ -343,3 +359,68 @@ document.addEventListener("click", (e) => {
     });
   }
 });
+
+async function loadLatestArrivals(language) {
+  const container = document.getElementById("arrivals-container");
+
+  try {
+    const cars = await getArrivals();
+
+    container.innerHTML = cars
+      .map(
+        (car, index) => `
+          <div class="card-hover group relative bg-luxury-navy/30 rounded-xl overflow-hidden border border-white/5 hover:border-luxury-gold/30 reveal" 
+               style="transition-delay: ${index * 100}ms">
+            <div class="relative h-64 overflow-hidden">
+              <img src="/assets/images/${car.image}" alt="${
+          car.name
+        }" class="card-img w-full h-full object-cover" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
+              <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full text-luxury-gold text-xs font-bold border border-luxury-gold/20">
+                $${car.price} / Day
+              </div>
+            </div>
+            <div class="p-8">
+              <h3 class="text-2xl font-serif text-white mb-2"> ${car.name}</h3>
+              <p class="text-gray-500 text-sm mb-6 line-clamp-2">${
+                car.description[language]
+              }</p>
+
+              <div class="grid grid-cols-3 gap-2 border-t border-white/5 pt-4 mb-8">
+                <div class="text-center">
+                  <i class="fas fa-tachometer-alt mb-2 text-luxury-orange block"></i>
+                  <span class="text-xs text-gray-400 block">${
+                    car.top_speed
+                  } MPH</span>
+                </div>
+                <div class="text-center border-l border-white/5">
+                  <i class="fas fa-stopwatch mb-2 text-luxury-orange block"></i>
+                  <span class="text-xs text-gray-400 block">${
+                    car.zero_to_hundred
+                  }s</span>
+                </div>
+                <div class="text-center border-l border-white/5">
+                  <i class="fas fa-gas-pump mb-2 text-luxury-orange block"></i>
+                  <span class="text-xs text-gray-400 block">${
+                    car.engine_code
+                  }</span>
+                </div>
+              </div>
+
+              <a href="cars.html?id=${
+                car.id
+              }" class="block w-full text-center py-3.5 rounded-lg bg-white/5 text-white hover:bg-gradient-luxury hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold">
+                Reserve Now
+              </a>
+            </div>
+          </div>
+        `
+      )
+      .join("");
+
+    container.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+  } catch (error) {
+    console.error("Error loading arrivals:", error);
+    container.innerHTML = `<p class="text-white text-center col-span-full">Failed to load the fleet. Please try again later.</p>`;
+  }
+}

@@ -284,6 +284,14 @@ function updateLanguage(language) {
 
   localStorage.setItem("language", language);
 
+  // NAV
+
+  const navContact = document.querySelectorAll("nav a[href*='contact.html']");
+
+  navContact.forEach(
+    (el) => (el.textContent = translations[language]["contact"])
+  );
+
   //declarer les elements a changer dans la page
 
   const fleet = document.getElementById("fleet");

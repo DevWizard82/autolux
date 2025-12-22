@@ -62,8 +62,8 @@ export const translations = {
       "With white-glove service and a meticulously maintained fleet, every drive becomes extraordinary.",
     our_story: "Our Story",
 
-    exclusive_selection: "Exclusive Selection",
-    royal_fleet: "The Royal Fleet",
+    exclusive_selection: "Latest Arrivals",
+    royal_fleet: "New Additions to the Collection",
     reserve_now: "Reserve Now",
     view_full_collection: "View Full Collection",
 
@@ -152,8 +152,8 @@ export const translations = {
       "Un service haut de gamme et une flotte irréprochable pour une expérience unique.",
     our_story: "Notre histoire",
 
-    exclusive_selection: "Sélection exclusive",
-    royal_fleet: "La flotte royale",
+    exclusive_selection: "Dernières Arrivées",
+    royal_fleet: "Les Nouveautés de la Collection",
     reserve_now: "Réserver",
     view_full_collection: "Voir toute la collection",
 
@@ -238,8 +238,8 @@ export const translations = {
     about_p2: "Servizio impeccabile e una flotta curata nei minimi dettagli.",
     our_story: "La nostra storia",
 
-    exclusive_selection: "Selezione Esclusiva",
-    royal_fleet: "Flotta Reale",
+    exclusive_selection: "Ultimi Arrivi",
+    royal_fleet: "Novità della Collezione",
     reserve_now: "Prenota ora",
     view_full_collection: "Vedi l'intera collezione",
 
@@ -325,8 +325,8 @@ export const translations = {
     about_p2: "Serviço de luxo e uma frota mantida com cuidado meticuloso.",
     our_story: "Nossa história",
 
-    exclusive_selection: "Seleção Exclusiva",
-    royal_fleet: "Frota Real",
+    exclusive_selection: "Novas Chegadas",
+    royal_fleet: "Novidades da Coleção",
     reserve_now: "Reservar agora",
     view_full_collection: "Ver coleção completa",
 
@@ -409,8 +409,8 @@ export const translations = {
     about_p2: "奢华的服务与精心养护的车队。",
     our_story: "品牌故事",
 
-    exclusive_selection: "独家精选",
-    royal_fleet: "皇家车队",
+    exclusive_selection: "最新到达",
+    royal_fleet: "全新臻选系列",
     reserve_now: "立即预订",
     view_full_collection: "查看完整系列",
 
@@ -493,8 +493,8 @@ export const translations = {
     about_p2: "贅沢なサービスと、細部まで手入れされた車両。",
     our_story: "ストーリー",
 
-    exclusive_selection: "厳選されたコレクション",
-    royal_fleet: "ロイヤルフリート",
+    exclusive_selection: "最新入庫",
+    royal_fleet: "最新コレクション",
     reserve_now: "今すぐ予約",
     view_full_collection: "全コレクションを見る",
 
@@ -577,8 +577,8 @@ export const translations = {
     about_p2: "خدمة فاخرة وأسطول مُعتنى به بعناية فائقة.",
     our_story: "قصتنا",
 
-    exclusive_selection: "اختيار حصري",
-    royal_fleet: "الأسطول الملكي",
+    exclusive_selection: "أحدث الإضافات",
+    royal_fleet: "أحدث سيارات الأسطول",
     reserve_now: "احجز الآن",
     view_full_collection: "عرض المجموعة كاملة",
 
@@ -663,8 +663,8 @@ export const translations = {
     about_p2: "Servicio de lujo y una flota cuidada meticulosamente.",
     our_story: "Nuestra historia",
 
-    exclusive_selection: "Selección exclusiva",
-    royal_fleet: "Flota Real",
+    exclusive_selection: "Últimas Llegadas",
+    royal_fleet: "Novedades de la Colección",
     reserve_now: "Reservar ahora",
     view_full_collection: "Ver colección completa",
 
@@ -750,8 +750,8 @@ export const translations = {
     about_p2: "Erstklassiger Service und ein sorgfältig gepflegter Fuhrpark.",
     our_story: "Unsere Geschichte",
 
-    exclusive_selection: "Exklusive Auswahl",
-    royal_fleet: "Königliche Flotte",
+    exclusive_selection: "Neu Eingetroffen",
+    royal_fleet: "Die neuesten Modelle",
     reserve_now: "Jetzt buchen",
     view_full_collection: "Ganze Kollektion ansehen",
 
@@ -838,8 +838,8 @@ export const translations = {
     about_p2: "Премиальный сервис и безупречно обслуживаемый автопарк.",
     our_story: "Наша история",
 
-    exclusive_selection: "Эксклюзивный выбор",
-    royal_fleet: "Королевский флот",
+    exclusive_selection: "Новые Поступления",
+    royal_fleet: "Новинки Коллекции",
     reserve_now: "Забронировать",
     view_full_collection: "Посмотреть всю коллекцию",
 

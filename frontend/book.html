@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Autolux maroc - Book a Car</title>
+
+    <link rel="stylesheet" href="./src/css/cars.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      href="./public/assets/images/icon_real.png"
+      type="image/x-icon"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              luxury: {
+                base: "#0d1115",
+                navy: "#0f1a2b",
+                gold: "#D4AF37",
+                orange: "#FFA500",
+              },
+            },
+            fontFamily: {
+              sans: ["Montserrat", "sans-serif"],
+              serif: ["Playfair Display", "serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="./src/css/common.css" />
+  </head>
+  <body
+    class="bg-luxury-base text-gray-200 antialiased selection:bg-luxury-gold selection:text-black"
+  >
+    <!-- NAVBAR (same as cars.html) -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6">
+      <div class="container mx-auto px-6 flex justify-between items-center">
+        <a
+          href="index.html"
+          class="text-2xl md:text-3xl font-serif font-bold tracking-widest text-white group"
+        >
+          <img src="./public/assets/images/ss.png" alt="AUTOLUX" class="h-10" />
+        </a>
+
+        <div class="hidden md:flex items-center space-x-6 relative">
+          <select class="currency-selector" id="currencies">
+            <option value="EUR" selected>💱 EUR</option>
+            <option value="MAD">💱 MAD</option>
+            <option value="USD">💱 USD</option>
+            <option value="JPY">💱 JPY</option>
+            <option value="GBP">💱 GBP</option>
+            <option value="AUD">💱 AUD</option>
+            <option value="CHF">💱 CHF</option>
+            <option value="CNY">💱 CNY</option>
+            <option value="INR">💱 INR</option>
+            <option value="BRL">💱 BRL</option>
+            <option value="RUB">💱 RUB</option>
+            <option value="TRY">💱 TRY</option>
+            <option value="ZAR">💱 ZAR</option>
+            <option value="SEK">💱 SEK</option>
+            <option value="NOK">💱 NOK</option>
+            <option value="DKK">💱 DKK</option>
+            <option value="PLN">💱 PLN</option>
+            <option value="MXN">💱 MXN</option>
+            <option value="CAD">💱 CAD</option>
+          </select>
+          <select class="language-selector" id="languages">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+
+          <a
+            href="cars.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium text-luxury-orange"
+            >Fleet</a
+          >
+          <a
+            href="about.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium"
+            >About</a
+          >
+
+          <a
+            href="contact.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium"
+            >Contact</a
+          >
+
+          <a
+            href="login.html"
+            id="nav-login-btn"
+            class="px-8 py-2.5 rounded-full border border-luxury-gold/50 text-luxury-gold hover:bg-gradient-luxury hover:border-transparent hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold"
+            >Login</a
+          >
+
+          <div id="nav-user-info" class="relative hidden items-center"></div>
+        </div>
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden text-luxury-gold text-2xl focus:outline-none"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="fixed inset-0 bg-luxury-base/98 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-8"
+      >
+        <button
+          id="close-menu-btn"
+          class="absolute top-6 right-6 text-white text-3xl hover:text-luxury-orange transition-colors"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+
+        <select class="language-selector" id="languages1">
+          <option value="en">🌍 EN</option>
+          <option value="fr" selected>🌍 FR</option>
+          <option value="ar">🌍 AR</option>
+          <option value="es">🌍 ES</option>
+          <option value="de">🌍 DE</option>
+          <option value="it">🌍 IT</option>
+          <option value="ru">🌍 RU</option>
+          <option value="zh">🌍 ZH</option>
+          <option value="ja">🌍 JA</option>
+          <option value="pt">🌍 PT</option>
+        </select>
+        <select class="currency-selector" id="currencies1">
+          <option value="EUR" selected>💱 EUR</option>
+          <option value="MAD">💱 MAD</option>
+          <option value="USD">💱 USD</option>
+          <option value="JPY">💱 JPY</option>
+          <option value="GBP">💱 GBP</option>
+          <option value="AUD">💱 AUD</option>
+          <option value="CHF">💱 CHF</option>
+          <option value="CNY">💱 CNY</option>
+          <option value="INR">💱 INR</option>
+          <option value="BRL">💱 BRL</option>
+          <option value="RUB">💱 RUB</option>
+          <option value="TRY">💱 TRY</option>
+          <option value="ZAR">💱 ZAR</option>
+          <option value="SEK">💱 SEK</option>
+          <option value="NOK">💱 NOK</option>
+          <option value="DKK">💱 DKK</option>
+          <option value="PLN">💱 PLN</option>
+          <option value="MXN">💱 MXN</option>
+          <option value="CAD">💱 CAD</option>
+        </select>
+
+        <a href="cars.html" class="text-3xl font-serif hover:text-gradient"
+          >Fleet</a
+        >
+        <a href="about.html" class="text-3xl font-serif hover:text-gradient"
+          >About</a
+        >
+
+        <a
+          href="login.html"
+          id="mobile-login-btn"
+          class="text-3xl font-serif text-gradient font-bold"
+          >Login</a
+        >
+
+        <div
+          id="mobile-user-info"
+          class="hidden relative flex-col items-center gap-4"
+        ></div>
+      </div>
+    </nav>
+
+    <!-- BOOKING SECTION -->
+    <section
+      class="container mx-auto px-6 mt-32 mb-20 flex flex-col items-center"
+    >
+      <div class="w-full max-w-2xl">
+        <h1
+          class="text-4xl md:text-5xl font-serif font-bold text-white mb-2 text-center"
+        >
+          Réserver une voiture
+        </h1>
+        <p
+          class="text-luxury-gold/80 font-sans text-sm tracking-[0.2em] uppercase mb-10 text-center"
+        >
+          Expérience de conduite d'exception
+        </p>
+
+        <form
+          id="booking-form"
+          class="bg-luxury-navy/80 backdrop-blur-md p-8 md:p-10 rounded-2xl shadow-2xl border border-luxury-gold/20 space-y-8"
+        >
+          <div class="space-y-2">
+            <label
+              for="car-select"
+              class="block text-xs font-sans font-semibold uppercase tracking-widest text-luxury-gold ml-1"
+            >
+              Véhicule Souhaité
+            </label>
+            <div class="relative group">
+              <select
+                id="car-select"
+                class="w-full p-4 rounded-xl bg-luxury-base/50 text-white border border-luxury-gold/30 focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold outline-none transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled selected>
+                  Chargement des voitures...
+                </option>
+              </select>
+              <div
+                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-luxury-gold"
+              >
+                <i class="fas fa-chevron-down text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-2">
+              <label
+                for="pickup-date"
+                class="block text-xs font-sans font-semibold uppercase tracking-widest text-luxury-gold ml-1"
+              >
+                Date de prise en charge
+              </label>
+              <input
+                type="date"
+                id="pickup-date"
+                class="w-full p-4 rounded-xl bg-luxury-base/50 text-white border border-luxury-gold/30 focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold outline-none transition-all"
+                required
+              />
+            </div>
+
+            <div class="space-y-2">
+              <label
+                for="return-date"
+                class="block text-xs font-sans font-semibold uppercase tracking-widest text-luxury-gold ml-1"
+              >
+                Date de retour
+              </label>
+              <input
+                type="date"
+                id="return-date"
+                class="w-full p-4 rounded-xl bg-luxury-base/50 text-white border border-luxury-gold/30 focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold outline-none transition-all"
+                required
+              />
+            </div>
+          </div>
+
+          <div class="space-y-2">
+            <label
+              for="location"
+              class="block text-xs font-sans font-semibold uppercase tracking-widest text-luxury-gold ml-1"
+            >
+              Lieu de récupération (Showroom)
+            </label>
+            <div class="relative group">
+              <select
+                id="location"
+                class="w-full p-4 rounded-xl bg-luxury-base/50 text-white border border-luxury-gold/30 focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold outline-none transition-all appearance-none cursor-pointer"
+              >
+                <option value="" disabled selected>
+                  Choisir un showroom...
+                </option>
+              </select>
+              <div
+                class="absolute inset-y-0 right-4 flex items-center pointer-events-none text-luxury-gold"
+              >
+                <i class="fas fa-store text-xs"></i>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4">
+            <button
+              type="submit"
+              class="w-full py-4 rounded-xl bg-gradient-to-r from-luxury-orange via-[#FFB833] to-luxury-gold text-luxury-base font-sans font-bold uppercase tracking-[0.2em] shadow-[0_10px_20px_-10px_rgba(212,175,55,0.5)] hover:shadow-[0_15px_30px_-10px_rgba(212,175,55,0.6)] hover:-translate-y-0.5 hover:brightness-110 active:scale-[0.98] transition-all duration-300"
+            >
+              Confirmer la réservation
+            </button>
+          </div>
+        </form>
+
+        <p
+          class="text-center text-gray-500 text-xs mt-8 font-sans tracking-wide"
+        >
+          <i class="fas fa-shield-alt mr-2 text-luxury-gold/50"></i> Paiement
+          sécurisé et confirmation immédiate
+        </p>
+      </div>
+    </section>
+
+    <script type="module" src="./src/js/book.js"></script>
+  </body>
+</html>

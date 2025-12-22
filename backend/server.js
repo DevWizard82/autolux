@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.js";
 import reservationRoutes from "./routes/reservations.js";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
+import nodemailer from "nodemailer";
 
 dotenv.config();
 
@@ -138,6 +139,62 @@ app.get("/api/locations", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Something went wrong." });
+  }
+});
+
+app.get("/api/arrivals", async (req, res) => {
+  try {
+    const result = await pool.query(
+      "SELECT * from cars order by created_at desc LIMIT 3"
+    );
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+app.get("/api/locations", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * from locations");
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Something went wrong" });
+  }
+});
+
+app.post("/api/send-message", async (req, res) => {
+  const { name, email, subject, message } = req.body;
+
+  if (!name || !email || !message) {
+    return res
+      .status(400)
+      .json({ error: "Name, email, and message are required." });
+  }
+
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "anasberrqia25@gmail.com",
+        pass: process.env.GMAIL_PASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: "anasberrqia25@gmail.com",
+      to: "anasberrqia25@gmail.com",
+      subject: subject || `New message from ${name}`,
+      text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+      replyTo: email,
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ success: true, message: "Message sent successfully!" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Failed to send message." });
   }
 });
 
