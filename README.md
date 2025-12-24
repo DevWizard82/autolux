@@ -10,14 +10,20 @@ This repository contains a **full‑stack web application for a luxury cars rent
 root/
 ├── frontend/        # Vite + Frontend source code
 │   ├── src/
+│   │   ├── css/
+│   │   ├── js/
+│   ├── public/
 │   ├── package.json
 │   └── package-lock.json
 │
 ├── backend/         # Node.js backend (API / server)
 │   ├── package.json
 │   ├── package-lock.json
-│   ├── .env.example
-│   └── index.js / app.js
+│   ├── routes/
+│   └── server.js
+│   └── routes/
+│   └── middlewares/
+│   └── db/
 │
 ├── .gitignore
 └── README.md
