@@ -13,6 +13,9 @@ root/
 │   │   ├── css/
 │   │   ├── js/
 │   ├── public/
+│   │   ├── asssets/
+│   │       ├── images/
+│   │       ├── models/
 │   ├── package.json
 │   └── package-lock.json
 │
@@ -70,17 +73,12 @@ npm install
 
 Create a `.env` file based on the example:
 
-```bash
-cp .env.example .env
-```
-
 Fill in the required values inside `.env`.
 
 #### Run backend
 
 ```bash
-npm start
-# or
+
 npm run dev
 ```
 
@@ -132,13 +130,11 @@ npm install
 
 ```bash
 npm run dev
-npm run build
 ```
 
 ### Backend
 
 ```bash
-npm start
 npm run dev
 ```
 
