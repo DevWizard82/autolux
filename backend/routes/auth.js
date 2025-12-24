@@ -5,71 +5,142 @@ import pool from "../db/pool.js";
 
 const router = express.Router();
 
+/**
+ * REGISTER
+ */
 router.post("/register", async (req, res) => {
   const { email, password, first_name, last_name, phone } = req.body;
-  const hash = await bcrypt.hash(password, 10);
+
+  if (!email || !password || !first_name || !last_name) {
+    return res.status(400).json({
+      success: false,
+      error: "All required fields must be filled.",
+    });
+  }
 
   try {
-    const result = await pool.query(
-      `INSERT into clients(email, password_hash, first_name, last_name, phone)
-        VALUES($1, $2, $3, $4, $5)
-        RETURNING id, email`,
-      [email, hash, first_name, last_name, phone]
+    // Check if email already exists
+    const existingUser = await pool.query(
+      "SELECT id FROM clients WHERE email = $1",
+      [email]
     );
+
+    if (existingUser.rowCount > 0) {
+      return res.status(409).json({
+        success: false,
+        error: "An account with this email already exists.",
+      });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const result = await pool.query(
+      `
+      INSERT INTO clients (email, password_hash, first_name, last_name, phone)
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING id, email, first_name, last_name
+      `,
+      [email, hashedPassword, first_name, last_name, phone]
+    );
+
+    const user = result.rows[0];
 
     const token = jwt.sign(
       {
-        id: result.rows[0].id,
-        email: result.rows[0].email,
-        first_name: result.rows[0].first_name,
+        id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
       },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
-    res.json({ token, success: true });
+    return res.status(201).json({
+      success: true,
+      message: "Account created successfully.",
+      data: {
+        token,
+        user,
+      },
+    });
   } catch (err) {
-    res.status(400).json({ error: err.message });
+    console.error("REGISTER ERROR:", err);
+
+    return res.status(500).json({
+      success: false,
+      error: "Unable to create account. Please try again later.",
+    });
   }
 });
 
+/**
+ * LOGIN
+ */
 router.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
-  const result = await pool.query("SELECT * FROM clients WHERE email = $1", [
-    email,
-  ]);
-
-  if (!result.rows.length) {
-    return res.status(401).json({ error: "Invalid credentials" });
+  if (!email || !password) {
+    return res.status(400).json({
+      success: false,
+      error: "Email and password are required.",
+    });
   }
 
-  const user = result.rows[0];
-  const valid = await bcrypt.compare(password, user.password_hash);
+  try {
+    const result = await pool.query("SELECT * FROM clients WHERE email = $1", [
+      email,
+    ]);
 
-  if (!valid) {
-    return res.status(401).json({ error: "Invalid credentials" });
+    if (result.rowCount === 0) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid email or password.",
+      });
+    }
+
+    const user = result.rows[0];
+    const isValid = await bcrypt.compare(password, user.password_hash);
+
+    if (!isValid) {
+      return res.status(401).json({
+        success: false,
+        error: "Invalid email or password.",
+      });
+    }
+
+    const token = jwt.sign(
+      {
+        id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    return res.json({
+      success: true,
+      message: `Welcome back, ${user.first_name}!`,
+      data: {
+        token,
+        user: {
+          id: user.id,
+          email: user.email,
+          first_name: user.first_name,
+          last_name: user.last_name,
+        },
+      },
+    });
+  } catch (err) {
+    console.error("LOGIN ERROR:", err);
+
+    return res.status(500).json({
+      success: false,
+      error: "Login failed. Please try again later.",
+    });
   }
-
-  const token = jwt.sign(
-    {
-      id: user.id,
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      email: user.email,
-    },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
-  );
-
-  res.json({
-    token,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.email,
-    id: user.id,
-  });
 });
 
 export default router;

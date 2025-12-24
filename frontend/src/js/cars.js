@@ -68,10 +68,9 @@ async function displayCars(
 
         </div>
         <div class="btn_container">
-          <button class="reserver_btn" id="${car.name.replace(
-            /[- ]/g,
-            "_"
-          )}">Réserver</button>
+          <button class="reserver_btn" data-id="${
+            car.id
+          }" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
           <button class="model" id="${car.name.replace(
             /[- ]/g,
             "_"
@@ -233,10 +232,9 @@ async function searchCars(cars, searchValue, language) {
           </span><span class="perday">/jour</span>
         </div>
         <div class="btn_container">
-          <button class="reserver_btn" id="${car.name.replace(
-            /[- ]/g,
-            "_"
-          )}">Réserver</button>
+          <button class="reserver_btn" data-id="${
+            car.id
+          }" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
           <button class="model" id="${car.name.replace(
             /[- ]/g,
             "_"
@@ -327,7 +325,6 @@ function updateLanguage(language) {
   navAbout.forEach((el) => (el.textContent = translations[language]["about"]));
   navLogin.forEach((el) => (el.textContent = translations[language]["login"]));
 
-  //attendre 50ms avant de changer ces elements puisque les voitures sont chargees dynamiquement
   setTimeout(() => {
     document.querySelectorAll(".available").forEach((availableEl) => {
       availableEl.textContent = translations[language]["disponible"];
@@ -350,16 +347,12 @@ function updateLanguage(language) {
   }, 50);
 }
 
-//changer la langue a partir de la barre laterale
 document.getElementById("languages1").addEventListener("change", (e) => {
-  //Obtenir la valeur de la langue
   const language = e.target.value;
 
-  //changer la valeur du selecteur du menu principal a cette nouvelle langue
   languagesSelectSidebar.value = language;
   languagesSelect.value = language;
 
-  //appel de la fonction updateLanguage pour modifier la langue du texte de la page entiere
   updateLanguage(language);
 
   const city = citiesSelect.value;
@@ -369,16 +362,12 @@ document.getElementById("languages1").addEventListener("change", (e) => {
   displayCars(city, category, language);
 });
 
-//changer la langue a partir du menu principal
 document.getElementById("languages").addEventListener("change", (e) => {
-  //Obtenir la valeur de la langue
   const language = e.target.value;
 
-  //changer la valeur du selecteur de la barre laterale a cette nouvelle langue
   languagesSelectSidebar.value = language;
   languagesSelect.value = language;
 
-  //appel de la fonction updateLanguage pour modifier la langue du texte de la page entiere
   updateLanguage(language);
 
   const city = citiesSelect.value;
@@ -392,33 +381,26 @@ function open3D(id) {
   window.open(`carviewer.html?model=${encodeURIComponent(id)}.glb`, "_blank");
 }
 
-//evenement pour gerer l'ouverture et la fermeture du model 3d
 document.body.addEventListener("click", (e) => {
-  // Récupère le bouton "model" le plus proche de l'élément déclencheur
   const modelbtn = e.target.closest(".model");
 
-  // Si un bouton modèle (modelbtn) est trouvé
   if (modelbtn) {
-    // Ouvrir le modèle 3D avec le chemin du fichier basé sur l'id
     const id = modelbtn.getAttribute("id");
     open3D(id);
   }
 });
 
-// Ajouter un écouteur d'événement sur le clic dans le corps du document
+let carId;
+
 document.body.addEventListener("click", (e) => {
-  // Vérifier si l'élément cliqué est un bouton de réservation
   const reserverBtn = e.target.closest(".reserver_btn");
   if (reserverBtn) {
-    // Récupérer l'attribut id du bouton de réservation
     const id = reserverBtn.getAttribute("id");
-    // Sauvegarder l'id dans le stockage local (localStorage)
     localStorage.setItem("id", id);
-    // Ajouter une classe fade-out au corps du document pour une animation de transition
+    carId = reserverBtn.getAttribute("data-id");
     document.body.classList.add("fade-out");
-    // Après 500ms, rediriger vers la page 'formulaire.html'
     setTimeout(() => {
-      window.location.href = "book.html";
+      window.location.href = `book.html?id=${encodeURIComponent(carId)}`;
     }, 500);
   }
 });
@@ -518,135 +500,17 @@ async function init() {
     if (reserverBtn) {
       const id = reserverBtn.id;
       localStorage.setItem("id", id);
+      carId = reserverBtn.getAttribute("data-id");
+
       document.body.classList.add("fade-out");
-      setTimeout(() => (window.location.href = "book.html"), 500);
+      setTimeout(
+        () =>
+          (window.location.href = `book.html?id=${encodeURIComponent(carId)}`),
+        500
+      );
     }
   });
-
-  updateNavbarUser();
 }
-
-document.querySelectorAll(".logout-btn, .logout-btn-sidebar").forEach((btn) => {
-  btn.addEventListener("click", () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("first_name");
-    updateNavbarUser();
-  });
-});
 
 // ---- Start App ----
 await init();
-
-// ======================================================
-// UPDATED AVATAR & MODAL LOGIC
-// ======================================================
-
-function updateNavbarUser() {
-  const firstname = localStorage.getItem("first_name") || "Client";
-  const lastname = localStorage.getItem("last_name") || "";
-  // Check if a token exists to determine auth status
-  // (Adjust key 'token' if you use a different one)
-  const isAuthenticated = localStorage.getItem("token") !== null;
-
-  const loginBtn = document.querySelector(".login-btn");
-  const loginBtnSidebar = document.querySelector(".login-btn-sidebar");
-  const userInfoContainers = document.querySelectorAll(
-    ".user-info, .user-info-sidebar"
-  );
-
-  if (isAuthenticated) {
-    // 1. Hide Login Buttons
-    if (loginBtn) loginBtn.style.display = "none";
-    if (loginBtnSidebar) loginBtnSidebar.style.display = "none";
-
-    // 2. Prepare User Details
-    const initials = (firstname[0] + (lastname[0] || "")).toUpperCase() || "U";
-    const fullName = `${firstname} ${lastname}`.trim();
-    const email = localStorage.getItem("email") || "client@autolux.ma"; // Fallback email
-
-    // 3. Inject Avatar HTML into all user-info containers (Mobile & Desktop)
-    userInfoContainers.forEach((container) => {
-      container.style.display = "flex";
-      container.innerHTML = ""; // Clear any previous content
-
-      // Create Avatar Button
-      const avatarBtn = document.createElement("button");
-      avatarBtn.className = "custom-avatar-btn";
-      avatarBtn.textContent = initials;
-      avatarBtn.title = fullName;
-
-      // Create Dropdown Menu
-      const dropdown = document.createElement("div");
-      dropdown.className = "glass-dropdown";
-      dropdown.innerHTML = `
-        <div class="dropdown-header">
-          <p class="dropdown-name">${fullName}</p>
-          <p class="dropdown-email">${email}</p>
-        </div>
-        <div class="dropdown-item-container">
-          <button class="dropdown-item">
-            <i class="fa-solid fa-user"></i> Profile
-          </button>
-           <button class="dropdown-item">
-            <i class="fa-solid fa-gear"></i> Settings
-          </button>
-        </div>
-        <div class="dropdown-divider"></div>
-        <button class="dropdown-item logout" id="logout-action-btn">
-          <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-        </button>
-      `;
-
-      // Append to container
-      container.appendChild(avatarBtn);
-      container.appendChild(dropdown);
-
-      // Toggle Logic
-      avatarBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        // Close other dropdowns first (if any)
-        document.querySelectorAll(".glass-dropdown").forEach((d) => {
-          if (d !== dropdown) d.classList.remove("active");
-        });
-        dropdown.classList.toggle("active");
-      });
-
-      // Handle Logout Click inside dropdown
-      const logoutBtn = dropdown.querySelector("#logout-action-btn");
-      logoutBtn.addEventListener("click", (e) => {
-        e.stopPropagation();
-        handleLogout();
-      });
-    });
-  } else {
-    // Show login buttons
-    if (loginBtn) loginBtn.style.display = "block";
-    if (loginBtnSidebar) loginBtnSidebar.style.display = "block";
-
-    // Hide user info
-    userInfoContainers.forEach((c) => (c.style.display = "none"));
-  }
-}
-
-// Global click listener to close dropdowns when clicking outside
-document.addEventListener("click", (e) => {
-  if (
-    !e.target.closest(".user-info") &&
-    !e.target.closest(".user-info-sidebar")
-  ) {
-    document.querySelectorAll(".glass-dropdown").forEach((dropdown) => {
-      dropdown.classList.remove("active");
-    });
-  }
-});
-
-function handleLogout() {
-  localStorage.removeItem("token");
-  localStorage.removeItem("first_name");
-  localStorage.removeItem("last_name");
-  localStorage.removeItem("email");
-  // Re-run update to reset UI
-  updateNavbarUser();
-  // Optional: Redirect to home or reload
-  // window.location.reload();
-}

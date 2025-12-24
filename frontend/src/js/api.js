@@ -5,7 +5,7 @@ const BASE_URL = "http://localhost:3000";
 export async function getcars() {
   try {
     const response = await axios.get(`${BASE_URL}/api/cars`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Error fetching cars:", err);
     return [];
@@ -91,7 +91,7 @@ export async function getColors(carId) {
 export async function getArrivals() {
   try {
     const response = await axios.get(`${BASE_URL}/api/arrivals`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Failed to fetch latest arrivals:", err);
     return [];
@@ -101,7 +101,7 @@ export async function getArrivals() {
 export async function getLocations() {
   try {
     const response = await axios.get(`${BASE_URL}/api/locations`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Failed to fetch showroom locations:", err);
     return [];

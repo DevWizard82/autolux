@@ -54,39 +54,42 @@
       </form>
     </div>
     <script type="module">
+      import { toast } from "./src/js/toast.js";
+
       const form = document.getElementById("register-form");
-      const errorMsg = document.getElementById("error-msg");
 
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const payLoad = {
-          email: document.getElementById("email").value,
+        const payload = {
+          email: document.getElementById("email").value.trim(),
           password: document.getElementById("password").value,
-          first_name: document.getElementById("first_name").value,
-          last_name: document.getElementById("last_name").value,
-          phone: document.getElementById("phone").value,
+          first_name: document.getElementById("first_name").value.trim(),
+          last_name: document.getElementById("last_name").value.trim(),
+          phone: document.getElementById("phone").value.trim(),
         };
 
         try {
-          console.log({ email, password, first_name, last_name, phone });
-
           const res = await fetch("http://localhost:3000/api/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payLoad),
+            body: JSON.stringify(payload),
           });
 
           const data = await res.json();
 
-          if (data.success) {
-            window.location.href = "login.html";
-          } else {
-            errorMsg.textContent =
-              data.detail || data.error || "Registration failed";
+          if (!data.success) {
+            toast.error(data.error);
+            return;
           }
-        } catch {
-          errorMsg.textContent = "Server Error";
+
+          toast.success(data.message);
+
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1000);
+        } catch (err) {
+          toast.error("Server error. Please try again later.");
         }
       });
     </script>

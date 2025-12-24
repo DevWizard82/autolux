@@ -18,9 +18,10 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateNavbarUser() {
   // Retrieve user data
   const token = localStorage.getItem("token");
-  const firstname = localStorage.getItem("first_name") || "Client";
-  const lastname = localStorage.getItem("last_name") || "";
-  const email = localStorage.getItem("email") || "user@autolux.ma";
+  const user = JSON.parse(localStorage.getItem("user"));
+  const firstname = user.first_name || "Client";
+  const lastname = user.last_name || "";
+  const email = user.email || "user@autolux.ma";
 
   // Select DOM Elements
   const navLoginBtn = document.getElementById("nav-login-btn");
@@ -108,9 +109,7 @@ function setupDropdownListeners(container) {
 // Handle Logout
 window.handleLogout = function () {
   localStorage.removeItem("token");
-  localStorage.removeItem("first_name");
-  localStorage.removeItem("last_name");
-  localStorage.removeItem("email");
+  localStorage.removeItem("user");
   window.location.reload(); // Refresh page to reset UI
 };
 
