@@ -63,10 +63,6 @@ function updateLanguage(language) {
     el.textContent = translations[language]["discover_more"];
   });
 
-  document.querySelectorAll("#reserve_now").forEach((el) => {
-    el.textContent = translations[language]["reserve_now"];
-  });
-
   // ===== ABOUT SECTION =====
   const aboutBadge = document.querySelector("#about span.text-luxury-gold");
   const aboutTitle = document.querySelector("#about h2");
@@ -107,10 +103,6 @@ function updateLanguage(language) {
 
   if (featuredTitle)
     featuredTitle.textContent = translations[language]["royal_fleet"];
-
-  document.querySelectorAll(".card-hover a").forEach((btn) => {
-    btn.textContent = translations[language]["reserve_now"];
-  });
 
   const cta = document.querySelector(".cta-full-collection");
   if (cta) {
@@ -249,7 +241,7 @@ async function loadLatestArrivals(language) {
         }" class="card-img w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
               <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full text-luxury-gold text-xs font-bold border border-luxury-gold/20">
-                $${car.price} / Day
+                $${car.price} <span class="day"> / Day</span>
               </div>
             </div>
             <div class="p-8">
@@ -281,7 +273,7 @@ async function loadLatestArrivals(language) {
 
               <a href="cars.html?id=${
                 car.id
-              }" class="block w-full text-center py-3.5 rounded-lg bg-white/5 text-white hover:bg-gradient-luxury hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold">
+              }" class="block w-full text-center py-3.5 rounded-lg bg-white/5 text-white hover:bg-gradient-luxury hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold reserve_now">
                 Reserve Now
               </a>
             </div>
@@ -291,6 +283,13 @@ async function loadLatestArrivals(language) {
       .join("");
 
     container.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+    document.querySelectorAll(".reserve_now").forEach((el) => {
+      el.textContent = translations[language]["reserve_now"];
+    });
+    document.querySelectorAll(".day").forEach((el) => {
+      const str = translations[language]["perday"];
+      el.textContent = str.replace("/", "/ ");
+    });
   } catch (error) {
     console.error("Error loading arrivals:", error);
     container.innerHTML = `<p class="text-white text-center col-span-full">Failed to load the fleet. Please try again later.</p>`;

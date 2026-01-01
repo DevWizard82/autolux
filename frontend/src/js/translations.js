@@ -2,6 +2,38 @@
 
 export const translations = {
   en: {
+    locations: "Our Locations",
+    send: "Send message",
+    message_placeholder: "Your Message",
+    subject_placeholder: "Subject",
+    email_placeholder: "Your email",
+    name_placeholder: "Your Name",
+    reachp:
+      "Whether you have questions about our fleet, need assistance with a booking, or want to discuss a special request, our team is here to ensure a seamless luxury experience.",
+    reach: "Reach Out to Us",
+    touchp1:
+      "Our concierge team is ready to assist with your luxury car rental experience.",
+    touchp: "Contact AUTOLUX",
+    touch: "Get in Touch",
+    experiencep:
+      "Discover a new standard of luxury mobility tailored to your lifestyle.",
+    experience: "Experience AUTOLUX",
+    performancep:
+      "Precision-engineered vehicles that deliver thrilling experiences every time.",
+    performance: "Performance",
+    trustp:
+      "Transparency, discretion, and reliability are at the core of everything we do.",
+    trust: "Trust",
+    exclusivep:
+      "A handpicked fleet reserved for clients who expect nothing less than the extraordinary.",
+    exclusive: "Exclusivity",
+    define: "What Defines Us",
+    our_values: "Our Values",
+    crafted_p2:
+      "From iconic supercars to refined grand tourers, our fleet is curated to reflect prestige, performance, and timeless design.",
+    crafted_p1:
+      "AUTOLUX was founded with a singular vision: to redefine luxury car rentals by combining world-class vehicles with concierge-level service. We cater to individuals who see driving not as a necessity, but as an experience.",
+    crafted: "Crafted for the Exceptional",
     who: "Who We Are",
     acceuil: "Home",
     voitures: "Cars",
@@ -93,6 +125,38 @@ export const translations = {
     terms: "Terms of Service",
   },
   fr: {
+    locations: "Nos implantations",
+    send: "Envoyer un message",
+    message_placeholder: "Votre message",
+    subject_placeholder: "Objet",
+    email_placeholder: "Votre adresse e-mail",
+    name_placeholder: "Votre nom",
+    reachp:
+      "Notre équipe de conciergerie est à votre entière disposition pour vous accompagner dans votre expérience de location de voiture de luxe.",
+    reach: "Contactez-nous",
+    touchp1:
+      "Notre équipe de conciergerie est prête à vous accompagner dans votre expérience de location de voiture de luxe.",
+    touchp: "Contacter AUTOLUX",
+    touch: "Contactez-nous",
+    experiencep:
+      "Découvrez un nouveau standard de mobilité de luxe, conçu pour votre style de vie.",
+    experience: "Vivez l'expérience AUTOLUX",
+    performancep:
+      "Des véhicules d'une ingénierie de précision, offrant des expériences exaltantes à chaque instant.",
+    performance: "Performance",
+    trustp:
+      "La transparence, la discrétion et la fiabilité sont au cœur de tout ce que nous entreprenons.",
+    trust: "Confiance",
+    exclusivep:
+      "Une flotte triée sur le volet, réservée aux clients qui n'attendent rien de moins que l'extraordinaire.",
+    exclusive: "Exclusivité",
+    define: "Ce qui nous distingue",
+    our_values: "Nos Valeurs",
+    crafted_p2:
+      "Des supercars emblématiques aux grands tourismes raffinés, notre flotte est soigneusement sélectionnée pour incarner prestige, performance et design intemporel.",
+    crafted_p1:
+      "AUTOLUX a été fondée avec une vision unique : redéfinir la location de voitures de luxe en alliant des véhicules d'exception à un service de conciergerie. Nous nous adressons à ceux pour qui conduire n'est pas une nécessité, mais une expérience.",
+    crafted: "Façonné pour l'exceptionnel",
     who: "Qui sommes-nous",
     acceuil: "Accueil",
     voitures: "Voitures",
@@ -179,6 +243,38 @@ export const translations = {
     terms: "Conditions d’utilisation",
   },
   it: {
+    locations: "Le nostre sedi",
+    send: "Invia messaggio",
+    message_placeholder: "Il Suo messaggio",
+    subject_placeholder: "Oggetto",
+    email_placeholder: "Il Suo indirizzo email",
+    name_placeholder: "Il Suo Nome",
+    reachp:
+      "Il nostro team di concierge è pronto ad assistervi nella vostra esperienza di noleggio auto di lusso.",
+    reach: "Contattateci",
+    touchp1:
+      "Il nostro team di concierge è pronto ad assisterti nella tua esperienza di noleggio auto di lusso.",
+    touchp: "Contatta AUTOLUX",
+    touch: "Contattaci",
+    experiencep:
+      "Scopri un nuovo standard di mobilità di lusso, su misura per il tuo stile di vita.",
+    experience: "Vivi l'esperienza AUTOLUX",
+    performancep:
+      "Veicoli progettati con precisione che offrono esperienze emozionanti ogni volta.",
+    performance: "Prestazioni",
+    trustp:
+      "Trasparenza, discrezione e affidabilità sono al centro di tutto ciò che facciamo.",
+    trust: "Fiducia",
+    exclusivep:
+      "Una flotta accuratamente selezionata, riservata ai clienti che non si aspettano altro che lo straordinario.",
+    exclusive: "Esclusività",
+    define: "Cosa ci contraddistingue",
+    our_values: "I Nostri Valori",
+    crafted_p2:
+      "Dalle iconiche supercar alle raffinate gran turismo, la nostra flotta è curata per riflettere prestigio, prestazioni e un design senza tempo.",
+    crafted_p1:
+      "AUTOLUX nasce con una visione unica: ridefinire il noleggio di auto di lusso combinando veicoli di classe mondiale con un servizio di livello *concierge*. Ci rivolgiamo a chi considera la guida non una necessità, ma un'esperienza.",
+    crafted: "Creato per l'eccezionale",
     who: "Chi siamo",
     acceuil: "Home",
     voitures: "Auto",
@@ -266,6 +362,38 @@ export const translations = {
     terms: "Termini di servizio",
   },
   pt: {
+    locations: "Nossas localizações",
+    send: "Enviar mensagem",
+    message_placeholder: "Sua mensagem",
+    subject_placeholder: "Assunto",
+    email_placeholder: "Seu e-mail",
+    name_placeholder: "Seu Nome",
+    reachp:
+      "Nossa equipe de concierge está à disposição para auxiliar em sua experiência de aluguel de carros de luxo.",
+    reach: "Entre em Contato",
+    touchp1:
+      "Nossa equipe de concierge está pronta para ajudar na sua experiência de aluguel de carros de luxo.",
+    touchp: "Contatar a AUTOLUX",
+    touch: "Entre em Contato",
+    experiencep:
+      "Descubra um novo padrão de mobilidade de luxo, feito sob medida para o seu estilo de vida.",
+    experience: "Vivencie a AUTOLUX",
+    performancep:
+      "Veículos de engenharia de precisão que proporcionam experiências emocionantes a cada momento.",
+    performance: "Desempenho",
+    trustp:
+      "Transparência, discrição e confiabilidade estão no centro de tudo o que fazemos.",
+    trust: "Confiança",
+    exclusivep:
+      "Uma frota escolhida a dedo, reservada para clientes que não esperam nada menos que o extraordinário.",
+    exclusive: "Exclusividade",
+    define: "O Que Nos Define",
+    our_values: "Nossos Valores",
+    crafted_p2:
+      "De supercarros icônicos a refinados grand tourers, nossa frota é selecionada para refletir prestígio, desempenho e design atemporal.",
+    crafted_p1:
+      "A AUTOLUX foi fundada com uma visão singular: redefinir o aluguer de carros de luxo, combinando veículos de classe mundial com um serviço de nível *concierge*. Atendemos indivíduos que veem a condução não como uma necessidade, mas como uma experiência.",
+    crafted: "Criado para o excecional",
     who: "Quem somos",
     acceuil: "Início",
     voitures: "Carros",
@@ -352,6 +480,32 @@ export const translations = {
     terms: "Termos de Serviço",
   },
   zh: {
+    locations: "我们的位置",
+    send: "发送消息",
+    message_placeholder: "您的留言",
+    subject_placeholder: "主题",
+    email_placeholder: "您的电子邮箱",
+    name_placeholder: "您的姓名",
+    reachp: "我们的礼宾团队随时准备协助您，为您打造完美的豪华租车体验。",
+    reach: "联系我们",
+    touchp1: "我们的礼宾团队随时准备协助您开启豪华租车体验。",
+    touchp: "联系 AUTOLUX",
+    touch: "联系我们",
+    experiencep: "探索为您生活方式量身定制的奢华出行新标准。",
+    experience: "体验 AUTOLUX",
+    performancep: "精工打造的座驾，每一次驾驶都是一场激动人心的体验。",
+    performance: "性能",
+    trustp: "透明、保密与可靠是我们一切服务的核心。",
+    trust: "信任",
+    exclusivep: "精选车队，专为追求非凡体验的尊贵客户而留。",
+    exclusive: "尊享",
+    define: "何以定义我们",
+    our_values: "我们的价值观",
+    crafted_p2:
+      "从标志性的超级跑车到精致的豪华GT跑车，我们精心挑选的车队旨在体现尊贵、性能与永恒的设计。",
+    crafted_p1:
+      "AUTOLUX 成立的愿景只有一个：通过将世界一流的车辆与礼宾级服务相结合，重新定义豪华汽车租赁。我们将目光投向那些不把驾驶仅仅视为必需，而是将其视为一种体验的人士。",
+    crafted: "专为非凡打造",
     who: "我们是谁",
     acceuil: "首页",
     voitures: "汽车",
@@ -436,6 +590,36 @@ export const translations = {
     terms: "服务条款",
   },
   ja: {
+    locations: "拠点案内",
+    send: "メッセージを送信",
+    message_placeholder: "メッセージ",
+    subject_placeholder: "件名",
+    email_placeholder: "メールアドレス",
+    name_placeholder: "お名前",
+    reachp:
+      "当社のコンシェルジュチームが、お客様のラグジュアリーなレンタカー体験をサポートいたします。",
+    reach: "お問い合わせ",
+    touchp1:
+      "私たちのコンシェルジュチームが、お客様のラグジュアリーなレンタカー体験をサポートいたします。",
+    touchp: "AUTOLUXにお問い合わせ",
+    touch: "お問い合わせ",
+    experiencep:
+      "あなたのライフスタイルに合わせて仕立てられた、ラグジュアリーモビリティの新基準をご体感ください。",
+    experience: "AUTOLUXを体験する",
+    performancep:
+      "精密に設計された車両が、乗るたびにスリリングな体験をお届けします。",
+    performance: "パフォーマンス",
+    trustp: "透明性、機密性、そして信頼性は、私たちのすべての活動の根幹です。",
+    trust: "信頼",
+    exclusivep: "非日常だけを求めるお客様のために、厳選された特別なフリート。",
+    exclusive: "特別感",
+    define: "私たちを形作るもの",
+    our_values: "私たちの価値観",
+    crafted_p2:
+      "象徴的なスーパーカーから洗練されたグランドツアラーまで、当社のフリートは、格式、性能、そして時代を超越したデザインを体現するために厳選されています。",
+    crafted_p1:
+      "AUTOLUXは、世界クラスの車両とコンシェルジュレベルのサービスを融合させ、ラグジュアリーカーレンタルの概念を再定義するという唯一のビジョンのもとに設立されました。私たちは、運転を単なる移動手段としてではなく、特別な「体験」として捉えるお客様のためにサービスを提供しています。",
+    crafted: "卓越した存在のために",
     who: "私たちについて",
     acceuil: "ホーム",
     voitures: "車",
@@ -520,6 +704,37 @@ export const translations = {
     terms: "利用規約",
   },
   ar: {
+    locations: "مواقعنا",
+    send: "إرسال رسالة",
+    message_placeholder: "رسالتك",
+    subject_placeholder: "الموضوع",
+    email_placeholder: "البريد الإلكتروني",
+    name_placeholder: "الاسم",
+    reachp:
+      "فريق الكونسيرج لدينا مستعد تماماً لمساعدتك لضمان أرقى تجربة لتأجير السيارات الفاخرة",
+    reach: "تواصل معنا",
+    touchp1:
+      "فريق الكونسيرج لدينا جاهز لمساعدتك لضمان تجربة استثنائية في استئجار سيارتك الفاخرة",
+    touchp: "تواصل مع أوتولوكس",
+    touch: "تواصل معنا",
+    experiencep:
+      "اكتشف مفهوماً جديداً للتنقل الفاخر، صُمم خصيصاً ليحاكي أسلوب حياتك",
+    experience: "عش تجربة أوتولوكس",
+    performancep:
+      "سيارات صُممت بمنتهى الدقة لتمنحك تجربة قيادة تخطف الأنفاس في كل مرة",
+    performance: "الأداء",
+    trustp: "الشفافية، والسرية، والموثوقية هي جوهر كل ما نقوم به",
+    trust: "الثقة",
+    exclusivep:
+      "أسطول تم انتقاؤه بعناية فائقة، مخصص لعملاء لا يقبلون بأقل من الاستثنائي",
+    exclusive: "الحصرية",
+    define: "ما يميزنا",
+    our_values: "قيمنا",
+    crafted_p2:
+      "من روائع السيارات الخارقة إلى قمة الرقي في فئة الـ 'جراند تورر'، صُممت مجموعتنا لتكون عنواناً للفخامة المطلقة، والتميز في الأداء، والجمال الذي لا يشيخ",
+    crafted_p1:
+      "تأسست AUTOLUX برؤية فريدة تهدف إلى إعادة تعريف مفهوم تأجير السيارات الفاخرة، من خلال الجمع بين سيارات عالمية الطراز وخدمة راقية بمستوى الكونسيرج. نحن نلبي تطلعات الأفراد الذين لا يرون القيادة مجرد وسيلة تنقّل، بل تجربة استثنائية متكاملة.",
+    crafted: "صُنِعَ للاستثنائيين",
     who: "من نحن",
     acceuil: "الرئيسية",
     voitures: "السيارات",
@@ -604,6 +819,38 @@ export const translations = {
     terms: "شروط الخدمة",
   },
   es: {
+    locations: "Nuestras ubicaciones",
+    send: "Enviar mensaje",
+    message_placeholder: "Su mensaje",
+    subject_placeholder: "Asunto",
+    email_placeholder: "Su correo electrónico",
+    name_placeholder: "Su Nombre",
+    reachp:
+      "Nuestro equipo de conserjería está a su disposición para asistirle en su experiencia de alquiler de coches de lujo.",
+    reach: "Contáctenos",
+    touchp1:
+      "Nuestro equipo de concierge está listo para asistirle en su experiencia de alquiler de vehículos de lujo.",
+    touchp: "Contactar con AUTOLUX",
+    touch: "Contáctenos",
+    experiencep:
+      "Descubre un nuevo estándar de movilidad de lujo, diseñado a la medida de tu estilo de vida.",
+    experience: "Vive la experiencia AUTOLUX",
+    performancep:
+      "Vehículos diseñados con precisión que ofrecen experiencias emocionantes en todo momento.",
+    performance: "Rendimiento",
+    trustp:
+      "La transparencia, la discreción y la fiabilidad son el núcleo de todo lo que hacemos.",
+    trust: "Confianza",
+    exclusivep:
+      "Una flota cuidadosamente seleccionada, reservada para clientes que no esperan menos que lo extraordinario.",
+    exclusive: "Exclusividad",
+    define: "Lo Que Nos Define",
+    our_values: "Nuestros Valores",
+    crafted_p2:
+      "Desde icónicos superdeportivos hasta refinados gran turismos, nuestra flota ha sido cuidadosamente seleccionada para reflejar prestigio, rendimiento y un diseño atemporal.",
+    crafted_p1:
+      "AUTOLUX se fundó con una visión singular: redefinir el alquiler de coches de lujo combinando vehículos de clase mundial con un servicio de nivel de conserjería. Nos dirigimos a personas que ven la conducción no como una necesidad, sino como una experiencia.",
+    crafted: "Creado para lo excepcional",
     who: "Quienes somos",
     acceuil: "Inicio",
     voitures: "Coches",
@@ -690,6 +937,38 @@ export const translations = {
     terms: "Términos de servicio",
   },
   de: {
+    locations: "Unsere Standorte",
+    send: "Nachricht senden",
+    message_placeholder: "Ihre Nachricht",
+    subject_placeholder: "Betreff",
+    email_placeholder: "Ihre E-Mail-Adresse",
+    name_placeholder: "Ihr Name",
+    reachp:
+      "Unser Concierge-Team steht bereit, um Sie bei Ihrer Luxuswagen-Anmietung exklusiv zu unterstützen.",
+    reach: "Kontaktieren Sie uns",
+    touchp1:
+      "Unser Concierge-Team steht bereit, um Sie bei Ihrer Luxusautovermietung zu unterstützen.",
+    touchp: "AUTOLUX kontaktieren",
+    touch: "Kontaktieren Sie uns",
+    experiencep:
+      "Entdecken Sie einen neuen Standard der Luxusmobilität – maßgeschneidert für Ihren Lebensstil.",
+    experience: "Erleben Sie AUTOLUX",
+    performancep:
+      "Präzisionsgefertigte Fahrzeuge, die jedes Mal ein atemberaubendes Erlebnis bieten.",
+    performance: "Leistung",
+    trustp:
+      "Transparenz, Diskretion und Zuverlässigkeit stehen im Mittelpunkt unseres Handelns.",
+    trust: "Vertrauen",
+    exclusivep:
+      "Eine handverlesene Flotte, reserviert für Kunden, die nichts weniger als das Außergewöhnliche erwarten.",
+    exclusive: "Exklusivität",
+    define: "Was uns ausmacht",
+    our_values: "Unsere Werte",
+    crafted_p2:
+      "Von ikonischen Supersportwagen bis hin zu raffinierten Grand Tourern – unsere Flotte wurde so zusammengestellt, dass sie Prestige, Leistung und zeitloses Design widerspiegelt.",
+    crafted_p1:
+      "AUTOLUX wurde mit einer einzigen Vision gegründet: die Vermietung von Luxusautos neu zu definieren, indem wir Fahrzeuge von Weltklasse mit einem Service auf Concierge-Niveau kombinieren. Wir richten uns an Menschen, die das Autofahren nicht als Notwendigkeit, sondern als Erlebnis betrachten.",
+    crafted: "Geschaffen für das Außergewöhnliche",
     who: "wer wir sind",
     acceuil: "Startseite",
     voitures: "Autos",
@@ -778,6 +1057,38 @@ export const translations = {
   },
 
   ru: {
+    locations: "Наши филиалы",
+    send: "Отправить сообщение",
+    message_placeholder: "Ваше сообщение",
+    subject_placeholder: "Тема",
+    email_placeholder: "Ваш e-mail",
+    name_placeholder: "Ваше имя",
+    reachp:
+      "Наша команда консьержей готова помочь вам с организацией аренды автомобиля представительского класса.",
+    reach: "Свяжитесь с нами",
+    touchp1:
+      "Наша команда консьержей готова помочь вам с организацией аренды премиального автомобиля.",
+    touchp: "Связаться с AUTOLUX",
+    touch: "Свяжитесь с нами",
+    experiencep:
+      "Откройте для себя новый стандарт роскошной мобильности, созданный специально для вашего образа жизни.",
+    experience: "Испытайте AUTOLUX",
+    performancep:
+      "Автомобили с безупречной инженерией, дарящие захватывающие эмоции в каждой поездке.",
+    performance: "Динамика",
+    trustp:
+      "Прозрачность, конфиденциальность и надежность лежат в основе всего, что мы делаем.",
+    trust: "Доверие",
+    exclusivep:
+      "Тщательно подобранный автопарк для клиентов, которые не согласны на меньшее, чем исключительность.",
+    exclusive: "Эксклюзивность",
+    define: "Что нас отличает",
+    our_values: "Наши ценности",
+    crafted_p2:
+      "От культовых суперкаров до утонченных гранд-туреров — наш автопарк подобран так, чтобы воплощать престиж, динамику и неподвластный времени дизайн.",
+    crafted_p1:
+      "Компания AUTOLUX была основана с единой целью: переосмыслить прокат роскошных автомобилей, сочетая машины мирового класса с обслуживанием уровня консьерж. Мы работаем для тех, кто воспринимает вождение не как необходимость, а как истинное удовольствие.",
+    crafted: "Создано для исключительных",
     who: "кто мы",
     acceuil: "Главная",
     voitures: "Авто",

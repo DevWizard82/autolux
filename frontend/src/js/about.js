@@ -64,6 +64,46 @@ function updateLanguage(language) {
   const nav_contact = document.getElementById("nav_contact");
 
   nav_contact.textContent = translations[language]["contact"];
+
+  document.getElementById("crafted").textContent =
+    translations[language]["crafted"];
+
+  document.getElementById("crafted_p1").textContent =
+    translations[language]["crafted_p1"];
+
+  document.getElementById("crafted_p2").textContent =
+    translations[language]["crafted_p2"];
+  document.getElementById("our_values").textContent =
+    translations[language]["our_values"];
+  document.getElementById("define").textContent =
+    translations[language]["define"];
+  document.getElementById("exclusive").textContent =
+    translations[language]["exclusive"];
+  document.getElementById("exclusivep").textContent =
+    translations[language]["exclusivep"];
+  document.getElementById("trust").textContent =
+    translations[language]["trust"];
+  document.getElementById("trustp").textContent =
+    translations[language]["trustp"];
+  document.getElementById("performance").textContent =
+    translations[language]["performance"];
+  document.getElementById("performancep").textContent =
+    translations[language]["performancep"];
+  document.getElementById("experience").textContent =
+    translations[language]["experience"];
+  document.getElementById("experiencep").textContent =
+    translations[language]["experiencep"];
+  if (language === "ar") {
+    document.getElementById("crafted").style.textAlign = "right";
+    document.getElementById("crafted_p1").style.textAlign = "right";
+    document.getElementById("crafted_p2").style.textAlign = "right";
+    ourStory.style.textAlign = "right";
+  } else {
+    document.getElementById("crafted").style.textAlign = "left";
+    document.getElementById("crafted_p1").style.textAlign = "left";
+    document.getElementById("crafted_p2").style.textAlign = "left";
+    ourStory.style.textAlign = "left";
+  }
 }
 
 // 1. Navbar Scroll Effect

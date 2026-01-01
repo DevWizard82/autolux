@@ -133,6 +133,13 @@
           <option value="en">🌍 EN</option>
           <option value="fr" selected>🌍 FR</option>
           <option value="ar">🌍 AR</option>
+          <option value="es">🌍 ES</option>
+          <option value="de">🌍 DE</option>
+          <option value="it">🌍 IT</option>
+          <option value="ru">🌍 RU</option>
+          <option value="zh">🌍 ZH</option>
+          <option value="ja">🌍 JA</option>
+          <option value="pt">🌍 PT</option>
         </select>
 
         <a href="cars.html" class="text-3xl font-serif">Fleet</a>
@@ -188,19 +195,22 @@
           <div class="reveal">
             <span
               id="our_story"
-              class="text-luxury-orange uppercase tracking-widest text-xs font-bold"
+              class="block text-luxury-orange uppercase tracking-widest text-base font-bold"
               >Our Story</span
             >
-            <h2 class="text-4xl md:text-5xl font-serif text-white mt-4 mb-8">
+            <h2
+              class="text-4xl md:text-5xl font-serif text-white mt-4 mb-8"
+              id="crafted"
+            >
               Crafted for the <span class="text-gradient">Exceptional</span>
             </h2>
-            <p class="text-gray-400 leading-relaxed mb-6">
+            <p class="text-gray-400 leading-relaxed mb-6" id="crafted_p1">
               AUTOLUX was founded with a singular vision: to redefine luxury car
               rentals by combining world-class vehicles with concierge-level
               service. We cater to individuals who see driving not as a
               necessity, but as an experience.
             </p>
-            <p class="text-gray-400 leading-relaxed">
+            <p class="text-gray-400 leading-relaxed" id="crafted_p2">
               From iconic supercars to refined grand tourers, our fleet is
               curated to reflect prestige, performance, and timeless design.
             </p>
@@ -225,10 +235,14 @@
       <div class="container mx-auto px-6">
         <div class="text-center mb-20">
           <span
-            class="text-luxury-gold uppercase tracking-widest text-xs font-bold"
+            id="our_values"
+            class="text-luxury-gold uppercase tracking-widest text-base font-bold"
             >Our Values</span
           >
-          <h2 class="text-4xl md:text-5xl font-serif text-white mt-4">
+          <h2
+            id="define"
+            class="text-4xl md:text-5xl font-serif text-white mt-4"
+          >
             What Defines Us
           </h2>
         </div>
@@ -238,8 +252,10 @@
             class="reveal bg-white/5 border border-white/10 rounded-2xl p-10 text-center"
           >
             <i class="fas fa-crown text-luxury-orange text-4xl mb-6"></i>
-            <h3 class="text-white font-serif text-xl mb-4">Exclusivity</h3>
-            <p class="text-gray-400 text-sm leading-relaxed">
+            <h3 class="text-white font-serif text-xl mb-4" id="exclusive">
+              Exclusivity
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed" id="exclusivep">
               A handpicked fleet reserved for clients who expect nothing less
               than the extraordinary.
             </p>
@@ -249,8 +265,8 @@
             class="reveal bg-white/5 border border-white/10 rounded-2xl p-10 text-center"
           >
             <i class="fas fa-handshake text-luxury-orange text-4xl mb-6"></i>
-            <h3 class="text-white font-serif text-xl mb-4">Trust</h3>
-            <p class="text-gray-400 text-sm leading-relaxed">
+            <h3 class="text-white font-serif text-xl mb-4" id="trust">Trust</h3>
+            <p class="text-gray-400 text-sm leading-relaxed" id="trustp">
               Transparency, discretion, and reliability are at the core of
               everything we do.
             </p>
@@ -260,8 +276,10 @@
             class="reveal bg-white/5 border border-white/10 rounded-2xl p-10 text-center"
           >
             <i class="fas fa-bolt text-luxury-orange text-4xl mb-6"></i>
-            <h3 class="text-white font-serif text-xl mb-4">Performance</h3>
-            <p class="text-gray-400 text-sm leading-relaxed">
+            <h3 class="text-white font-serif text-xl mb-4" id="performance">
+              Performance
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed" id="performancep">
               Precision-engineered vehicles that deliver thrilling experiences
               every time.
             </p>
@@ -272,8 +290,10 @@
 
     <!-- CTA -->
     <section class="py-32 bg-luxury-base text-center reveal">
-      <h2 class="text-5xl font-serif text-white mb-8">Experience AUTOLUX</h2>
-      <p class="text-gray-400 max-w-xl mx-auto mb-12">
+      <h2 class="text-5xl font-serif text-white mb-8" id="experience">
+        Experience AUTOLUX
+      </h2>
+      <p class="text-gray-400 max-w-xl mx-auto mb-12" id="experiencep">
         Discover a new standard of luxury mobility tailored to your lifestyle.
       </p>
       <a
@@ -283,7 +303,7 @@
         Explore the Fleet
       </a>
     </section>
-    
+
     <script type="module" src="./src/js/common.js"></script>
     <script src="./src/js/about.js" type="module"></script>
   </body>

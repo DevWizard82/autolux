@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getcars, getLocations } from "./api.js";
+import { toast } from "./toast.js";
 
 // Check if user is logged in
 const token = localStorage.getItem("token");
@@ -70,26 +71,27 @@ form.addEventListener("submit", async (e) => {
   const rental_end = document.getElementById("return-date").value;
 
   if (!car_id || !rental_start || !rental_end) {
-    alert("Veuillez remplir tous les champs.");
+    toast.error("Veuillez remplir tous les champs.");
     return;
   }
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   try {
     const res = await axios.post("http://localhost:3000/api/rentals", {
-      client_id: parseInt(localStorage.getItem("clientId")),
+      client_id: parseInt(user.id),
       car_id: parseInt(car_id),
       rental_start,
       rental_end,
     });
 
-    alert("Réservation confirmée !");
-    console.log(res.data);
+    toast.success("Réservation confirmée !");
     form.reset();
   } catch (err) {
     if (err.response) {
-      alert(`${err.response.data.error}`);
+      toast.error(`${err.response.data.error}`);
     } else {
-      alert("Erreur serveur");
+      toast.error("Erreur serveur");
     }
   }
 });

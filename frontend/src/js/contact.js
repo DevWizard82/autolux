@@ -81,6 +81,28 @@ function updateLanguage(language) {
   navFleet.forEach((el) => (el.textContent = translations[language]["fleet"]));
   navAbout.forEach((el) => (el.textContent = translations[language]["about"]));
   navLogin.forEach((el) => (el.textContent = translations[language]["login"]));
+
+  document.getElementById("touch").textContent =
+    translations[language]["touch"];
+  document.getElementById("touchp").textContent =
+    translations[language]["touchp"];
+  document.getElementById("touchp1").textContent =
+    translations[language]["touchp1"];
+  document.getElementById("reach").textContent =
+    translations[language]["reach"];
+  document.getElementById("reachp").textContent =
+    translations[language]["reachp"];
+  document.getElementById("name_placeholder").placeholder =
+    translations[language]["name_placeholder"];
+  document.getElementById("email_placeholder").placeholder =
+    translations[language]["email_placeholder"];
+  document.getElementById("subject_placeholder").placeholder =
+    translations[language]["subject_placeholder"];
+  document.getElementById("message_placeholder").placeholder =
+    translations[language]["message_placeholder"];
+  document.getElementById("send").textContent = translations[language]["send"];
+  document.getElementById("locations").textContent =
+    translations[language]["locations"];
 }
 
 // Quand l’utilisateur change la langue dans la sidebar
