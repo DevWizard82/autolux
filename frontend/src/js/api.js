@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:3000";
+export const BASE_URL = "http://localhost:3000";
 
 export async function getcars() {
   try {
@@ -15,7 +15,7 @@ export async function getcars() {
 export async function getmodels() {
   try {
     const response = await axios.get(`${BASE_URL}/api/models`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Error fetching models:", err);
     return [];
@@ -99,7 +99,7 @@ export async function getCarBody(modelname) {
     const response = await axios.get(
       `${BASE_URL}/api/car-parts/body/${modelname}`
     );
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Failed to fetch car parts:", err);
     return [];
@@ -111,7 +111,7 @@ export async function getCarStrip(modelname) {
     const response = await axios.get(
       `${BASE_URL}/api/car-parts/strip/${modelname}`
     );
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Failed to fetch car parts:", err);
     return [];
@@ -121,7 +121,7 @@ export async function getCarStrip(modelname) {
 export async function getAvailableColors(carId) {
   try {
     const response = await axios.get(`${BASE_URL}/api/colors/${carId}`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Failed to fetch car colors:", err);
     return [];
@@ -131,7 +131,7 @@ export async function getAvailableColors(carId) {
 export async function getTypes(carId) {
   try {
     const response = await axios.get(`${BASE_URL}/api/types/${carId}`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Failed to fetch car types:", err);
     return [];
@@ -141,7 +141,7 @@ export async function getTypes(carId) {
 export async function getColors(carId) {
   try {
     const response = await axios.get(`${BASE_URL}/api/colors/${carId}`);
-    return response.data;
+    return response.data.data;
   } catch (err) {
     console.error("Failed to fetch car types:", err);
     return [];
@@ -167,3 +167,28 @@ export async function getLocations() {
     return [];
   }
 }
+
+export const getRentalsList = async () => {
+  const res = await fetch(`${BASE_URL}/api/admin/rentals`);
+  return res.json();
+};
+
+export const getLocationsList = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/locations`);
+    return await res.json();
+  } catch (err) {
+    console.error("Fetch locations error", err);
+    return { data: [] };
+  }
+};
+
+export const getModelsList = async () => {
+  try {
+    const res = await fetch(`${BASE_URL}/api/models`);
+    return await res.json();
+  } catch (err) {
+    console.error("Fetch models error", err);
+    return { data: [] };
+  }
+};

@@ -8,6 +8,7 @@ import {
   getCarStrip,
   getTypes,
   getColors,
+  BASE_URL
 } from "./api.js";
 
 // --- SHOWROOM CLASS ---
@@ -216,6 +217,7 @@ class Car {
 
       this.model.traverse((node) => {
         if (node.isMesh) {
+          console.log("Loaded Mesh:", node.name);
           node.castShadow = true;
           node.receiveShadow = true;
         }
@@ -422,16 +424,33 @@ class Configurator {
 
   applyBodyColor(color) {
     console.log("Applying body color:", color);
+    // console.log("Expected Body Parts:", this.bodyParts.map(p => p.part_name));
 
     this.car.model.traverse((node) => {
-      if (
-        node.isMesh &&
-        this.bodyParts.some((p) => p.part_name === node.name)
-      ) {
-        node.material.color.set(color);
-        node.material.metalness = 0.1;
-        node.material.roughness = 0.25;
-        node.material.needsUpdate = true;
+      if (node.isMesh) {
+        // console.log("Checking mesh:", node.name);
+
+        // Relaxed matching: case-insensitive, trim
+        const isMatch = this.bodyParts.some((p) => {
+          const dbName = p.part_name.trim().toLowerCase();
+          const nodeName = node.name.trim().toLowerCase();
+          return dbName === nodeName || nodeName.includes(dbName);
+        });
+
+        if (isMatch) {
+          // console.log("Applying color to:", node.name);
+          // Clone material to avoid affecting other shared meshes if necessary
+          if (!node.userData.originalMaterial) {
+            node.userData.originalMaterial = node.material.clone();
+          }
+          // node.material = node.userData.originalMaterial.clone(); 
+          // Often better to just modify current if unique, but let's stick to simple set
+
+          node.material.color.set(color);
+          node.material.metalness = 0.1;
+          node.material.roughness = 0.25;
+          node.material.needsUpdate = true;
+        }
       }
     });
   }
@@ -482,11 +501,16 @@ class Configurator {
           circle.addEventListener("click", () => {
             // Apply color only to this trim part
             this.car.model.traverse((node) => {
-              if (node.isMesh && node.name === trimPart.part_name) {
-                node.material.color.set(c.color);
-                node.material.metalness = 1;
-                node.material.roughness = 0.2;
-                node.material.needsUpdate = true;
+              if (node.isMesh) {
+                const dbName = trimPart.part_name.trim().toLowerCase();
+                const nodeName = node.name.trim().toLowerCase();
+
+                if (dbName === nodeName || nodeName.includes(dbName)) {
+                  node.material.color.set(c.color);
+                  node.material.metalness = 1;
+                  node.material.roughness = 0.2;
+                  node.material.needsUpdate = true;
+                }
               }
             });
           });
@@ -519,11 +543,16 @@ class Configurator {
           circle.addEventListener("click", () => {
             // Apply color only to this trim part
             this.car.model.traverse((node) => {
-              if (node.isMesh && node.name === strip.part_name) {
-                node.material.color.set(c.color);
-                node.material.metalness = 1;
-                node.material.roughness = 0.2;
-                node.material.needsUpdate = true;
+              if (node.isMesh) {
+                const dbName = strip.part_name.trim().toLowerCase();
+                const nodeName = node.name.trim().toLowerCase();
+
+                if (dbName === nodeName || nodeName.includes(dbName)) {
+                  node.material.color.set(c.color);
+                  node.material.metalness = 1;
+                  node.material.roughness = 0.2;
+                  node.material.needsUpdate = true;
+                }
               }
             });
           });
@@ -565,10 +594,17 @@ class Configurator {
   const modelList = await getmodels();
   const modelData = modelList.find((m) => m.file_path === modelName);
 
+  if (!modelData) {
+    console.error("Model not found in database:", modelName);
+    alert("Model not found: " + modelName);
+    return;
+  }
+
   let scale = 1;
   if (modelData && modelData.scale_x) scale = modelData.scale_x;
 
-  const car = new Car(`/assets/models/${modelName}`, scale, modelName);
+  // Use BASE_URL to fetch from backend
+  const car = new Car(`${BASE_URL}/assets/models/${modelName}`, scale, modelName);
   await car.load(modelData);
   showroom.addCar(car);
 

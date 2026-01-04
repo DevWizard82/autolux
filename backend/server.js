@@ -6,6 +6,14 @@ import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -13,8 +21,88 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
+
+// Parse JSON & form data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Serve static files (images, css, js, etc.)
+app.use(express.static("public"));
+
+// --- MULTER CONFIGURATION ---
+
+// 1. Define the Upload Directory using process.cwd() (Project Root)
+// This fixes issues where __dirname might point to a 'src' or 'dist' subfolder
+const uploadDir = path.join(process.cwd(), "public/assets/images");
+
+// 2. Ensure directory exists
+if (!fs.existsSync(uploadDir)) {
+  console.log(`Creating directory: ${uploadDir}`);
+  fs.mkdirSync(uploadDir, { recursive: true });
+} else {
+  console.log(`Upload directory exists: ${uploadDir}`);
+}
+
+// 3. Serve the 'public' folder
+app.use(express.static("public"));
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname);
+    const filename = "car_" + uniqueSuffix + ext;
+    console.log(`Saving file: ${filename}`);
+    cb(null, filename);
+  },
+});
+
+const fileFilter = (req, file, cb) => {
+  const allowedTypes = /jpeg|jpg|png|webp/;
+  const extName = allowedTypes.test(
+    path.extname(file.originalname).toLowerCase()
+  );
+  const mimeType = allowedTypes.test(file.mimetype);
+
+  if (extName && mimeType) {
+    return cb(null, true);
+  } else {
+    cb(new Error("Only images (jpg, png, webp) are allowed!"));
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 5 * 1024 * 1024 }, // Increased to 5MB
+  fileFilter: fileFilter,
+});
+
+// --- MODEL MULTER CONFIGURATION ---
+const modelUploadDir = path.join(process.cwd(), "public/assets/models");
+
+if (!fs.existsSync(modelUploadDir)) {
+  console.log(`Creating directory: ${modelUploadDir}`);
+  fs.mkdirSync(modelUploadDir, { recursive: true });
+}
+
+const modelStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, modelUploadDir);
+  },
+  filename: (req, file, cb) => {
+    const ext = path.extname(file.originalname);
+    // Temp name, will be renamed in controller
+    const filename = "temp_model_" + Date.now() + ext;
+    cb(null, filename);
+  },
+});
+
+const uploadModel = multer({
+  storage: modelStorage,
+  limits: { fileSize: 50 * 1024 * 1024 }, // 50MB for 3D models
+});
 
 app.use("/api/auth", authRoutes);
 
@@ -143,14 +231,324 @@ app.get("/api/cars", async (req, res) => {
   }
 });
 
+const createMultilingualData = (text) => {
+  if (!text) return "{}";
+  const languages = [
+    "ar",
+    "de",
+    "en",
+    "es",
+    "fr",
+    "it",
+    "ja",
+    "pt",
+    "ru",
+    "zh",
+  ];
+  const obj = {};
+  languages.forEach((lang) => (obj[lang] = text.trim()));
+  return JSON.stringify(obj);
+};
+
+// CREATE (Robust Smart Logic)
+app.post("/api/cars", upload.single("image"), async (req, res) => {
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    const {
+      car_id_select,
+      name,
+      make,
+      price,
+      color,
+      vin,
+      mileage,
+      description,
+      location_text,
+    } = req.body;
+    const image = req.file ? req.file.filename : null;
+
+    let finalCarId = car_id_select;
+
+    // LOGIC: Determine if we need to CREATE a new model
+    // 1. User explicitly selected "Create New" ('NEW')
+    // 2. OR User didn't select anything (undefined) but provided Name & Make (Legacy/Fallback mode)
+    const shouldCreateNew =
+      finalCarId === "NEW" || (!finalCarId && name && make);
+
+    if (shouldCreateNew) {
+      // A. First, check if this model ALREADY exists to avoid duplicates
+      // (e.g. User typed "BMW M5" but forgot to select it from dropdown)
+      const checkExisting = await client.query(
+        "SELECT id FROM cars WHERE LOWER(make) = LOWER($1) AND LOWER(name) = LOWER($2)",
+        [make, name]
+      );
+
+      if (checkExisting.rows.length > 0) {
+        // Found it! Use existing ID
+        finalCarId = checkExisting.rows[0].id;
+      } else {
+        // B. Definitely New -> Insert into 'cars' table
+        const descJson = createMultilingualData(
+          description || `The ${make} ${name}`
+        );
+        const locJson = createMultilingualData(
+          location_text || "Casablanca, Rabat"
+        );
+
+        const nameStr = `${make} ${name}`;
+
+        const insertModel = await client.query(
+          `INSERT INTO cars (name, make, price, image, category, description, locations, created_at, updated_at)
+           VALUES ($1, $2, $3, $4, 'custom', $5, $6, NOW(), NOW())
+           RETURNING id`,
+          [nameStr, make, price, image, descJson, locJson]
+        );
+        finalCarId = insertModel.rows[0].id;
+      }
+    }
+
+    // SAFETY CHECK: If we still don't have an ID, stop here.
+    if (!finalCarId) {
+      throw new Error(
+        "Car Model ID is missing. Please select a model or provide Name/Make to create a new one."
+      );
+    }
+
+    // 2. Create the Physical Unit
+    await client.query(
+      `INSERT INTO car_units (car_id, color, vin, mileage, status, created_at)
+       VALUES ($1, $2, $3, $4, 'available', NOW())`,
+      [finalCarId, color, vin, mileage || 0]
+    );
+
+    await client.query("COMMIT");
+    res.status(201).json({ message: "Vehicle added successfully" });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("Create Car Error:", err);
+    res.status(500).json({ error: err.message });
+  } finally {
+    client.release();
+  }
+});
+// DELETE VEHICLE
+app.delete("/api/cars/:unitId", async (req, res) => {
+  const { unitId } = req.params;
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    // Get the unit to find the car_id
+    const unitRes = await client.query(
+      "SELECT car_id FROM car_units WHERE id = $1",
+      [unitId]
+    );
+
+    if (unitRes.rowCount === 0) {
+      await client.query("ROLLBACK");
+      return res.status(404).json({ error: "Vehicle not found" });
+    }
+
+    const carId = unitRes.rows[0].car_id;
+
+    // Delete the car unit
+    await client.query("DELETE FROM car_units WHERE id = $1", [unitId]);
+
+    // Check if there are any other units for this car
+    const otherUnitsRes = await client.query(
+      "SELECT COUNT(*) as count FROM car_units WHERE car_id = $1",
+      [carId]
+    );
+
+    // If no other units exist, optionally delete the car model too
+    if (parseInt(otherUnitsRes.rows[0].count) === 0) {
+      await client.query("DELETE FROM cars WHERE id = $1", [carId]);
+    }
+
+    await client.query("COMMIT");
+    res.json({ message: "Vehicle deleted successfully" });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  } finally {
+    client.release();
+  }
+});
+
 // ----- Models -----
 app.get("/api/models", async (req, res) => {
   try {
-    const result = await pool.query("SELECT * FROM models");
+    const result = await pool.query(`
+      SELECT m.*, c.name as car_name, c.make as car_make 
+      FROM models m 
+      JOIN cars c ON m.car_id = c.id 
+      ORDER BY m.id ASC
+    `);
     res.json({ message: "Models fetched successfully", data: result.rows });
   } catch (err) {
     console.error("Error fetching models:", err);
     res.status(500).json({ error: "Failed to fetch models" });
+  }
+});
+
+app.post("/api/models", uploadModel.single("file"), async (req, res) => {
+  const { car_id, scale_x, rot_y } = req.body;
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    // 1. Get Car Details for Naming
+    const carRes = await client.query("SELECT make, name FROM cars WHERE id = $1", [car_id]);
+    if (carRes.rowCount === 0) {
+      throw new Error("Car not found");
+    }
+    const { make, name } = carRes.rows[0];
+
+    // 2. Process File
+    let finalFileName = "";
+    if (req.file) {
+      const ext = path.extname(req.file.originalname);
+      // Construct new name: Make_Name.glb (sanitize spaces)
+      const sanitizedMake = make.replace(/\s+/g, "_");
+      const sanitizedName = name.replace(/\s+/g, "_");
+
+      // Avoid redundancy if Name starts with Make
+      if (sanitizedName.toLowerCase().startsWith(sanitizedMake.toLowerCase())) {
+        finalFileName = `${sanitizedName}${ext}`;
+      } else {
+        finalFileName = `${sanitizedMake}_${sanitizedName}${ext}`;
+      }
+
+      const oldPath = req.file.path;
+      const newPath = path.join(modelUploadDir, finalFileName);
+
+      // Rename file
+      fs.renameSync(oldPath, newPath);
+    } else {
+      throw new Error("File is required");
+    }
+
+    // 3. Insert into DB
+    const result = await client.query(
+      "INSERT INTO models (car_id, file_path, scale_x, rot_y) VALUES ($1, $2, $3, $4) RETURNING *",
+      [car_id, finalFileName, scale_x || 1.0, rot_y || 0.0]
+    );
+
+    await client.query("COMMIT");
+    // Return also car details so frontend table updates nicely
+    const newModel = result.rows[0];
+    newModel.car_make = make;
+    newModel.car_name = name;
+
+    res.status(201).json({ message: "Model created successfully", data: newModel });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    // Cleanup temp file if it exists and we failed
+    if (req.file && fs.existsSync(req.file.path)) {
+      try { fs.unlinkSync(req.file.path); } catch (e) { }
+    }
+    console.error(err);
+    res.status(500).json({ error: err.message || "Failed to create model" });
+  } finally {
+    client.release();
+  }
+});
+
+app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
+  const { id } = req.params;
+  const { car_id, scale_x, rot_y } = req.body;
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    console.log("Processing PUT model:", id, req.body, req.file);
+
+    // 1. Check if model exists
+    const modelCheck = await client.query("SELECT * FROM models WHERE id = $1", [id]);
+    if (modelCheck.rowCount === 0) {
+      throw new Error("Model not found");
+    }
+
+    // 2. Get Car Details (either from new car_id or existing)
+    const targetCarId = car_id || modelCheck.rows[0].car_id;
+    const carRes = await client.query("SELECT make, name FROM cars WHERE id = $1", [targetCarId]);
+    if (carRes.rowCount === 0) {
+      throw new Error("Car not found");
+    }
+    const { make, name } = carRes.rows[0];
+
+    // 3. Handle File Update
+    let finalFileName = modelCheck.rows[0].file_path;
+    if (req.file) {
+      const ext = path.extname(req.file.originalname);
+      // Construct new name
+      const sanitizedMake = make.replace(/\s+/g, "_");
+      const sanitizedName = name.replace(/\s+/g, "_");
+
+      // Avoid redundancy
+      if (sanitizedName.toLowerCase().startsWith(sanitizedMake.toLowerCase())) {
+        finalFileName = `${sanitizedName}${ext}`;
+      } else {
+        finalFileName = `${sanitizedMake}_${sanitizedName}${ext}`;
+      }
+
+      const oldPath = req.file.path;
+      const newPath = path.join(modelUploadDir, finalFileName);
+
+      // Delete old file if it exists and is different? 
+      // Safe to overwrite or we implement smarter cleanup later.
+      // For now, if we are renaming, we just move the temp file to the new name.
+      fs.renameSync(oldPath, newPath);
+    }
+    // If no file uploaded, IF the car changed, we *could* rename the existing file, 
+    // but the requirement said "file_path when added or edited it should be... downloaded... and name should be Model name".
+    // It's safer to only rename if a new file is uploaded OR (optional polish) if we really want to keep filenames synced with car names always.
+    // For now, let's assume we rename only if a file is provided or stick to the existing one.
+    // BUT the prompt says "file_path when added or edited ... should be Model name".
+    // If user changes Car from "Porsche" to "BMW" but keeps same file (rare), we might want to rename it. 
+    // Let's stick to: If file is uploaded, rename it. If not, keep old path.
+
+    // 4. Update DB
+    const result = await client.query(
+      "UPDATE models SET car_id = $1, file_path = $2, scale_x = $3, rot_y = $4 WHERE id = $5 RETURNING *",
+      [targetCarId, finalFileName, scale_x, rot_y, id]
+    );
+
+    await client.query("COMMIT");
+
+    // helper to return full data
+    const updatedModel = result.rows[0];
+    updatedModel.car_make = make;
+    updatedModel.car_name = name;
+
+    res.json({ message: "Model updated successfully", data: updatedModel });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    if (req.file && fs.existsSync(req.file.path)) {
+      try { fs.unlinkSync(req.file.path); } catch (e) { }
+    }
+    console.error(err);
+    res.status(500).json({ error: err.message || "Failed to update model" });
+  } finally {
+    client.release();
+  }
+});
+
+app.delete("/api/models/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("DELETE FROM models WHERE id = $1", [id]);
+    if (result.rowCount === 0) return res.status(404).json({ error: "Model not found" });
+    res.json({ message: "Model deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete model" });
   }
 });
 
@@ -226,7 +624,7 @@ app.get("/api/types/:carId", async (req, res) => {
 app.get("/api/locations", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT city_name, map_embed_url FROM locations ORDER BY city_name ASC"
+      "SELECT id, city_name, map_embed_url FROM locations ORDER BY city_name ASC"
     );
     res.json({ message: "Locations fetched successfully", data: result.rows });
   } catch (err) {
@@ -276,11 +674,129 @@ app.get("/api/clients", async (req, res) => {
   }
 });
 
+// add a new client
+
+// Create a New Client
+app.post("/api/clients", async (req, res) => {
+  const { first_name, last_name, email, phone } = req.body;
+
+  try {
+    const userCheck = await pool.query(
+      "SELECT * FROM clients WHERE email = $1",
+      [email]
+    );
+    if (userCheck.rows.length > 0) {
+      return res
+        .status(400)
+        .json({ error: "User with this email already exists" });
+    }
+
+    const saltRounds = 10;
+    const defaultPassword = "123456";
+    const hashedPassword = await bcrypt.hash(defaultPassword, saltRounds);
+
+    const query = `
+      INSERT INTO clients (first_name, last_name, email, phone, password_hash, role)
+      VALUES ($1, $2, $3, $4, $5, 'client')
+      RETURNING *;
+    `;
+
+    const result = await pool.query(query, [
+      first_name,
+      last_name,
+      email,
+      phone,
+      hashedPassword,
+    ]);
+
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error("Error creating client:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Update a client by ID
+app.put("/api/clients/:id", async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name, email, phone } = req.body;
+
+  try {
+    // 1. Check if the user exists first (optional but good practice)
+    const checkUser = await pool.query("SELECT * FROM clients WHERE id = $1", [
+      id,
+    ]);
+    if (checkUser.rows.length === 0) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    // 2. Perform the update
+    // We use COALESCE to keep existing values if the new field is empty/null
+    const query = `
+      UPDATE clients 
+      SET first_name = COALESCE($1, first_name), 
+          last_name = COALESCE($2, last_name), 
+          email = COALESCE($3, email), 
+          phone = COALESCE($4, phone)
+      WHERE id = $5
+      RETURNING *;
+    `;
+
+    const result = await pool.query(query, [
+      first_name,
+      last_name,
+      email,
+      phone,
+      id,
+    ]);
+
+    res.json({
+      success: true,
+      message: "Client updated successfully",
+      data: result.rows[0],
+    });
+  } catch (err) {
+    console.error("Error updating client:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// Delete a client by ID
+app.delete("/api/clients/:id", async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // 1. Perform the delete operation
+    const result = await pool.query(
+      "DELETE FROM clients WHERE id = $1 RETURNING *",
+      [id]
+    );
+
+    // 2. Check if a row was actually deleted
+    if (result.rowCount === 0) {
+      return res.status(404).json({ error: "Client not found" });
+    }
+
+    res.json({ success: true, message: "Client deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting client:", err);
+
+    // Check for foreign key violation (e.g., user has active rentals)
+    if (err.code === "23503") {
+      return res.status(400).json({
+        error: "Cannot delete client: They have active rentals or history.",
+      });
+    }
+
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 // 2. GET FLEET DETAILS
 app.get("/api/fleet", async (req, res) => {
   try {
     const result = await pool.query(`
-      SELECT u.id, u.vin, u.color, c.name, c.make, c.price, u.status
+      SELECT u.id, u.vin, u.color, c.name, c.make, c.price, c.image, u.status, u.car_id
       FROM car_units u
       JOIN cars c ON u.car_id = c.id
       ORDER BY u.id ASC
@@ -289,6 +805,95 @@ app.get("/api/fleet", async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Failed to fetch fleet" });
+  }
+});
+
+// UPDATE CAR UNIT
+app.put("/api/cars/:unitId", upload.single("image"), async (req, res) => {
+  const { unitId } = req.params;
+  const { color, vin, status } = req.body;
+
+  try {
+    // Get current car_id and image
+    const currentCar = await pool.query(
+      "SELECT car_id, c.image FROM car_units cu JOIN cars c ON cu.car_id = c.id WHERE cu.id = $1",
+      [unitId]
+    );
+
+    if (currentCar.rowCount === 0) {
+      return res.status(404).json({ error: "Vehicle not found" });
+    }
+
+    const carId = currentCar.rows[0].car_id;
+    const image = req.file ? req.file.filename : currentCar.rows[0].image;
+
+    // Update car_units with unit-specific data
+    await pool.query(
+      "UPDATE car_units SET color = $1, vin = $2, status = $3 WHERE id = $4",
+      [color, vin, status, unitId]
+    );
+
+    // Update cars table with image if provided
+    if (req.file) {
+      await pool.query("UPDATE cars SET image = $1 WHERE id = $2", [
+        image,
+        carId,
+      ]);
+    }
+
+    res.json({ message: "Vehicle updated successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/api/locations", async (req, res) => {
+  const { city_name, map_embed_url } = req.body;
+  try {
+    const result = await pool.query(
+      "INSERT INTO locations (city_name, map_embed_url) VALUES ($1, $2) RETURNING *",
+      [city_name, map_embed_url]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to create location" });
+  }
+});
+
+app.put("/api/locations/:id", async (req, res) => {
+  const { id } = req.params;
+  const { city_name, map_embed_url } = req.body;
+  try {
+    const result = await pool.query(
+      "UPDATE locations SET city_name = $1, map_embed_url = $2 WHERE id = $3 RETURNING *",
+      [city_name, map_embed_url, id]
+    );
+    if (result.rowCount === 0)
+      return res.status(404).json({ error: "Location not found" });
+    res.json({
+      message: "Location updated successfully",
+      data: result.rows[0],
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to update location" });
+  }
+});
+
+app.delete("/api/locations/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query("DELETE FROM locations WHERE id = $1", [
+      id,
+    ]);
+    if (result.rowCount === 0)
+      return res.status(404).json({ error: "Location not found" });
+    res.json({ message: "Location deleted successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to delete location" });
   }
 });
 
@@ -450,6 +1055,92 @@ app.post("/api/rentals", async (req, res) => {
     res.status(500).json({ error: err.message || "Failed to process booking" });
   } finally {
     client.release();
+  }
+});
+
+// 1. GET ALL RENTALS (Detailed)
+app.get("/api/admin/rentals", async (req, res) => {
+  try {
+    const query = `
+      SELECT 
+        r.id, 
+        r.rental_start, 
+        r.rental_end, 
+        r.status, 
+        r.price, 
+        r.created_at,
+        c.first_name, 
+        c.last_name, 
+        c.email,
+        ca.name as car_name, 
+        ca.make as car_make,
+        ca.image as car_image,
+        cu.vin
+      FROM rentals r
+      JOIN clients c ON r.client_id = c.id
+      JOIN car_units cu ON r.car_id = cu.id
+      JOIN cars ca ON cu.car_id = ca.id
+      ORDER BY r.created_at DESC
+    `;
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch rentals" });
+  }
+});
+
+// 2. UPDATE RENTAL STATUS (Edit)
+app.put("/api/rentals/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body; // e.g., 'active', 'completed', 'cancelled'
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    // Update Rental
+    await client.query("UPDATE rentals SET status = $1 WHERE id = $2", [
+      status,
+      id,
+    ]);
+
+    // If cancelled or completed, free up the car unit
+    if (status === "cancelled" || status === "completed") {
+      // Find the car unit associated with this rental
+      const rentalRes = await client.query(
+        "SELECT car_id FROM rentals WHERE id = $1",
+        [id]
+      );
+      if (rentalRes.rows.length > 0) {
+        const unitId = rentalRes.rows[0].car_id;
+        await client.query(
+          "UPDATE car_units SET status = 'available' WHERE id = $1",
+          [unitId]
+        );
+      }
+    }
+
+    await client.query("COMMIT");
+    res.json({ success: true, message: "Rental status updated" });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error(err);
+    res.status(500).json({ error: "Update failed" });
+  } finally {
+    client.release();
+  }
+});
+
+// 3. DELETE RENTAL
+app.delete("/api/rentals/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    await pool.query("DELETE FROM rentals WHERE id = $1", [id]);
+    res.json({ success: true, message: "Rental record deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Delete failed" });
   }
 });
 
