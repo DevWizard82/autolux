@@ -52,6 +52,9 @@ function updateNavbarUser() {
                     <p class="dropdown-email">${email}</p>
                 </div>
                 <div class="dropdown-body">
+                    <a href="profile.html" class="dropdown-item">
+                        <i class="fa-solid fa-user"></i> My Profile
+                    </a>
                     <button class="dropdown-item logout" onclick="handleLogout()">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
                     </button>

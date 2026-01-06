@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Profile - AUTOLUX</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        luxury: {
+                            base: "#0d1115",
+                            navy: "#0f1a2b",
+                            orange: "#FFA500",
+                            gold: "#D4AF37",
+                        },
+                    },
+                    fontFamily: {
+                        sans: ["Montserrat", "sans-serif"],
+                        serif: ["Playfair Display", "serif"],
+                    },
+                    backgroundImage: {
+                        "gradient-luxury": "linear-gradient(135deg, #FFA500 0%, #D4AF37 100%)",
+                        "gradient-luxury-hover": "linear-gradient(135deg, #D4AF37 0%, #FFA500 100%)",
+                        "gradient-dark": "linear-gradient(to bottom, #0d1115, #0f1a2b)",
+                    },
+                },
+            },
+        };
+    </script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="./src/css/index.css" />
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+            background-color: #0d1115;
+            color: #f3f4f6;
+        }
+
+        .glass-card {
+            background: rgba(13, 17, 23, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        /* FIXED: Changed from .nav-tab to .sidebar-link to match your HTML */
+        .sidebar-link.active {
+            background-color: rgba(212, 175, 55, 0.1);
+            /* Low opacity gold bg */
+            color: #D4AF37;
+            /* luxury-gold */
+            border-right: 3px solid #D4AF37;
+            /* Right border indicator */
+        }
+
+        .sidebar-link {
+            border-right: 3px solid transparent;
+            /* Placeholder for layout stability */
+            color: #f3f4f6;
+            /* Ensure text is visible */
+            width: 100%;
+            /* Force width */
+        }
+
+        .sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+            color: #D4AF37;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-luxury-base text-gray-200 min-h-screen flex flex-col selection:bg-luxury-gold selection:text-black relative">
+
+    <!-- Background Gradients (Matches index.html) -->
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <div class="absolute inset-0 bg-gradient-to-b from-luxury-base/60 via-luxury-base/40 to-luxury-base"></div>
+        <div
+            class="absolute bottom-0 right-0 w-2/3 h-1/2 bg-gradient-to-t from-luxury-navy/80 to-transparent mix-blend-overlay">
+        </div>
+    </div>
+
+    <!-- Navbar (Simplified) -->
+    <header class="bg-[#0d1115]/80 backdrop-blur-md border-b border-white/5 sticky top-0 z-50 relative">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <img src="./public/assets/images/ss.png" alt="AUTOLUX"
+                    class="h-8 brightness-0 invert opacity-80 group-hover:opacity-100 transition" />
+            </a>
+            <div class="flex items-center gap-6">
+                <!-- Language Selector -->
+                <select id="user-language-selector"
+                    class="bg-[#0d1115] text-gray-300 text-sm rounded border border-white/10 px-3 py-1.5 focus:border-luxury-gold outline-none hover:border-white/30 transition cursor-pointer">
+                    <option value="en">🇺🇸 EN</option>
+                    <option value="fr">🇫🇷 FR</option>
+                    <option value="ar">🇲🇦 AR</option>
+                    <option value="de">🇩🇪 DE</option>
+                    <option value="it">🇮🇹 IT</option>
+                    <option value="pt">🇵🇹 PT</option>
+                    <option value="es">🇪🇸 ES</option>
+                    <option value="ru">🇷🇺 RU</option>
+                    <option value="ja">🇯🇵 JA</option>
+                    <option value="zh">🇨🇳 ZH</option>
+                </select>
+                <a href="index.html"
+                    class="text-sm text-gray-400 hover:text-luxury-gold transition flex items-center gap-2 font-medium tracking-wide">
+                    <i class="fa-solid fa-arrow-left"></i> <span data-i18n="back_home">Back to Home</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex-grow container mx-auto px-4 py-12 flex flex-col md:flex-row gap-12 relative z-10">
+
+        <!-- Fixed Sidebar -->
+        <aside class="w-full md:w-72 flex-shrink-0 sticky top-32 h-fit space-y-6">
+
+            <div class="glass-card rounded-xl p-8 flex flex-col items-center border border-luxury-gold/10">
+                <div
+                    class="w-24 h-24 rounded-full bg-gradient-to-br from-[#FFA500] to-[#D4AF37] p-[2px] shadow-[0_0_20px_rgba(212,175,55,0.3)] mb-4">
+                    <div class="w-full h-full rounded-full bg-[#0d1115] flex items-center justify-center text-3xl font-serif font-bold text-luxury-gold"
+                        id="profile-avatar">
+                    </div>
+                </div>
+                <h2 class="text-xl font-serif font-bold text-white tracking-wide text-center" id="profile-name">
+                    Loading...</h2>
+                <p class="text-sm text-gray-400 mt-1 text-center" id="profile-email">...</p>
+            </div>
+
+            <div class="glass-card rounded-xl border border-luxury-gold/10 py-2 relative z-10">
+                <nav class="flex flex-col">
+                    <button onclick="window.switchTab('settings')" id="tab-settings"
+                        class="sidebar-link w-full text-left px-6 py-4 transition-all duration-300 flex items-center gap-4 text-sm font-medium tracking-wide active">
+                        <i class="fa-solid fa-user-gear text-lg w-6 text-center"></i>
+                        <span data-i18n="profile_settings">Settings</span>
+                    </button>
+
+                    <button onclick="window.switchTab('orders')" id="tab-orders"
+                        class="sidebar-link w-full text-left px-6 py-4 transition-all duration-300 flex items-center gap-4 text-sm font-medium tracking-wide">
+                        <i class="fa-solid fa-clock-rotate-left text-lg w-6 text-center"></i>
+                        <span data-i18n="order_history">Order History</span>
+                    </button>
+
+                    <div class="h-px bg-white/5 my-2 mx-4"></div>
+
+                    <button onclick="window.logout()"
+                        class="w-full text-left px-6 py-4 hover:bg-red-900/20 text-red-400 hover:text-red-300 transition-all duration-300 flex items-center gap-4 text-sm font-medium tracking-wide">
+                        <i class="fa-solid fa-arrow-right-from-bracket text-lg w-6 text-center"></i>
+                        <span data-i18n="logout">Logout</span>
+                    </button>
+                </nav>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-grow min-w-0">
+
+            <!-- Settings Section -->
+            <section id="content-settings" class="space-y-8 animate-fade-in">
+                <div
+                    class="glass-card rounded-xl p-8 md:p-10 border border-white/5 hover:border-luxury-gold/20 transition duration-500">
+                    <h1 class="text-3xl font-serif font-bold text-luxury-gold mb-8 border-b border-white/5 pb-4 flex items-center gap-3"
+                        data-i18n="profile_info">
+                        Profile Information
+                    </h1>
+
+                    <form id="profile-form" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="block text-xs uppercase tracking-widest text-[#D4AF37]/80 font-bold"
+                                    data-i18n="first_name">First Name</label>
+                                <input type="text" id="inp-firstname"
+                                    class="w-full bg-[#0d1115] border border-white/10 rounded-lg px-4 py-3 outline-none focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/50 transition text-white placeholder-gray-600" />
+                            </div>
+                            <div class="space-y-2">
+                                <label class="block text-xs uppercase tracking-widest text-[#D4AF37]/80 font-bold"
+                                    data-i18n="last_name">Last Name</label>
+                                <input type="text" id="inp-lastname"
+                                    class="w-full bg-[#0d1115] border border-white/10 rounded-lg px-4 py-3 outline-none focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/50 transition text-white placeholder-gray-600" />
+                            </div>
+                            <div class="md:col-span-2 space-y-2">
+                                <label class="block text-xs uppercase tracking-widest text-[#D4AF37]/80 font-bold"
+                                    data-i18n="email">Email Address</label>
+                                <input type="email" id="inp-email"
+                                    class="w-full bg-[#0d1115] border border-white/10 rounded-lg px-4 py-3 outline-none focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/50 transition text-white placeholder-gray-600" />
+                            </div>
+                        </div>
+                        <div class="flex justify-end pt-4">
+                            <button type="submit"
+                                class="bg-gradient-luxury text-[#0d1115] px-8 py-3 rounded-full font-bold uppercase tracking-widest text-sm hover:shadow-[0_0_20px_rgba(212,175,55,0.4)] transition-all duration-300 transform hover:-translate-y-0.5"
+                                data-i18n="save_changes">
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div
+                    class="glass-card rounded-xl p-8 md:p-10 border border-white/5 hover:border-luxury-gold/20 transition duration-500">
+                    <h1 class="text-3xl font-serif font-bold text-luxury-gold mb-8 border-b border-white/5 pb-4"
+                        data-i18n="security">Security</h1>
+
+                    <form id="password-form" class="space-y-8">
+                        <div class="space-y-6">
+                            <div class="space-y-2">
+                                <label class="block text-xs uppercase tracking-widest text-[#D4AF37]/80 font-bold"
+                                    data-i18n="current_password">Current Password</label>
+                                <input type="password" id="inp-old-pass"
+                                    class="w-full bg-[#0d1115] border border-white/10 rounded-lg px-4 py-3 outline-none focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/50 transition text-white placeholder-gray-600" />
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-2">
+                                    <label class="block text-xs uppercase tracking-widest text-[#D4AF37]/80 font-bold"
+                                        data-i18n="new_password">New Password</label>
+                                    <input type="password" id="inp-new-pass"
+                                        class="w-full bg-[#0d1115] border border-white/10 rounded-lg px-4 py-3 outline-none focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/50 transition text-white placeholder-gray-600" />
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="block text-xs uppercase tracking-widest text-[#D4AF37]/80 font-bold"
+                                        data-i18n="confirm_password">Confirm Password</label>
+                                    <input type="password" id="inp-confirm-pass"
+                                        class="w-full bg-[#0d1115] border border-white/10 rounded-lg px-4 py-3 outline-none focus:border-luxury-gold focus:ring-1 focus:ring-luxury-gold/50 transition text-white placeholder-gray-600" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div id="password-feedback" class="text-sm font-medium hidden"></div>
+
+                        <div class="flex justify-end pt-4">
+                            <button type="submit"
+                                class="border border-white/20 hover:border-luxury-gold text-white hover:text-luxury-gold px-8 py-3 rounded-full font-bold uppercase tracking-widest text-sm transition-all duration-300"
+                                data-i18n="update_password">
+                                Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Orders Section -->
+            <section id="content-orders" class="space-y-8 hidden animate-fade-in">
+                <div
+                    class="glass-card rounded-xl p-8 md:p-10 border border-white/5 hover:border-luxury-gold/20 transition duration-500">
+                    <div
+                        class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 border-b border-white/5 pb-6 gap-4">
+                        <h1 class="text-3xl font-serif font-bold text-luxury-gold" data-i18n="my_rentals">My Rentals
+                        </h1>
+                        <button onclick="window.exportCSV()"
+                            class="text-xs bg-[#0d1115] hover:bg-white/5 border border-white/10 hover:border-luxury-gold text-white px-5 py-2.5 rounded-full transition-all duration-300 flex items-center gap-2 uppercase tracking-wide font-bold">
+                            <i class="fa-solid fa-file-csv text-green-500 text-lg"></i> <span
+                                data-i18n="export_csv">Export CSV</span>
+                        </button>
+                    </div>
+
+                    <div class="overflow-x-auto rounded-lg border border-white/5">
+                        <table class="w-full text-left text-sm text-gray-300">
+                            <thead class="bg-white/5 text-xs uppercase text-luxury-gold font-bold tracking-wider">
+                                <tr>
+                                    <th class="px-6 py-4" data-i18n="vehicle">Vehicle</th>
+                                    <th class="px-6 py-4" data-i18n="dates">Dates</th>
+                                    <th class="px-6 py-4" data-i18n="total_price">Total</th>
+                                    <th class="px-6 py-4" data-i18n="status">Status</th>
+                                    <th class="px-6 py-4 text-right" data-i18n="actions">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="orders-table-body" class="divide-y divide-white/5">
+                                <!-- JS Injected -->
+                                <tr>
+                                    <td colspan="5" class="px-6 py-8 text-center text-gray-500 italic">Thinking...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script type="module" src="./src/js/profile.js"></script>
+    <script src="./src/js/toast.js" type="module"></script>
+</body>
+
+</html>

@@ -1,4 +1,4 @@
-import { getLocations } from "./api.js";
+import { getGroupedLocations } from "./api.js";
 import { translations } from "./translations.js";
 import axios from "axios";
 
@@ -20,6 +20,10 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   const mapContainer = document.getElementById("map-container");
 
+  // Clear container initially (remove any static content if present)
+  mapContainer.innerHTML = '';
+  mapContainer.className = "w-full sm:w-3/4 flex flex-col gap-6 mt-6 reveal"; // Modified container class for stacking
+
   // Create select dynamically
   const select = document.createElement("select");
   select.id = "location-select";
@@ -28,41 +32,57 @@ window.addEventListener("DOMContentLoaded", async () => {
 
   mapContainer.parentNode.insertBefore(select, mapContainer);
 
-  // Create iframe for the map
-  const mapIframe = document.createElement("iframe");
-  mapIframe.id = "map-iframe";
-  mapIframe.className = "w-full h-full border-0";
-  mapIframe.allowFullscreen = true;
-  mapIframe.loading = "lazy";
-  mapIframe.referrerPolicy = "no-referrer-when-downgrade";
+  const renderMaps = (locationsList) => {
+    mapContainer.innerHTML = ''; // Clear previous maps
 
-  mapContainer.appendChild(mapIframe);
+    if (!locationsList || locationsList.length === 0) {
+      mapContainer.innerHTML = '<p class="text-gray-400 text-center">No map available for this location.</p>';
+      return;
+    }
+
+    locationsList.forEach(loc => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "w-full h-80 rounded-3xl overflow-hidden shadow-2xl border border-white/10 relative";
+
+      const iframe = document.createElement("iframe");
+      iframe.className = "w-full h-full border-0";
+      iframe.allowFullscreen = true;
+      iframe.loading = "lazy";
+      iframe.referrerPolicy = "no-referrer-when-downgrade";
+      iframe.src = loc.map_embed_url;
+
+      wrapper.appendChild(iframe);
+      mapContainer.appendChild(wrapper);
+    });
+  };
 
   try {
-    // Fetch locations from backend
-    const locations = await getLocations();
+    // Fetch grouped locations from backend
+    const groupedCities = await getGroupedLocations();
 
-    // Populate select options
-    locations.forEach((loc, idx) => {
+    // Populate select options with City Names
+    groupedCities.forEach((cityGroup, idx) => {
       const option = document.createElement("option");
-      option.value = loc.city_name;
-      option.textContent = loc.city_name;
+      option.value = idx; // Store index to easily retrieve object from array
+      option.textContent = cityGroup.city_name;
       select.appendChild(option);
 
-      // Set first location as default
-      if (idx === 0) mapIframe.src = loc.map_embed_url;
+      // Set first city as default
+      if (idx === 0) renderMaps(cityGroup.locations);
     });
 
-    // Change map when selecting a city
+    // Change maps when selecting a city
     select.addEventListener("change", (e) => {
-      const selected = locations.find(
-        (loc) => loc.city_name === e.target.value
-      );
-      if (selected) mapIframe.src = selected.map_embed_url;
+      const selectedIndex = e.target.value;
+      const selectedCity = groupedCities[selectedIndex];
+      if (selectedCity) {
+        renderMaps(selectedCity.locations);
+      }
     });
+
   } catch (error) {
     console.error("Error fetching locations:", error);
-    mapIframe.src = ""; // optional fallback
+    mapContainer.innerHTML = '<p class="text-red-400 text-center">Failed to load locations.</p>';
   }
 });
 

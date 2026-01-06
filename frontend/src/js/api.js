@@ -64,6 +64,16 @@ export async function getRentalsCount() {
   }
 }
 
+export async function getLocationsCount() {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/locations/count`);
+    return response.data.data[0].count;
+  } catch (err) {
+    console.error("Failed to fetch locations count:", err);
+    return 0;
+  }
+}
+
 export async function getRevenue() {
   try {
     const response = await axios.get(`${BASE_URL}/api/revenue`);
@@ -164,6 +174,26 @@ export async function getLocations() {
     return response.data.data;
   } catch (err) {
     console.error("Failed to fetch showroom locations:", err);
+    return [];
+  }
+}
+
+export async function getCities() {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/cities`);
+    return response.data.data;
+  } catch (err) {
+    console.error("Failed to fetch showroom cities:", err);
+    return [];
+  }
+}
+
+export async function getGroupedLocations() {
+  try {
+    const response = await axios.get(`${BASE_URL}/api/locations/grouped`);
+    return response.data.data;
+  } catch (err) {
+    console.error("Failed to fetch grouped locations:", err);
     return [];
   }
 }

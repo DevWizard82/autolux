@@ -1,9 +1,11 @@
+// ... imports
 import {
   getCarsCount,
   getClientsCount,
   getRentalsCount,
   getRevenue,
   getAvailableCars,
+  getLocationsCount, // NEW
   getClientsList,
   getFleetList,
   getRentalsList,
@@ -11,6 +13,11 @@ import {
   getModelsList,
   getcars,
 } from "./api.js";
+
+// ...
+
+
+import { translations } from "./translations.js";
 
 import { toast } from "./toast.js";
 
@@ -30,15 +37,17 @@ class SettingsManager {
     const lastName = user.last_name || "";
     const email = user.email || "";
 
+    const t = translations[window.app?.language || "en"]?.admin || translations.en.admin;
+
     return `
       <div class="p-8 max-w-6xl mx-auto space-y-8 animate-fade-in">
         <div class="flex justify-between items-center border-b border-gray-700 pb-6">
           <div>
-            <h2 class="text-2xl font-bold text-cyan-400">Settings</h2>
+            <h2 class="text-2xl font-bold text-cyan-400">${t.settings}</h2>
             <p class="text-gray-400 text-sm mt-1">Manage your account and system preferences</p>
           </div>
           <button id="save-settings-btn" class="bg-cyan-600 hover:bg-cyan-500 text-white px-6 py-2 rounded-lg font-medium transition shadow-lg shadow-cyan-500/20 flex items-center">
-            Save Changes
+            ${t.save_changes}
           </button>
         </div>
 
@@ -429,55 +438,63 @@ class KPIManager {
   constructor() {
     this.kpis = [
       {
-        title: "Total Cars",
+        title: translations[window.app?.language || "en"]?.admin?.total_cars || "Total Cars",
         value: "...",
-        description: "In Fleet",
+        description: translations[window.app?.language || "en"]?.admin?.in_fleet || "In Fleet",
         iconPath:
           "M19 17h2c.6 0 1-.4 1-1v-3c0-.6-.4-1-1-1h-1.4M2 17h3l2.6-6.3c.4-.9 1.1-1.4 2.1-1.4h6.6c1 0 1.7.5 2.1 1.4L19 17M5 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM15 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0z",
         color: "cyan",
       },
       {
-        title: "Total Clients",
+        title: translations[window.app?.language || "en"]?.admin?.total_clients || "Total Clients",
         value: "...",
-        description: "Registered Users",
+        description: translations[window.app?.language || "en"]?.admin?.registered_users || "Registered Users",
         iconPath:
           "M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
         color: "green",
       },
       {
-        title: "Active Rentals",
+        title: translations[window.app?.language || "en"]?.admin?.active_rentals || "Active Rentals",
         value: "...",
-        description: "Currently on the road",
+        description: translations[window.app?.language || "en"]?.admin?.on_road || "Currently on the road",
         iconPath:
           "M21 2l-6.5 6.5a4 4 0 1 0 4 4L22 7.5zm-5 5-2 2M15 19a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
         color: "amber",
       },
       {
-        title: "Revenue This Year",
+        title: translations[window.app?.language || "en"]?.admin?.revenue_year || "Revenue This Year",
         value: "...",
-        description: "Real-time earnings summary",
+        description: translations[window.app?.language || "en"]?.admin?.earnings_summary || "Real-time earnings summary",
         iconPath:
           "M12 1v22M17 5H7c-2.2 0-4 1.8-4 4s1.8 4 4 4h10c2.2 0 4 1.8 4 4s-1.8 4-4 4H7",
         color: "rose",
       },
       {
-        title: "Available Cars",
+        title: translations[window.app?.language || "en"]?.admin?.available_cars || "Available Cars",
         value: "...",
-        description: "Ready for booking",
+        description: translations[window.app?.language || "en"]?.admin?.ready_booking || "Ready for booking",
         iconPath: "M22 11.08V12a10 10 0 1 1-5.93-8.5M22 4L12 14.01l-3-3",
         color: "teal",
+      },
+      {
+        title: translations[window.app?.language || "en"]?.admin?.total_locations || "Total Locations", // NEW
+        value: "...",
+        description: translations[window.app?.language || "en"]?.admin?.global_presence || "Global presence",
+        iconPath: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
+        color: "indigo",
       },
     ];
   }
 
   async fetchData() {
     try {
-      const [cars, clients, rentals, revenue, available] = await Promise.all([
+      const [cars, clients, rentals, revenue, available, locations] = await Promise.all([
         getCarsCount(),
         getClientsCount(),
         getRentalsCount(),
         getRevenue(),
         getAvailableCars(),
+        getLocationsCount(), // NEW
       ]);
 
       this.kpis[0].value = cars;
@@ -488,6 +505,7 @@ class KPIManager {
         maximumFractionDigits: 1,
       }).format(revenue)} €`;
       this.kpis[4].value = available;
+      this.kpis[5].value = locations; // NEW
     } catch (err) {
       console.error("API Error:", err);
       this.kpis[0].value = "Err";
@@ -501,12 +519,10 @@ class KPIManager {
             <div class="flex flex-col p-5 bg-gray-800 rounded-xl shadow-lg hover:shadow-cyan-500/30 transition-shadow duration-300 transform hover:scale-[1.01] border border-gray-700/50">
               <div class="flex items-start justify-between">
                 <div>
-                  <p class="text-sm font-medium text-gray-400 mb-1">${
-                    kpi.title
-                  }</p>
-                  <div class="text-3xl font-bold text-gray-100">${
-                    kpi.value
-                  }</div>
+                  <p class="text-sm font-medium text-gray-400 mb-1">${kpi.title
+      }</p>
+                  <div class="text-3xl font-bold text-gray-100">${kpi.value
+      }</div>
                 </div>
                 <div class="p-3 rounded-full ${bgClass} ${colorClass}">
                   ${UIUtils.createIcon(kpi.iconPath, "w-6 h-6")}
@@ -517,7 +533,35 @@ class KPIManager {
   }
 
   render() {
-    return `<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+    const t = translations[window.app?.language || "en"]?.admin;
+    if (t) {
+      if (this.kpis[0]) {
+        this.kpis[0].title = t.total_cars;
+        this.kpis[0].description = t.in_fleet;
+      }
+      if (this.kpis[1]) {
+        this.kpis[1].title = t.total_clients;
+        this.kpis[1].description = t.registered_users;
+      }
+      if (this.kpis[2]) {
+        this.kpis[2].title = t.active_rentals;
+        this.kpis[2].description = t.on_road;
+      }
+      if (this.kpis[3]) {
+        this.kpis[3].title = t.revenue_year;
+        this.kpis[3].description = t.earnings_summary;
+      }
+      if (this.kpis[4]) {
+        this.kpis[4].title = t.available_cars;
+        this.kpis[4].description = t.ready_booking;
+      }
+      if (this.kpis[5]) {
+        this.kpis[5].title = t.total_locations;
+        this.kpis[5].description = t.global_presence;
+      }
+    }
+
+    return `<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
             ${this.kpis.map((kpi) => this.renderCard(kpi)).join("")}
           </section>`;
   }
@@ -728,13 +772,13 @@ class TableManager {
       tbody.innerHTML =
         paginatedData.length > 0
           ? paginatedData
-              .map(
-                (item) =>
-                  `<tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-700/50 transition">${table.renderRowContent(
-                    item
-                  )}</tr>`
-              )
-              .join("")
+            .map(
+              (item) =>
+                `<tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-700/50 transition">${table.renderRowContent(
+                  item
+                )}</tr>`
+            )
+            .join("")
           : '<tr><td colspan="10" class="text-center py-4 text-gray-500">No data found.</td></tr>';
     }
 
@@ -784,14 +828,13 @@ class TableManager {
     const filtersHtml = filterOptions
       .map(
         (opt) => `
-      <select onchange="window.app.tableManager.handleFilter('${id}', '${
-          opt.key
-        }', this.value)" 
+      <select onchange="window.app.tableManager.handleFilter('${id}', '${opt.key
+          }', this.value)" 
               class="px-3 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring-cyan-500 text-sm outline-none">
         <option value="all">${opt.label}</option>
         ${opt.options
-          .map((val) => `<option value="${val}">${val}</option>`)
-          .join("")}
+            .map((val) => `<option value="${val}">${val}</option>`)
+            .join("")}
       </select>
     `
       )
@@ -828,40 +871,36 @@ class TableManager {
         </div>
 
         <div class="overflow-x-auto rounded-lg border border-gray-700">
-          <table class="w-full text-sm text-left text-gray-400 ${
-            isCompact ? "compact-table" : ""
-          }">
+          <table class="w-full text-sm text-left text-gray-400 ${isCompact ? "compact-table" : ""
+      }">
             <thead id="${id}-thead" class="text-xs text-gray-200 uppercase bg-gray-700/80">
               <tr>
                 ${columns
-                  .map((c) => {
-                    const isSortable = c.key !== "actions" && c.key !== "image";
-                    const cursor = isSortable
-                      ? "cursor-pointer hover:bg-gray-700 hover:text-white"
-                      : "";
-                    const clickEvent = isSortable
-                      ? `onclick="window.app.tableManager.handleSort('${id}', '${c.key}')"`
-                      : "";
-                    return `
-                    <th id="${id}-header-${
-                      c.key
-                    }" class="px-6 py-3 transition select-none ${cursor}" ${clickEvent}>
+        .map((c) => {
+          const isSortable = c.key !== "actions" && c.key !== "image";
+          const cursor = isSortable
+            ? "cursor-pointer hover:bg-gray-700 hover:text-white"
+            : "";
+          const clickEvent = isSortable
+            ? `onclick="window.app.tableManager.handleSort('${id}', '${c.key}')"`
+            : "";
+          return `
+                    <th id="${id}-header-${c.key
+            }" class="px-6 py-3 transition select-none ${cursor}" ${clickEvent}>
                       <div class="flex items-center gap-2">
                         ${c.label}
-                        ${
-                          isSortable
-                            ? `<svg class="w-3 h-3 text-gray-600 transition-transform duration-200" fill="currentColor" viewBox="0 0 24 24"><path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/></svg>`
-                            : ""
-                        }
+                        ${isSortable
+              ? `<svg class="w-3 h-3 text-gray-600 transition-transform duration-200" fill="currentColor" viewBox="0 0 24 24"><path d="M8.574 11.024h6.852a2.075 2.075 0 0 0 1.847-1.086 1.9 1.9 0 0 0-.11-1.986L13.736 2.9a2.122 2.122 0 0 0-3.472 0L6.837 7.952a1.9 1.9 0 0 0-.11 1.986 2.074 2.074 0 0 0 1.847 1.086Zm6.852 1.952H8.574a2.072 2.072 0 0 0-1.847 1.087 1.9 1.9 0 0 0 .11 1.985l3.426 5.05a2.123 2.123 0 0 0 3.472 0l3.427-5.05a1.9 1.9 0 0 0 .11-1.985 2.074 2.074 0 0 0-1.846-1.087Z"/></svg>`
+              : ""
+            }
                       </div>
                     </th>`;
-                  })
-                  .join("")}
+        })
+        .join("")}
               </tr>
             </thead>
-            <tbody id="${id}-tbody" class="${
-      isCompact ? "text-xs" : "text-sm"
-    }"></tbody>
+            <tbody id="${id}-tbody" class="${isCompact ? "text-xs" : "text-sm"
+      }"></tbody>
           </table>
         </div>
 
@@ -944,7 +983,62 @@ class Sidebar {
     this.attachEventListeners();
   }
 
+  updateMenuItems() {
+    const lang = window.app?.language || "en";
+    const t = translations[lang]?.admin || translations.en.admin;
+
+    this.menuItems = [
+      {
+        name: t.dashboard,
+        route: "dashboard",
+        iconPath: "M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm0 14V8M15 12h-3",
+      },
+      {
+        name: t.fleet, // "Cars (CRUD)" -> Fleet Management
+        route: "cars",
+        iconPath:
+          "M19 17h2c.6 0 1-.4 1-1v-3c0-.6-.4-1-1-1h-1.4M2 17h3l2.6-6.3c.4-.9 1.1-1.4 2.1-1.4h6.6c1 0 1.7.5 2.1 1.4L19 17M5 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM15 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0z",
+      },
+      {
+        name: t.users, // "Clients (CRUD)" -> Users
+        route: "clients",
+        iconPath:
+          "M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
+      },
+      {
+        name: t.rentals,
+        route: "rentals",
+        iconPath:
+          "M21 2l-6.5 6.5a4 4 0 1 0 4 4L22 7.5zm-5 5-2 2M15 19a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
+      },
+      {
+        name: t.locations, // Locations
+        route: "locations",
+        iconPath:
+          "M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0zM15 11a3 3 0 1 0-6 0 3 3 0 0 0 6 0z",
+      },
+      {
+        name: t.manage_vehicle, // "Models (3D)" -> Manage Vehicle (or Models)
+        route: "models",
+        iconPath:
+          "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
+      },
+      {
+        name: t.analytics,
+        route: "analytics",
+        iconPath: "M12 20V10M18 20V4M6 20V16",
+      },
+      {
+        name: t.settings,
+        route: "settings",
+        iconPath:
+          "M12.22 2h-.44a2 2 0 0 0-2 2v2a2 2 0 0 0-2 2 2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2zM18 12.22h.44a2 2 0 0 0 2-2v-.44a2 2 0 0 0-2-2 2 2 0 0 0-2 2v.44a2 2 0 0 0-2 2zM6 12.22h-.44a2 2 0 0 0-2-2v-.44a2 2 0 0 0 2-2 2 2 0 0 0 2 2v.44a2 2 0 0 0-2 2zM12.22 22h-.44a2 2 0 0 0-2-2v-2a2 2 0 0 0 2-2 2 2 0 0 0 2 2v2a2 2 0 0 0-2 2z",
+      },
+    ];
+  }
+
   render() {
+    this.updateMenuItems();
     this.navEl.innerHTML = this.menuItems
       .map((item) => this.createMenuItem(item))
       .join("");
@@ -958,9 +1052,8 @@ class Sidebar {
 
     return `
             <div class="flex items-center p-3 rounded-xl transition duration-200 cursor-pointer group ${menuClass}" 
-                 onclick="window.app.router.navigate('${item.route}')" title="${
-      item.name
-    }">
+                 onclick="window.app.router.navigate('${item.route}')" title="${item.name
+      }">
               ${UIUtils.createIcon(item.iconPath, "flex-shrink-0 w-5 h-5")}
               <span class="ml-3 whitespace-nowrap overflow-hidden sidebar-text transition-all duration-300">
                 ${item.name}
@@ -976,7 +1069,7 @@ class Sidebar {
       typeof force === "boolean"
         ? force
         : this.sidebarEl.classList.contains("translate-x-0") &&
-          window.innerWidth < 1024;
+        window.innerWidth < 1024;
 
     if (isOpen) {
       this.sidebarEl.classList.remove("w-0", "-translate-x-full", "lg:w-20");
@@ -1050,7 +1143,7 @@ class DetailsRenderer {
           ? JSON.parse(car.description)
           : car.description;
       desc = descObj?.en || Object.values(descObj)[0] || desc;
-    } catch (e) {}
+    } catch (e) { }
 
     const imgUrl = car.image
       ? `/assets/images/${car.image}`
@@ -1059,9 +1152,9 @@ class DetailsRenderer {
     return `
       <div class="p-8 max-w-6xl mx-auto animate-fade-in" id="printable-area">
         ${this.renderHeader(
-          `Vehicle Details: ${car.make} ${car.name}`,
-          "window.app.router.navigate('cars')"
-        )}
+      `Vehicle Details: ${car.make} ${car.name}`,
+      "window.app.router.navigate('cars')"
+    )}
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-1 space-y-6">
@@ -1073,9 +1166,8 @@ class DetailsRenderer {
                <h3 class="text-gray-400 text-sm uppercase tracking-wider mb-4">Status & Pricing</h3>
                <div class="flex justify-between items-center mb-4">
                   <span class="text-gray-300">Daily Rate</span>
-                  <span class="text-2xl font-bold text-cyan-400">$${
-                    car.price
-                  }</span>
+                  <span class="text-2xl font-bold text-cyan-400">$${car.price
+      }</span>
                </div>
                <div class="flex justify-between items-center">
                   <span class="text-gray-300">Status</span>
@@ -1110,12 +1202,10 @@ class DetailsRenderer {
                 <div>
                   <p class="text-gray-500 text-sm">Color</p>
                   <div class="flex items-center gap-2">
-                    <span class="w-4 h-4 rounded-full border border-gray-500" style="background-color: ${
-                      car.color
-                    }"></span>
-                    <span class="text-white font-medium capitalize">${
-                      car.color
-                    }</span>
+                    <span class="w-4 h-4 rounded-full border border-gray-500" style="background-color: ${car.color
+      }"></span>
+                    <span class="text-white font-medium capitalize">${car.color
+      }</span>
                   </div>
                 </div>
                  <div>
@@ -1131,9 +1221,8 @@ class DetailsRenderer {
             </div>
 
             <div class="flex gap-4 justify-end pt-4" data-html2canvas-ignore="true">
-              <button onclick="window.app.deleteVehicle(${
-                car.id
-              })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+              <button onclick="window.app.deleteVehicle(${car.id
+      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
                 Supprimer (Delete)
               </button>
               <button onclick="window.app.openCarModal(${carStr})" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
@@ -1162,24 +1251,22 @@ class DetailsRenderer {
     return `
       <div class="p-8 max-w-4xl mx-auto animate-fade-in" id="printable-area">
         ${this.renderHeader(
-          `Rental #${rental.id} - Details`,
-          "window.app.router.navigate('rentals')"
-        )}
+      `Rental #${rental.id} - Details`,
+      "window.app.router.navigate('rentals')"
+    )}
 
         <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-2xl overflow-hidden relative">
           <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-             <span class="text-9xl font-bold text-white uppercase transform -rotate-12">${
-               rental.status
-             }</span>
+             <span class="text-9xl font-bold text-white uppercase transform -rotate-12">${rental.status
+      }</span>
           </div>
 
           <div class="p-8 border-b border-gray-700 bg-gray-900/50 flex justify-between items-start">
             <div>
                <h1 class="text-3xl font-bold text-white mb-2">INVOICE</h1>
                <p class="text-gray-400 text-sm">Issued Date: ${createdDate}</p>
-               <p class="text-gray-400 text-sm">Transaction ID: #${
-                 rental.id
-               }</p>
+               <p class="text-gray-400 text-sm">Transaction ID: #${rental.id
+      }</p>
             </div>
             <div class="text-right">
                 <div class="inline-block px-4 py-2 border-2 rounded-lg font-bold uppercase tracking-wider ${statusColor}">
@@ -1191,13 +1278,11 @@ class DetailsRenderer {
           <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
                <h4 class="text-cyan-400 font-semibold uppercase tracking-wider text-xs mb-4">Billed To</h4>
-               <p class="text-xl text-white font-bold">${rental.first_name} ${
-      rental.last_name
-    }</p>
+               <p class="text-xl text-white font-bold">${rental.first_name} ${rental.last_name
+      }</p>
                <p class="text-gray-400">${rental.email}</p>
-               <p class="text-gray-500 text-sm mt-2">Client ID: #${
-                 rental.id
-               }</p>
+               <p class="text-gray-500 text-sm mt-2">Client ID: #${rental.id
+      }</p>
             </div>
 
             <div>
@@ -1214,10 +1299,10 @@ class DetailsRenderer {
                   <span class="text-gray-400">Duration:</span>
                   <span class="text-white">
                     ${Math.ceil(
-                      (new Date(rental.rental_end) -
-                        new Date(rental.rental_start)) /
-                        (1000 * 60 * 60 * 24)
-                    )} Days
+        (new Date(rental.rental_end) -
+          new Date(rental.rental_start)) /
+        (1000 * 60 * 60 * 24)
+      )} Days
                   </span>
                </div>
             </div>
@@ -1236,35 +1321,30 @@ class DetailsRenderer {
                    <tr class="border-b border-gray-700">
                       <td class="py-4">
                          <div class="flex items-center gap-4">
-                            <img src="/assets/images/${
-                              rental.car_image
-                            }" class="w-16 h-10 object-cover rounded border border-gray-600">
+                            <img src="/assets/images/${rental.car_image
+      }" class="w-16 h-10 object-cover rounded border border-gray-600">
                             <div>
-                               <p class="font-bold">${rental.car_make} ${
-      rental.car_name
-    }</p>
+                               <p class="font-bold">${rental.car_make} ${rental.car_name
+      }</p>
                                <p class="text-xs text-gray-500">Premium Rental Service</p>
                             </div>
                          </div>
                       </td>
                       <td class="py-4">${rental.vin}</td>
-                      <td class="py-4 text-right font-bold text-lg text-emerald-400">$${
-                        rental.price
-                      }</td>
+                      <td class="py-4 text-right font-bold text-lg text-emerald-400">$${rental.price
+      }</td>
                    </tr>
                 </tbody>
              </table>
           </div>
 
           <div class="bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-700" data-html2canvas-ignore="true">
-             <button onclick="window.app.deleteRental(${
-               rental.id
-             })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+             <button onclick="window.app.deleteRental(${rental.id
+      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
                 Delete Record
              </button>
-             <button onclick="window.app.promptRentalStatus(${rental.id}, '${
-      rental.status
-    }')" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
+             <button onclick="window.app.promptRentalStatus(${rental.id}, '${rental.status
+      }')" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
                 Update Status
              </button>
           </div>
@@ -1279,9 +1359,9 @@ class DetailsRenderer {
     return `
       <div class="p-8 max-w-4xl mx-auto animate-fade-in" id="printable-area">
         ${this.renderHeader(
-          `Client Profile: ${client.first_name} ${client.last_name}`,
-          "window.app.router.navigate('clients')"
-        )}
+      `Client Profile: ${client.first_name} ${client.last_name}`,
+      "window.app.router.navigate('clients')"
+    )}
 
         <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-xl overflow-hidden">
           <div class="p-8">
@@ -1290,9 +1370,8 @@ class DetailsRenderer {
                 ${client.first_name[0]}${client.last_name[0]}
               </div>
               <div>
-                <h3 class="text-2xl font-bold text-white">${
-                  client.first_name
-                } ${client.last_name}</h3>
+                <h3 class="text-2xl font-bold text-white">${client.first_name
+      } ${client.last_name}</h3>
                 <p class="text-cyan-400">Client ID: #${client.id}</p>
               </div>
             </div>
@@ -1305,9 +1384,8 @@ class DetailsRenderer {
                 </div>
                 <div>
                   <label class="text-sm text-gray-500 block">Phone Number</label>
-                  <span class="text-lg text-gray-200">${
-                    client.phone || "Not Provided"
-                  }</span>
+                  <span class="text-lg text-gray-200">${client.phone || "Not Provided"
+      }</span>
                 </div>
               </div>
               
@@ -1326,9 +1404,8 @@ class DetailsRenderer {
           </div>
 
           <div class="bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-700" data-html2canvas-ignore="true">
-            <button onclick="window.app.deleteClient(${
-              client.id
-            })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+            <button onclick="window.app.deleteClient(${client.id
+      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
                 Supprimer (Delete)
             </button>
             <button onclick="window.app.openClientModal(${clientStr})" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
@@ -1346,9 +1423,9 @@ class DetailsRenderer {
     return `
       <div class="p-8 max-w-4xl mx-auto animate-fade-in" id="printable-area">
         ${this.renderHeader(
-          `Location Details: ${location.city_name}`,
-          "window.app.router.navigate('locations')"
-        )}
+      `Location Details: ${location.city_name}`,
+      "window.app.router.navigate('locations')"
+    )}
 
         <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-xl overflow-hidden">
           <div class="p-8">
@@ -1357,9 +1434,8 @@ class DetailsRenderer {
                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 0 1-2.827 0l-4.244-4.243a8 8 0 1 1 11.314 0zM15 11a3 3 0 1 0-6 0 3 3 0 0 0 6 0z"></path></svg>
               </div>
               <div>
-                <h3 class="text-2xl font-bold text-white">${
-                  location.city_name
-                }</h3>
+                <h3 class="text-2xl font-bold text-white">${location.city_name
+      }</h3>
                 <p class="text-cyan-400">Location ID: #${location.id}</p>
               </div>
             </div>
@@ -1390,9 +1466,8 @@ class DetailsRenderer {
           </div>
 
           <div class="bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-700" data-html2canvas-ignore="true">
-            <button onclick="window.app.deleteLocation(${
-              location.id
-            })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+            <button onclick="window.app.deleteLocation(${location.id
+      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
                 Supprimer (Delete)
             </button>
             <button onclick="window.app.openLocationModal(${locStr})" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
@@ -1410,9 +1485,9 @@ class DetailsRenderer {
     return `
       <div class="p-8 max-w-4xl mx-auto animate-fade-in" id="printable-area">
         ${this.renderHeader(
-          `Model Details: ${model.car_make} ${model.car_name}`,
-          "window.app.router.navigate('models')"
-        )}
+      `Model Details: ${model.car_make} ${model.car_name}`,
+      "window.app.router.navigate('models')"
+    )}
 
 <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-xl overflow-hidden">
   <div class="p-8">
@@ -1421,12 +1496,10 @@ class DetailsRenderer {
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
       </div>
       <div>
-        <h3 class="text-2xl font-bold text-white">${model.car_make} ${
-      model.car_name
-    }</h3>
-        <p class="text-cyan-400">Model ID: #${model.id} | Car ID: #${
-      model.car_id
-    }</p>
+        <h3 class="text-2xl font-bold text-white">${model.car_make} ${model.car_name
+      }</h3>
+        <p class="text-cyan-400">Model ID: #${model.id} | Car ID: #${model.car_id
+      }</p>
       </div>
     </div>
 
@@ -1435,12 +1508,10 @@ class DetailsRenderer {
         <div>
           <h4 class="text-sm font-medium text-gray-400 mb-2">3D File</h4>
           <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 flex items-center justify-between">
-            <span class="text-gray-300 font-mono text-sm truncate mr-4">${
-              model.file_path
-            }</span>
-            <a href="/assets/models/${
-              model.file_path
-            }" download class="text-cyan-400 hover:text-cyan-300 text-sm font-bold">Download</a>
+            <span class="text-gray-300 font-mono text-sm truncate mr-4">${model.file_path
+      }</span>
+            <a href="/assets/models/${model.file_path
+      }" download class="text-cyan-400 hover:text-cyan-300 text-sm font-bold">Download</a>
           </div>
         </div>
       </div>
@@ -1461,9 +1532,8 @@ class DetailsRenderer {
   </div>
 
   <div class="bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-700" data-html2canvas-ignore="true">
-    <button onclick="window.app.deleteModel(${
-      model.id
-    })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+    <button onclick="window.app.deleteModel(${model.id
+      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
       Supprimer (Delete)
     </button>
     <button onclick="window.app.openModelModal(${modelStr})" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
@@ -1482,6 +1552,7 @@ class App {
   constructor() {
     // 1. Security Check First
     this.checkAuth();
+    this.language = localStorage.getItem("adminLanguage") || "en"; // Load Language
     this.fleetData = [];
     this.clientsData = [];
     this.clientsData = [];
@@ -1516,6 +1587,33 @@ class App {
 
     // 6. Start Background Tasks
     this.initAutoLogout();
+    this.initLanguageSelector();
+    this.updateStaticTranslations();
+  }
+
+  initLanguageSelector() {
+    const selector = document.getElementById("admin-language-selector");
+    if (selector) {
+      selector.value = this.language;
+      selector.addEventListener("change", (e) => this.changeLanguage(e.target.value));
+    }
+  }
+
+  changeLanguage(lang) {
+    this.language = lang;
+    localStorage.setItem("adminLanguage", lang);
+    this.updateStaticTranslations();
+    this.sidebar.render(); // Update Sidebar text
+    this.renderContent(); // Re-render current view (tables/settings)
+  }
+
+  updateStaticTranslations() {
+    const t = translations[this.language]?.admin || translations.en.admin;
+
+    // Fixed Header Elements
+    // Note: Some elements might need specific IDs added in HTML if not present
+    // For now, assuming dynamic re-renders handle most, but Logout tooltip/text
+    // could be updated if we had direct access. Be careful with DOM Elements.
   }
 
   injectRentalModal() {
@@ -1697,15 +1795,16 @@ class App {
     // --- FILTERS: Status & Car Make ---
     const uniqueMakes = [...new Set(formattedData.map((r) => r.car_make))];
 
+    const t = translations[this.language].admin;
     const filterOptions = [
       {
         key: "status",
-        label: "Rental Status",
+        label: t.status,
         options: ["rented", "completed", "cancelled"], // Matches DB values
       },
       {
         key: "car_make",
-        label: "Car Make",
+        label: t.make,
         options: uniqueMakes,
       },
     ];
@@ -1713,33 +1812,34 @@ class App {
     const getActions = (rental) => {
       const rentalStr = JSON.stringify(rental).replace(/"/g, "&quot;");
       return `
-  < div class="flex gap-2" >
-           <button onclick="window.app.viewDetails('rental', ${rentalStr})" class="text-emerald-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-emerald-600" title="Invoice">
+        <div class="flex gap-2">
+            <button onclick="window.app.viewDetails('rental', ${rentalStr})" class="text-emerald-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-emerald-600" title="Invoice">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-           </button>
-           <button onclick="window.app.promptRentalStatus(${rental.id}, '${rental.status}')" class="text-cyan-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-cyan-600" title="Update Status">
+            </button>
+            <button onclick="window.app.promptRentalStatus(${rental.id}, '${rental.status}')" class="text-cyan-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-cyan-600" title="Update Status">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
-           </button>
-           <button onclick="window.app.deleteRental(${rental.id})" class="text-red-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-red-600" title="Delete">
+            </button>
+            <button onclick="window.app.deleteRental(${rental.id})" class="text-red-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-red-600" title="Delete">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-           </button>
-        </div >
-  `;
+            </button>
+        </div>`;
     };
+
+    // const t declared above
 
     return this.tableManager.render(
       "rentals-table",
-      "All Rentals",
+      t.rentals,
       formattedData,
       [
         { key: "id", label: "ID" },
-        { key: "full_name", label: "Client" },
-        { key: "car_name", label: "Vehicle" },
-        { key: "car_make", label: "Make" }, // Hidden visually via filter but good for logic
-        { key: "formatted_date", label: "Start Date" },
-        { key: "formatted_price", label: "Total" },
-        { key: "status", label: "Status" },
-        { key: "actions", label: "Actions" },
+        { key: "full_name", label: t.name }, // Using 'Name' or we could add 'Client Name'
+        { key: "car_name", label: t.manage_vehicle }, // Vehicle
+        { key: "car_make", label: t.make },
+        { key: "formatted_date", label: "Date" }, // We might need a key for Date
+        { key: "formatted_price", label: t.price },
+        { key: "status", label: t.status },
+        { key: "actions", label: "" },
       ],
       (r) => {
         let badge = "bg-gray-700 text-gray-400";
@@ -1752,18 +1852,12 @@ class App {
 
         return `
           <td class="px-6 py-4 text-gray-400">#${r.id}</td>
-          <td class="px-6 py-4 font-medium text-white">${r.first_name} ${
-          r.last_name
-        }</td>
+          <td class="px-6 py-4 font-medium text-white">${r.first_name} ${r.last_name}</td>
           <td class="px-6 py-4 text-gray-300">${r.car_make} ${r.car_name}</td>
           <td class="px-6 py-4 text-gray-400">${r.car_make}</td>
           <td class="px-6 py-4 text-gray-400">${r.formatted_date}</td>
-          <td class="px-6 py-4 font-bold text-cyan-400">${
-            r.formatted_price
-          }</td>
-          <td class="px-6 py-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ${badge}">${
-          r.status
-        }</span></td>
+          <td class="px-6 py-4 font-bold text-cyan-400">${r.formatted_price}</td>
+          <td class="px-6 py-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ${badge}">${r.status}</span></td>
           <td class="px-6 py-4">${getActions(r)}</td>
         `;
       },
@@ -2643,19 +2737,21 @@ class App {
     };
 
     // --- 2. Pass filterOptions to render ---
+    const t = translations[this.language].admin; // Access translation keys
+
     return this.tableManager.render(
       "cars-table",
-      "Fleet Management",
+      t.fleet, // "Fleet Management"
       formattedData,
       [
         { key: "id", label: "ID" },
-        { key: "image", label: "Image" },
-        { key: "name", label: "Name" },
-        { key: "make", label: "Make" },
-        { key: "price", label: "Price/day" },
-        { key: "color", label: "Color" },
-        { key: "status", label: "Status" },
-        { key: "actions", label: "Actions" },
+        { key: "image", label: t.image },
+        { key: "name", label: t.name },
+        { key: "make", label: t.make },
+        { key: "price", label: t.price },
+        { key: "color", label: t.color },
+        { key: "status", label: t.status },
+        { key: "actions", label: "" },
       ],
       (car) => {
         const imgUrl = car.image ? `/assets/images/${car.image}` : "";
@@ -2675,12 +2771,10 @@ class App {
         <td class="px-6 py-4 font-medium text-white">${car.name}</td>
         <td class="px-6 py-4">${car.make}</td>
         <td class="px-6 py-4">$${car.price}</td>
-        <td class="px-6 py-4"><span class="inline-block w-6 h-6 rounded-full border border-gray-300" style="background-color: ${
-          car.color
-        }"></span></td>
-        <td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs ${badgeColor}">${
-          car.status
-        }</span></td>
+        <td class="px-6 py-4"><span class="inline-block w-6 h-6 rounded-full border border-gray-300" style="background-color: ${car.color
+          }"></span></td>
+        <td class="px-6 py-4"><span class="px-2 py-1 rounded-full text-xs ${badgeColor}">${car.status
+          }</span></td>
         <td class="px-6 py-4">${getActionBtns(car)}</td>
         `;
       },
@@ -2756,16 +2850,18 @@ class App {
         `;
     };
 
+    const t = translations[this.language].admin;
+
     return this.tableManager.render(
       "clients-table",
-      "Clients Management",
+      t.users, // "Clients Management" or "Users"
       formattedData,
       [
         { key: "id", label: "ID" },
-        { key: "fullName", label: "Client Name" },
-        { key: "email", label: "Email" },
-        { key: "phone", label: "Phone" },
-        { key: "actions", label: "Actions" },
+        { key: "fullName", label: t.name },
+        { key: "email", label: t.email }, // "Email Address"
+        { key: "phone", label: t.phone },
+        { key: "actions", label: "" },
       ],
       (c) => `
           <td class="px-6 py-4 text-gray-400">#${c.id}</td>
@@ -2774,11 +2870,10 @@ class App {
           </td>
           <td class="px-6 py-4 text-cyan-400">${c.email}</td>
           <td class="px-6 py-4">
-            ${
-              c.phone
-                ? `<span class="text-gray-300 font-mono text-xs">${c.phone}</span>`
-                : `<span class="text-xs text-red-400 bg-red-900/20 px-2 py-1 rounded border border-red-900/30">Missing</span>`
-            }
+            ${c.phone
+          ? `<span class="text-gray-300 font-mono text-xs">${c.phone}</span>`
+          : `<span class="text-xs text-red-400 bg-red-900/20 px-2 py-1 rounded border border-red-900/30">Missing</span>`
+        }
           </td>
           <td class="px-6 py-4">${getClientActions(c)}</td>
       `,
@@ -2788,11 +2883,20 @@ class App {
 
   renderLocationsTable() {
     // We use this.locationsData which is ALREADY formatted from fetchTableData
-    const formattedData = this.locationsData;
+    // Add derived field 'first_letter' for filtering
+    const formattedData = this.locationsData.map((l) => ({
+      ...l,
+      first_letter: l.city_name.charAt(0).toUpperCase(),
+    }));
 
     const uniqueCities = [...new Set(formattedData.map((l) => l.city_name))];
+    const uniqueLetters = [
+      ...new Set(formattedData.map((l) => l.first_letter)),
+    ].sort();
+
     const filterOptions = [
       { key: "city_name", label: "Select City", options: uniqueCities },
+      { key: "first_letter", label: "Alphabetical", options: uniqueLetters },
     ];
 
     const getActions = (location) => {
@@ -2821,25 +2925,25 @@ class App {
       `;
     };
 
+    const t = translations[this.language].admin;
+
     return this.tableManager.render(
       "locations-table",
-      "Agency Locations",
+      t.locations, // "Agency Locations"
       formattedData,
       [
         { key: "id", label: "ID" },
-        { key: "city_name", label: "City" },
+        { key: "city_name", label: "City" }, // Add key "City" if missing, or use a literal if needed
         { key: "short_url", label: "Map Source" },
-        { key: "actions", label: "Actions" },
+        { key: "actions", label: "" },
       ],
       (l) => `
           <td class="px-6 py-4 text-gray-400">#${l.id}</td>
           <td class="px-6 py-4 font-bold text-white text-lg">${l.city_name}</td>
           <td class="px-6 py-4 text-cyan-400 font-mono text-xs">
-            <a href="${
-              l.map_embed_url
-            }" target="_blank" class="hover:underline truncate block w-64">${
-        l.short_url
-      }</a>
+            <a href="${l.map_embed_url
+        }" target="_blank" class="hover:underline truncate block w-64">${l.short_url
+        }</a>
           </td>
           <td class="px-6 py-4">${getActions(l)}</td>
       `,
@@ -2849,7 +2953,14 @@ class App {
   renderModelsTable() {
     const formattedData = this.modelsData;
 
-    const filterOptions = [];
+    // --- 1. Define Filter Options ---
+    const uniqueMakes = [...new Set(formattedData.map((m) => m.car_make))];
+    const uniqueNames = [...new Set(formattedData.map((m) => m.car_name))];
+
+    const filterOptions = [
+      { key: "car_make", label: "All Makes", options: uniqueMakes },
+      { key: "car_name", label: "All Models", options: uniqueNames },
+    ];
 
     const getActions = (model) => {
       const modelStr = JSON.stringify(model).replace(/"/g, "&quot;");
@@ -2868,26 +2979,26 @@ class App {
       `;
     };
 
+    const t = translations[this.language].admin;
+
     return this.tableManager.render(
       "models-table",
-      "3D Models Management",
+      t.manage_vehicle, // "3D Models Management"
       formattedData,
       [
         { key: "id", label: "ID" },
-        { key: "car_name", label: "Car Model" },
+        { key: "car_name", label: t.name }, // Car Model -> Name
         { key: "file_path", label: "File Path" },
         { key: "scale_x", label: "Scale X" },
         { key: "rot_y", label: "Rot Y" },
-        { key: "actions", label: "Actions" },
+        { key: "actions", label: "" },
       ],
       (m) => `
           <td class="px-6 py-4 text-gray-400">#${m.id}</td>
-          <td class="px-6 py-4 font-medium text-white">${m.car_make} ${
-        m.car_name
-      }</td>
-          <td class="px-6 py-4 text-cyan-400 font-mono text-xs truncate max-w-[200px]">${
-            m.file_path
-          }</td>
+          <td class="px-6 py-4 font-medium text-white">${m.car_make} ${m.car_name
+        }</td>
+          <td class="px-6 py-4 text-cyan-400 font-mono text-xs truncate max-w-[200px]">${m.file_path
+        }</td>
           <td class="px-6 py-4 text-gray-300">${m.scale_x}</td>
           <td class="px-6 py-4 text-gray-300">${m.rot_y}</td>
           <td class="px-6 py-4">${getActions(m)}</td>
@@ -3098,16 +3209,17 @@ class App {
   renderContent() {
     const mainContentEl = document.getElementById("main-content");
     let contentHtml = "";
+    const t = translations[this.language]?.admin || translations.en.admin;
 
     switch (this.router.currentRoute) {
       case "cars":
         contentHtml = `
           <div class="p-8 space-y-6">
              <div class="flex justify-between items-center">
-                 <h2 class="text-2xl font-bold text-cyan-400">Fleet Management</h2>
+                 <h2 class="text-2xl font-bold text-cyan-400">${t.fleet}</h2>
                  <button onclick="window.app.openCarModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                    Add Vehicle
+                    ${t.add_vehicle}
                  </button>
              </div>
              ${this.renderCarsTable()}
@@ -3119,10 +3231,10 @@ class App {
         contentHtml = `
           <div class="p-8 space-y-6">
               <div class="flex justify-between items-center">
-                  <h2 class="text-2xl font-bold text-cyan-400">Clients Management</h2>
+                  <h2 class="text-2xl font-bold text-cyan-400">${t.clients_management}</h2>
                   <button onclick="window.app.openClientModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
-                     Add Client
+                     ${t.add_client}
                   </button>
               </div>
               ${this.renderClientsTable()}
@@ -3134,10 +3246,10 @@ class App {
         contentHtml = `
           <div class="p-8 space-y-6">
              <div class="flex justify-between items-center">
-                 <h2 class="text-2xl font-bold text-cyan-400">Rentals Management</h2>
+                 <h2 class="text-2xl font-bold text-cyan-400">${t.rentals_management}</h2>
                  <button onclick="window.app.openRentalModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                    New Rental
+                    ${t.add_rental}
                  </button>
              </div>
              ${this.renderRentalsTable()}
@@ -3148,10 +3260,10 @@ class App {
         contentHtml = `
           <div class="p-8 space-y-6">
              <div class="flex justify-between items-center">
-                 <h2 class="text-2xl font-bold text-cyan-400">Locations Management</h2>
+                 <h2 class="text-2xl font-bold text-cyan-400">${t.locations_management}</h2>
                  <button onclick="window.app.openLocationModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                    Add Location
+                    ${t.add_location}
                  </button>
              </div>
              ${this.renderLocationsTable()}
@@ -3163,10 +3275,10 @@ class App {
         contentHtml = `
             <div class="p-8 space-y-6">
                <div class="flex justify-between items-center">
-                   <h2 class="text-2xl font-bold text-cyan-400">3D Models Management</h2>
+                   <h2 class="text-2xl font-bold text-cyan-400">${t.models_management}</h2>
                    <button onclick="window.app.openModelModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                      Add Model
+                      ${t.add_model}
                    </button>
                </div>
                ${this.renderModelsTable()}

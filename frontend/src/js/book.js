@@ -1,5 +1,5 @@
 import axios from "axios";
-import { getcars, getLocations } from "./api.js";
+import { getcars, getCities } from "./api.js";
 import { toast } from "./toast.js";
 
 // Check if user is logged in
@@ -40,7 +40,7 @@ async function loadCars() {
 // Fetch locations from database
 async function loadLocations() {
   try {
-    const locations = await getLocations();
+    const locations = await getCities();
     locationSelect.innerHTML =
       '<option value="" disabled selected>Choisissez une ville</option>';
     locations.forEach((loc) => {

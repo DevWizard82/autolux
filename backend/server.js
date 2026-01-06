@@ -33,7 +33,7 @@ app.use(express.static("public"));
 
 // 1. Define the Upload Directory using process.cwd() (Project Root)
 // This fixes issues where __dirname might point to a 'src' or 'dist' subfolder
-const uploadDir = path.join(process.cwd(), "public/assets/images");
+const uploadDir = path.join(__dirname, "../frontend/public/assets/images");
 
 // 2. Ensure directory exists
 if (!fs.existsSync(uploadDir)) {
@@ -45,6 +45,8 @@ if (!fs.existsSync(uploadDir)) {
 
 // 3. Serve the 'public' folder
 app.use(express.static("public"));
+// Serve frontend public folder for assets
+app.use(express.static(path.join(__dirname, "../frontend/public")));
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -80,7 +82,7 @@ const upload = multer({
 });
 
 // --- MODEL MULTER CONFIGURATION ---
-const modelUploadDir = path.join(process.cwd(), "public/assets/models");
+const modelUploadDir = path.join(__dirname, "../frontend/public/assets/models");
 
 if (!fs.existsSync(modelUploadDir)) {
   console.log(`Creating directory: ${modelUploadDir}`);
@@ -403,7 +405,10 @@ app.post("/api/models", uploadModel.single("file"), async (req, res) => {
     await client.query("BEGIN");
 
     // 1. Get Car Details for Naming
-    const carRes = await client.query("SELECT make, name FROM cars WHERE id = $1", [car_id]);
+    const carRes = await client.query(
+      "SELECT make, name FROM cars WHERE id = $1",
+      [car_id]
+    );
     if (carRes.rowCount === 0) {
       throw new Error("Car not found");
     }
@@ -445,12 +450,16 @@ app.post("/api/models", uploadModel.single("file"), async (req, res) => {
     newModel.car_make = make;
     newModel.car_name = name;
 
-    res.status(201).json({ message: "Model created successfully", data: newModel });
+    res
+      .status(201)
+      .json({ message: "Model created successfully", data: newModel });
   } catch (err) {
     await client.query("ROLLBACK");
     // Cleanup temp file if it exists and we failed
     if (req.file && fs.existsSync(req.file.path)) {
-      try { fs.unlinkSync(req.file.path); } catch (e) { }
+      try {
+        fs.unlinkSync(req.file.path);
+      } catch (e) { }
     }
     console.error(err);
     res.status(500).json({ error: err.message || "Failed to create model" });
@@ -470,14 +479,20 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
     console.log("Processing PUT model:", id, req.body, req.file);
 
     // 1. Check if model exists
-    const modelCheck = await client.query("SELECT * FROM models WHERE id = $1", [id]);
+    const modelCheck = await client.query(
+      "SELECT * FROM models WHERE id = $1",
+      [id]
+    );
     if (modelCheck.rowCount === 0) {
       throw new Error("Model not found");
     }
 
     // 2. Get Car Details (either from new car_id or existing)
     const targetCarId = car_id || modelCheck.rows[0].car_id;
-    const carRes = await client.query("SELECT make, name FROM cars WHERE id = $1", [targetCarId]);
+    const carRes = await client.query(
+      "SELECT make, name FROM cars WHERE id = $1",
+      [targetCarId]
+    );
     if (carRes.rowCount === 0) {
       throw new Error("Car not found");
     }
@@ -501,17 +516,17 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
       const oldPath = req.file.path;
       const newPath = path.join(modelUploadDir, finalFileName);
 
-      // Delete old file if it exists and is different? 
+      // Delete old file if it exists and is different?
       // Safe to overwrite or we implement smarter cleanup later.
       // For now, if we are renaming, we just move the temp file to the new name.
       fs.renameSync(oldPath, newPath);
     }
-    // If no file uploaded, IF the car changed, we *could* rename the existing file, 
+    // If no file uploaded, IF the car changed, we *could* rename the existing file,
     // but the requirement said "file_path when added or edited it should be... downloaded... and name should be Model name".
     // It's safer to only rename if a new file is uploaded OR (optional polish) if we really want to keep filenames synced with car names always.
     // For now, let's assume we rename only if a file is provided or stick to the existing one.
     // BUT the prompt says "file_path when added or edited ... should be Model name".
-    // If user changes Car from "Porsche" to "BMW" but keeps same file (rare), we might want to rename it. 
+    // If user changes Car from "Porsche" to "BMW" but keeps same file (rare), we might want to rename it.
     // Let's stick to: If file is uploaded, rename it. If not, keep old path.
 
     // 4. Update DB
@@ -531,7 +546,9 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
   } catch (err) {
     await client.query("ROLLBACK");
     if (req.file && fs.existsSync(req.file.path)) {
-      try { fs.unlinkSync(req.file.path); } catch (e) { }
+      try {
+        fs.unlinkSync(req.file.path);
+      } catch (e) { }
     }
     console.error(err);
     res.status(500).json({ error: err.message || "Failed to update model" });
@@ -544,7 +561,8 @@ app.delete("/api/models/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query("DELETE FROM models WHERE id = $1", [id]);
-    if (result.rowCount === 0) return res.status(404).json({ error: "Model not found" });
+    if (result.rowCount === 0)
+      return res.status(404).json({ error: "Model not found" });
     res.json({ message: "Model deleted successfully" });
   } catch (err) {
     console.error(err);
@@ -621,11 +639,36 @@ app.get("/api/types/:carId", async (req, res) => {
 });
 
 // ----- Locations -----
+app.get("/api/locations/grouped", async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT city_name, json_agg(json_build_object('id', id, 'map_embed_url', map_embed_url)) as locations 
+      FROM locations 
+      GROUP BY city_name 
+      ORDER BY city_name ASC
+    `);
+    res.json({ message: "Grouped locations fetched", data: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch grouped locations" });
+  }
+});
+
 app.get("/api/locations", async (req, res) => {
   try {
     const result = await pool.query(
       "SELECT id, city_name, map_embed_url FROM locations ORDER BY city_name ASC"
     );
+    res.json({ message: "Locations fetched successfully", data: result.rows });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch locations" });
+  }
+});
+
+app.get("/api/cities", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT distinct city_name FROM locations");
     res.json({ message: "Locations fetched successfully", data: result.rows });
   } catch (err) {
     console.error(err);
@@ -757,9 +800,71 @@ app.put("/api/clients/:id", async (req, res) => {
     });
   } catch (err) {
     console.error("Error updating client:", err);
-    res.status(500).json({ error: "Internal server error" });
+    res.status(500).json({ error: "Failed to update client" });
   }
 });
+
+// Get detailed rentals for a specific user
+app.get("/api/rentals/user/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    // rentals links to cars (model) via car_id.
+    // It does not link to specific car_units in the current schema.
+    const query = `
+      SELECT r.*, 
+             c.name as car_name, c.make as car_make, c.image as car_image
+      FROM rentals r
+      JOIN cars c ON r.car_id = c.id
+      WHERE r.client_id = $1
+      ORDER BY r.rental_start DESC
+    `;
+    const result = await pool.query(query, [userId]);
+    res.json(result.rows);
+  } catch (err) {
+    console.error("Error fetching user rentals:", err);
+    res.status(500).json({ error: "Failed to fetch rentals" });
+  }
+});
+
+// Cancel a rental
+app.post("/api/rentals/cancel/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const client = await pool.connect();
+  try {
+    await client.query("BEGIN");
+
+    // 1. Check if rental exists and is active
+    const rentalRes = await client.query("SELECT * FROM rentals WHERE id = $1", [id]);
+    if (rentalRes.rowCount === 0) {
+      await client.query("ROLLBACK");
+      return res.status(404).json({ error: "Rental not found" });
+    }
+    const rental = rentalRes.rows[0];
+
+    if (["cancelled", "completed"].includes(rental.status)) {
+      await client.query("ROLLBACK");
+      return res.status(400).json({ error: "Rental cannot be cancelled" });
+    }
+
+    // 2. Update rental status
+    await client.query("UPDATE rentals SET status = 'cancelled' WHERE id = $1", [id]);
+
+    // Note: Since rentals are linked to 'cars' (models) and not specific 'car_units',
+    // we cannot update a specific unit's status to 'available'.
+
+    await client.query("COMMIT");
+    res.json({ success: true, message: "Rental cancelled successfully" });
+  } catch (err) {
+    await client.query("ROLLBACK");
+    console.error("Error cancelling rental:", err);
+    res.status(500).json({ error: "Failed to cancel rental" });
+  } finally {
+    client.release();
+  }
+});
+
+
 
 // Delete a client by ID
 app.delete("/api/clients/:id", async (req, res) => {
@@ -897,6 +1002,20 @@ app.delete("/api/locations/:id", async (req, res) => {
   }
 });
 
+// ----- locations count -----
+app.get("/api/locations/count", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT COUNT(*) FROM locations;");
+    res.json({
+      message: "locations count fetched successfully",
+      data: result.rows,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Failed to fetch locations count" });
+  }
+});
+
 // ----- rentals count -----
 app.get("/api/rentalscount", async (req, res) => {
   try {
@@ -917,7 +1036,7 @@ app.get("/api/rentalscount", async (req, res) => {
 app.get("/api/revenue", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT SUM(price) FROM rentals WHERE EXTRACT(YEAR FROM rental_start) = EXTRACT(YEAR FROM CURRENT_DATE)"
+      "SELECT SUM(price) FROM rentals WHERE status = 'rented' AND EXTRACT(YEAR FROM rental_start) = EXTRACT(YEAR FROM CURRENT_DATE)"
     );
     res.json({
       message: "this year's revenue fetched successfully",
@@ -1012,7 +1131,7 @@ app.post("/api/rentals", async (req, res) => {
 
     // 2. Find available unit by checking the NEW status column
     const unitRes = await client.query(
-      `SELECT id FROM car_units 
+      `SELECT id, car_id FROM car_units 
        WHERE car_id = $1 AND status = 'available' 
        LIMIT 1 FOR UPDATE`, // "FOR UPDATE" prevents two people booking the same car at once
       [car_id]
@@ -1025,7 +1144,7 @@ app.post("/api/rentals", async (req, res) => {
         .json({ error: "No available vehicle at the moment" });
     }
 
-    const carUnitId = unitRes.rows[0].id;
+    const carUnitId = unitRes.rows[0].car_id;
 
     // 3. Calculate price
     const days = Math.ceil(

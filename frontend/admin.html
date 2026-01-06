@@ -1,450 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LUXURI Admin Dashboard</title>
-    <script src="./src/js/gatekeeper.js"></script>
-    <script
-      src="https://cdn.plot.ly/plotly-2.27.0.min.js"
-      charset="utf-8"
-    ></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-      /* Custom scrollbar for a sleek look */
-      ::-webkit-scrollbar {
-        width: 8px;
-        height: 8px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #4b5563; /* Gray-600 */
-        border-radius: 10px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #6b7280; /* Gray-500 */
-      }
-      ::-webkit-scrollbar-track {
-        background: #1f2937; /* Gray-800 */
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LUXURI Admin Dashboard</title>
+  <script src="./src/js/gatekeeper.js"></script>
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom scrollbar for a sleek look */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #4b5563;
+      /* Gray-600 */
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #6b7280;
+      /* Gray-500 */
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #1f2937;
+      /* Gray-800 */
+    }
+
+    /* Ensure main content takes up remaining vertical space */
+    .main-container {
+      min-height: calc(100vh - 72px);
+      /* 72px is roughly the height of the header */
+    }
+
+    /* Transition for layout changes */
+    .sidebar-transition {
+      transition: all 0.3s ease-in-out;
+    }
+
+    @media print {
+
+      /* Hide everything */
+      body * {
+        visibility: hidden;
       }
 
-      /* Ensure main content takes up remaining vertical space */
-      .main-container {
-        min-height: calc(
-          100vh - 72px
-        ); /* 72px is roughly the height of the header */
+      /* Show only the printable area */
+      #printable-area,
+      #printable-area * {
+        visibility: visible;
       }
 
-      /* Transition for layout changes */
-      .sidebar-transition {
-        transition: all 0.3s ease-in-out;
+      /* Position the printable area at the top left */
+      #printable-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        margin: 0;
+        padding: 20px;
+        background: white;
+        /* Force white background for PDF */
+        color: black;
+        /* Force black text for PDF */
+        border: none;
+        box-shadow: none;
       }
 
-      @media print {
-        /* Hide everything */
-        body * {
-          visibility: hidden;
-        }
-        /* Show only the printable area */
-        #printable-area,
-        #printable-area * {
-          visibility: visible;
-        }
-        /* Position the printable area at the top left */
-        #printable-area {
-          position: absolute;
-          left: 0;
-          top: 0;
-          width: 100%;
-          margin: 0;
-          padding: 20px;
-          background: white; /* Force white background for PDF */
-          color: black; /* Force black text for PDF */
-          border: none;
-          box-shadow: none;
-        }
-        /* Force Text Colors for printing (override Tailwind dark mode) */
-        #printable-area h2,
-        #printable-area h3,
-        #printable-area p,
-        #printable-area span,
-        #printable-area div {
-          color: black !important;
-        }
-        #printable-area .bg-gray-800 {
-          background-color: white !important;
-          border: 1px solid #ddd;
-        }
+      /* Force Text Colors for printing (override Tailwind dark mode) */
+      #printable-area h2,
+      #printable-area h3,
+      #printable-area p,
+      #printable-area span,
+      #printable-area div {
+        color: black !important;
       }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-  </head>
-  <body
-    class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-sans transition-colors duration-300"
-  >
-    <!-- Header / Navbar -->
-    <header
-      id="header"
-      class="sticky top-0 z-20 flex items-center justify-between p-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm shadow-sm dark:shadow-xl border-b border-gray-200 dark:border-gray-700/50 h-18 transition-colors duration-300"
-    >
-      <div class="flex items-center">
-        <button
-          id="sidebar-toggle-mobile"
-          class="text-gray-400 hover:text-cyan-400 mr-4 transition lg:hidden"
-        >
-          <!-- Menu Icon -->
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="w-6 h-6"
-          >
-            <path d="M4 6h16M4 12h16M4 18h16" />
+
+      #printable-area .bg-gray-800 {
+        background-color: white !important;
+        border: 1px solid #ddd;
+      }
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 font-sans transition-colors duration-300">
+  <!-- Header / Navbar -->
+  <header id="header"
+    class="sticky top-0 z-20 flex items-center justify-between p-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm shadow-sm dark:shadow-xl border-b border-gray-200 dark:border-gray-700/50 h-18 transition-colors duration-300">
+    <div class="flex items-center">
+      <button id="sidebar-toggle-mobile" class="text-gray-400 hover:text-cyan-400 mr-4 transition lg:hidden">
+        <!-- Menu Icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+      <h1 class="text-3xl font-extrabold text-cyan-400 tracking-wider">
+        AUTO<span class="text-gray-100 font-light">LUX</span>
+      </h1>
+    </div>
+
+    <div class="flex items-center space-x-4">
+      <!-- Language Selector -->
+      <select id="admin-language-selector"
+        class="bg-gray-800 text-gray-200 text-sm rounded-lg border border-gray-700 px-3 py-1.5 focus:ring-2 focus:ring-cyan-500 outline-none hover:bg-gray-700 transition cursor-pointer">
+        <option value="en">🇺🇸 EN</option>
+        <option value="fr">🇫🇷 FR</option>
+        <option value="ar">🇲🇦 AR</option>
+        <option value="de">🇩🇪 DE</option>
+        <option value="it">🇮🇹 IT</option>
+        <option value="pt">🇵🇹 PT</option>
+        <option value="es">🇪🇸 ES</option>
+        <option value="ru">🇷🇺 RU</option>
+        <option value="ja">🇯🇵 JA</option>
+        <option value="zh">🇨🇳 ZH</option>
+      </select>
+
+      <!-- Profile/Logout -->
+      <div id="nav-user-info"
+        class="flex items-center space-x-3 p-1 rounded-full bg-gray-800 pr-3 border border-gray-700 hover:border-cyan-500 transition cursor-pointer group">
+        <div id="admin-avatar"
+          class="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-sm font-bold text-white border-2 border-gray-600 group-hover:border-cyan-400 transition">
+        </div>
+
+        <span id="admin-name" class="hidden sm:inline text-sm font-medium text-gray-100">
+        </span>
+
+        <button class="text-red-400 hover:text-red-300 p-2 rounded-full transition" title="Logout"
+          onclick="window.app.logout()">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9" />
           </svg>
         </button>
-        <h1 class="text-3xl font-extrabold text-cyan-400 tracking-wider">
-          LUXURI<span class="text-gray-100 font-light">Admin</span>
-        </h1>
+      </div>
+    </div>
+  </header>
+
+  <div class="flex main-container">
+    <!-- Sidebar -->
+    <div id="sidebar"
+      class="fixed lg:static h-full bg-gray-800/95 lg:bg-gray-800 z-30 sidebar-transition shadow-2xl border-r border-gray-700 w-0 -translate-x-full lg:w-20 lg:translate-x-0">
+      <!-- Mobile Close Button (only visible on small screens when open) -->
+      <div class="flex items-center justify-between p-4 lg:hidden">
+        <div class="text-xl font-bold text-cyan-400">LUXURI</div>
+        <button id="sidebar-close-mobile" class="text-gray-400 hover:text-gray-100">
+          <!-- X Icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round" class="w-6 h-6">
+            <path d="M18 6 6 18M6 6l12 12" />
+          </svg>
+        </button>
       </div>
 
-      <div class="flex items-center space-x-4">
-        <!-- Profile/Logout -->
-        <div
-          id="nav-user-info"
-          class="flex items-center space-x-3 p-1 rounded-full bg-gray-800 pr-3 border border-gray-700 hover:border-cyan-500 transition cursor-pointer group"
-        >
-          <div
-            id="admin-avatar"
-            class="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-sm font-bold text-white border-2 border-gray-600 group-hover:border-cyan-400 transition"
-          ></div>
-
-          <span
-            id="admin-name"
-            class="hidden sm:inline text-sm font-medium text-gray-100"
-          >
-          </span>
-
-          <button
-            class="text-red-400 hover:text-red-300 p-2 rounded-full transition"
-            title="Logout"
-            onclick="window.app.logout()"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-5 h-5"
-            >
-              <path
-                d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"
-              />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <div class="flex main-container">
-      <!-- Sidebar -->
-      <div
-        id="sidebar"
-        class="fixed lg:static h-full bg-gray-800/95 lg:bg-gray-800 z-30 sidebar-transition shadow-2xl border-r border-gray-700 w-0 -translate-x-full lg:w-20 lg:translate-x-0"
-      >
-        <!-- Mobile Close Button (only visible on small screens when open) -->
-        <div class="flex items-center justify-between p-4 lg:hidden">
-          <div class="text-xl font-bold text-cyan-400">LUXURI</div>
-          <button
-            id="sidebar-close-mobile"
-            class="text-gray-400 hover:text-gray-100"
-          >
-            <!-- X Icon -->
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              class="w-6 h-6"
-            >
-              <path d="M18 6 6 18M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- Navigation Links -->
-        <nav id="sidebar-nav" class="p-4 space-y-2 mt-4">
-          <!-- Links will be populated by JS -->
-        </nav>
-      </div>
-
-      <!-- Overlay for mobile when sidebar is open -->
-      <div
-        id="sidebar-overlay"
-        class="hidden fixed inset-0 bg-black opacity-50 z-20 lg:hidden"
-        onclick="toggleSidebar(false)"
-      ></div>
-
-      <!-- Main Content Area -->
-      <main id="main-content" class="flex-grow sidebar-transition ml-0 lg:ml-0">
-        <!-- Content will be injected here -->
-      </main>
+      <!-- Navigation Links -->
+      <nav id="sidebar-nav" class="p-4 space-y-2 mt-4">
+        <!-- Links will be populated by JS -->
+      </nav>
     </div>
 
-    <!-- Car Modal -->
-    <div id="carModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
-      <div
-        id="modalBackdrop"
-        class="fixed inset-0 bg-black opacity-0 transition-opacity duration-300"
-        onclick="window.app.closeCarModal()"
-      ></div>
+    <!-- Overlay for mobile when sidebar is open -->
+    <div id="sidebar-overlay" class="hidden fixed inset-0 bg-black opacity-50 z-20 lg:hidden"
+      onclick="toggleSidebar(false)"></div>
 
-      <div
-        class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0"
-      >
-        <div
-          id="modalPanel"
-          class="relative bg-gray-800 rounded-lg shadow-xl border border-gray-700 w-full max-w-2xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300"
-        >
-          <!-- Close Button -->
-          <button
-            type="button"
-            onclick="window.app.closeCarModal()"
-            class="absolute right-4 top-4 text-gray-400 hover:text-gray-100 z-10"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+    <!-- Main Content Area -->
+    <main id="main-content" class="flex-grow sidebar-transition ml-0 lg:ml-0">
+      <!-- Content will be injected here -->
+    </main>
+  </div>
 
-          <div class="p-6 sm:p-8">
-            <h2 class="text-2xl font-bold text-cyan-400 mb-6">
-              Manage Vehicle
-            </h2>
+  <!-- Car Modal -->
+  <div id="carModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
+    <div id="modalBackdrop" class="fixed inset-0 bg-black opacity-0 transition-opacity duration-300"
+      onclick="window.app.closeCarModal()"></div>
 
-            <form
-              id="carForm"
-              onsubmit="window.app.handleCarSubmit(event)"
-              enctype="multipart/form-data"
-              class="space-y-6"
-            >
-              <!-- Hidden Unit ID for edit mode -->
-              <input type="hidden" id="carUnitId" name="unitId" />
+    <div class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0">
+      <div id="modalPanel"
+        class="relative bg-gray-800 rounded-lg shadow-xl border border-gray-700 w-full max-w-2xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300">
+        <!-- Close Button -->
+        <button type="button" onclick="window.app.closeCarModal()"
+          class="absolute right-4 top-4 text-gray-400 hover:text-gray-100 z-10">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
 
-              <!-- 1. Model Selection -->
-              <div>
-                <label class="block text-sm font-semibold text-gray-300 mb-2">
-                  1. Select Model
-                  <span class="text-red-400">*</span>
-                </label>
-                <select
-                  id="modelSelect"
-                  onchange="window.app.handleModelSelect(this.value)"
-                  required
-                  class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500"
-                >
-                  <option value="">-- Loading Models --</option>
-                </select>
-              </div>
+        <div class="p-6 sm:p-8">
+          <h2 class="text-2xl font-bold text-cyan-400 mb-6">
+            Manage Vehicle
+          </h2>
 
-              <!-- 2. Model Details Section -->
-              <div
-                id="modelFields"
-                class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50 relative"
-              >
-                <div
-                  id="modelLockOverlay"
-                  class="hidden absolute inset-0 bg-gray-900/60 z-10 flex flex-col items-center justify-center text-center rounded-lg backdrop-blur-[1px] border border-gray-600 border-dashed"
-                >
-                  <p class="text-gray-300 font-semibold text-sm">
-                    Using Existing Model Specs
-                  </p>
-                  <button
-                    type="button"
-                    onclick="window.app.unlockModelFields()"
-                    class="mt-2 text-xs text-cyan-400 hover:text-cyan-300 underline"
-                  >
-                    Override
-                  </button>
-                </div>
+          <form id="carForm" onsubmit="window.app.handleCarSubmit(event)" enctype="multipart/form-data"
+            class="space-y-6">
+            <!-- Hidden Unit ID for edit mode -->
+            <input type="hidden" id="carUnitId" name="unitId" />
 
-                <h4
-                  class="text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider"
-                >
-                  2. Model Details
-                </h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1">Make</label>
-                    <input
-                      type="text"
-                      name="make"
-                      id="carMake"
-                      required
-                      class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1">Name</label>
-                    <input
-                      type="text"
-                      name="name"
-                      id="carName"
-                      required
-                      class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1"
-                      >Price / Day</label
-                    >
-                    <input
-                      type="number"
-                      name="price"
-                      id="carPrice"
-                      required
-                      class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1"
-                      >Image</label
-                    >
-                    <input
-                      type="file"
-                      name="image"
-                      id="carImage"
-                      class="w-full text-sm text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-cyan-900 file:text-cyan-400 hover:file:bg-cyan-800"
-                    />
-                  </div>
+            <!-- 1. Model Selection -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-300 mb-2">
+                1. Select Model
+                <span class="text-red-400">*</span>
+              </label>
+              <select id="modelSelect" onchange="window.app.handleModelSelect(this.value)" required
+                class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500">
+                <option value="">-- Loading Models --</option>
+              </select>
+            </div>
 
-                  <div class="md:col-span-2">
-                    <label class="block text-xs text-gray-400 mb-1">
-                      Description (Default)
-                    </label>
-                    <textarea
-                      name="description"
-                      id="carDescription"
-                      rows="2"
-                      placeholder="e.g. German sporting excellence..."
-                      class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500 text-sm"
-                    ></textarea>
-                  </div>
-                  <div class="md:col-span-2">
-                    <label class="block text-xs text-gray-400 mb-1">
-                      Available Locations
-                    </label>
-                    <input
-                      type="text"
-                      name="location_text"
-                      id="carLocation"
-                      placeholder="e.g. Casablanca, Rabat, Tangier"
-                      class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500 text-sm"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <!-- 3. Unit Details Section (VIN, Color, Status) -->
-              <div
-                class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50"
-              >
-                <h4
-                  class="text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider"
-                >
-                  3. Fleet Unit Details
-                </h4>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1">VIN</label>
-                    <input
-                      type="text"
-                      name="vin"
-                      id="carVin"
-                      placeholder="e.g. WBD123456789AB1234"
-                      class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500"
-                    />
-                  </div>
-                  <div>
-                    <label class="block text-xs text-gray-400 mb-1"
-                      >Color</label
-                    >
-                    <div class="flex gap-2">
-                      <input
-                        type="color"
-                        name="color"
-                        id="colorPicker"
-                        value="#ffffff"
-                        onchange="document.getElementById('carColor').value = this.value"
-                        class="w-12 h-10 bg-gray-700 rounded border border-gray-600 cursor-pointer"
-                      />
-                      <input
-                        type="text"
-                        name="colorHex"
-                        id="carColor"
-                        value="#ffffff"
-                        readonly
-                        class="flex-1 bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none"
-                      />
-                    </div>
-                  </div>
-                  <div class="md:col-span-2">
-                    <label class="block text-xs text-gray-400 mb-1"
-                      >Status</label
-                    >
-                    <select
-                      name="status"
-                      id="carStatus"
-                      class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500"
-                    >
-                      <option value="available">Available</option>
-                      <option value="rented">Rented</option>
-                      <option value="maintenance">Maintenance</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Buttons -->
-              <div class="flex gap-3 justify-end">
-                <button
-                  type="button"
-                  onclick="window.app.closeCarModal()"
-                  class="px-4 py-2 text-gray-300 hover:text-gray-100 bg-gray-700 hover:bg-gray-600 rounded-lg transition"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg transition"
-                >
-                  Save Vehicle
+            <!-- 2. Model Details Section -->
+            <div id="modelFields" class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50 relative">
+              <div id="modelLockOverlay"
+                class="hidden absolute inset-0 bg-gray-900/60 z-10 flex flex-col items-center justify-center text-center rounded-lg backdrop-blur-[1px] border border-gray-600 border-dashed">
+                <p class="text-gray-300 font-semibold text-sm">
+                  Using Existing Model Specs
+                </p>
+                <button type="button" onclick="window.app.unlockModelFields()"
+                  class="mt-2 text-xs text-cyan-400 hover:text-cyan-300 underline">
+                  Override
                 </button>
               </div>
-            </form>
-          </div>
+
+              <h4 class="text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider">
+                2. Model Details
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Make</label>
+                  <input type="text" name="make" id="carMake" required
+                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Name</label>
+                  <input type="text" name="name" id="carName" required
+                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Price / Day</label>
+                  <input type="number" name="price" id="carPrice" required
+                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Image</label>
+                  <input type="file" name="image" id="carImage"
+                    class="w-full text-sm text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-cyan-900 file:text-cyan-400 hover:file:bg-cyan-800" />
+                </div>
+
+                <div class="md:col-span-2">
+                  <label class="block text-xs text-gray-400 mb-1">
+                    Description (Default)
+                  </label>
+                  <textarea name="description" id="carDescription" rows="2"
+                    placeholder="e.g. German sporting excellence..."
+                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500 text-sm"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                  <label class="block text-xs text-gray-400 mb-1">
+                    Available Locations
+                  </label>
+                  <input type="text" name="location_text" id="carLocation" placeholder="e.g. Casablanca, Rabat, Tangier"
+                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500 text-sm" />
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Unit Details Section (VIN, Color, Status) -->
+            <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50">
+              <h4 class="text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider">
+                3. Fleet Unit Details
+              </h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">VIN</label>
+                  <input type="text" name="vin" id="carVin" placeholder="e.g. WBD123456789AB1234"
+                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                </div>
+                <div>
+                  <label class="block text-xs text-gray-400 mb-1">Color</label>
+                  <div class="flex gap-2">
+                    <input type="color" name="color" id="colorPicker" value="#ffffff"
+                      onchange="document.getElementById('carColor').value = this.value"
+                      class="w-12 h-10 bg-gray-700 rounded border border-gray-600 cursor-pointer" />
+                    <input type="text" name="colorHex" id="carColor" value="#ffffff" readonly
+                      class="flex-1 bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none" />
+                  </div>
+                </div>
+                <div class="md:col-span-2">
+                  <label class="block text-xs text-gray-400 mb-1">Status</label>
+                  <select name="status" id="carStatus"
+                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500">
+                    <option value="available">Available</option>
+                    <option value="rented">Rented</option>
+                    <option value="maintenance">Maintenance</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex gap-3 justify-end">
+              <button type="button" onclick="window.app.closeCarModal()"
+                class="px-4 py-2 text-gray-300 hover:text-gray-100 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                Cancel
+              </button>
+              <button type="submit"
+                class="px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold rounded-lg transition">
+                Save Vehicle
+              </button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
 
-    <script type="module" src="./src/js/admin.js"></script>
-  </body>
+  <script type="module" src="./src/js/admin.js"></script>
+</body>
+
 </html>
