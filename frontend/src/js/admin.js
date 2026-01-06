@@ -16,7 +16,6 @@ import {
 
 // ...
 
-
 import { translations } from "./translations.js";
 
 import { toast } from "./toast.js";
@@ -37,7 +36,9 @@ class SettingsManager {
     const lastName = user.last_name || "";
     const email = user.email || "";
 
-    const t = translations[window.app?.language || "en"]?.admin || translations.en.admin;
+    const t =
+      translations[window.app?.language || "en"]?.admin ||
+      translations.en.admin;
 
     return `
       <div class="p-8 max-w-6xl mx-auto space-y-8 animate-fade-in">
@@ -55,45 +56,45 @@ class SettingsManager {
           
           <div class="lg:col-span-2 space-y-8">
             
-            <div class="bg-gray-800 rounded-xl border border-gray-700/50 p-6 shadow-lg">
-              <h3 class="text-lg font-semibold text-gray-200 mb-6 flex items-center">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700/50 p-6 shadow-lg">
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6 flex items-center">
                 <svg class="w-5 h-5 mr-2 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                 Profile Information
               </h3>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="space-y-2">
-                  <label class="text-sm text-gray-400">First Name</label>
-                  <input type="text" id="set-firstname" value="${firstName}" class="w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none text-white">
+                  <label class="text-sm text-gray-500 dark:text-gray-400">First Name</label>
+                  <input type="text" id="set-firstname" value="${firstName}" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
                 </div>
                 <div class="space-y-2">
-                  <label class="text-sm text-gray-400">Last Name</label>
-                  <input type="text" id="set-lastname" value="${lastName}" class="w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none text-white">
+                  <label class="text-sm text-gray-500 dark:text-gray-400">Last Name</label>
+                  <input type="text" id="set-lastname" value="${lastName}" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
                 </div>
                 <div class="space-y-2 md:col-span-2">
-                  <label class="text-sm text-gray-400">Email Address</label>
-                  <input type="email" id="set-email" value="${email}" class="w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none text-white">
+                  <label class="text-sm text-gray-500 dark:text-gray-400">Email Address</label>
+                  <input type="email" id="set-email" value="${email}" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
                 </div>
               </div>
             </div>
 
-            <div class="bg-gray-800 rounded-xl border border-gray-700/50 p-6 shadow-lg">
-              <h3 class="text-lg font-semibold text-gray-200 mb-6 flex items-center">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700/50 p-6 shadow-lg">
+              <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-6 flex items-center">
                 <svg class="w-5 h-5 mr-2 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                 Security
               </h3>
               <div class="space-y-4">
                 <div class="space-y-2">
-                  <label class="text-sm text-gray-400">Current Password</label>
-                  <input type="password" id="current-password" placeholder="••••••••" class="w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
+                  <label class="text-sm text-gray-500 dark:text-gray-400">Current Password</label>
+                  <input type="password" id="current-password" placeholder="••••••••" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
-                    <label class="text-sm text-gray-400">New Password</label>
-                    <input type="password" id="new-password" class="w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
+                    <label class="text-sm text-gray-500 dark:text-gray-400">New Password</label>
+                    <input type="password" id="new-password" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
                   </div>
                   <div class="space-y-2">
-                    <label class="text-sm text-gray-400">Confirm New Password</label>
-                    <input type="password" id="confirm-password" class="w-full bg-gray-700 border border-gray-600 text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
+                    <label class="text-sm text-gray-500 dark:text-gray-400">Confirm New Password</label>
+                    <input type="password" id="confirm-password" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 rounded-lg p-2.5 focus:ring-2 focus:ring-cyan-500 outline-none transition">
                   </div>
                 </div>
                 <p id="password-msg" class="text-sm hidden"></p>
@@ -225,42 +226,43 @@ class SettingsManager {
 
 class AnalyticsManager {
   render() {
+    const t = translations[window.app?.language || "en"]?.admin || translations.en.admin;
     return `
       <div class="p-8 space-y-8">
-        <h2 class="text-2xl font-bold text-cyan-400">Advanced Analytics</h2>
+        <h2 class="text-2xl font-bold text-cyan-400">${t.advanced_analytics}</h2>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full">
           
-          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700/50 shadow-xl min-h-[500px] flex flex-col">
-            <h3 class="text-gray-300 font-semibold mb-4 flex-shrink-0">Top 10 Customers</h3>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700/50 shadow-xl min-h-[500px] flex flex-col">
+            <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-4 flex-shrink-0">Top 10 Customers</h3>
             <div class="flex-grow relative w-full h-full">
                <div id="plotCustomers" class="absolute inset-0 w-full h-full"></div>
             </div>
           </div>
 
-          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700/50 shadow-xl min-h-[500px] flex flex-col">
-            <h3 class="text-gray-300 font-semibold mb-4 flex-shrink-0">Top 5 Rented Models</h3>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700/50 shadow-xl min-h-[500px] flex flex-col">
+            <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-4 flex-shrink-0">Top 5 Rented Models</h3>
             <div class="flex-grow relative w-full h-full">
                <div id="plotTopCars" class="absolute inset-0 w-full h-full"></div>
             </div>
           </div>
 
-          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700/50 shadow-xl lg:col-span-2 min-h-[600px] flex flex-col w-full">
-            <h3 class="text-gray-300 font-semibold mb-4 flex-shrink-0">Monthly Revenue Flow</h3>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700/50 shadow-xl lg:col-span-2 min-h-[600px] flex flex-col w-full">
+            <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-4 flex-shrink-0">Monthly Revenue Flow</h3>
             <div class="flex-grow relative w-full h-full">
                <div id="plotRevenue" class="absolute inset-0 w-full h-full"></div>
             </div>
           </div>
 
-          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700/50 shadow-xl min-h-[500px] flex flex-col">
-            <h3 class="text-gray-300 font-semibold mb-4 flex-shrink-0">Avg Rental Duration (Weeks)</h3>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700/50 shadow-xl min-h-[500px] flex flex-col">
+            <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-4 flex-shrink-0">Avg Rental Duration (Weeks)</h3>
             <div class="flex-grow relative w-full h-full">
                <div id="plotDuration" class="absolute inset-0 w-full h-full"></div>
             </div>
           </div>
 
-          <div class="bg-gray-800 p-6 rounded-xl border border-gray-700/50 shadow-xl min-h-[400px] flex flex-col">
-            <h3 class="text-gray-300 font-semibold mb-4 flex-shrink-0">Fleet Availability</h3>
+          <div class="bg-white dark:bg-gray-800 p-6 rounded-xl border border-gray-200 dark:border-gray-700/50 shadow-xl min-h-[400px] flex flex-col">
+            <h3 class="text-gray-700 dark:text-gray-300 font-semibold mb-4 flex-shrink-0">Fleet Availability</h3>
             <div class="flex-grow relative w-full h-full">
                <div id="plotFleetStatus" class="absolute inset-0 w-full h-full"></div>
             </div>
@@ -271,102 +273,121 @@ class AnalyticsManager {
   }
 
   async initCharts() {
-    // Wait for the DOM to update layout before drawing charts
-    // This prevents the "half width" bug where Plotly draws before the div expands
+    // 1. Fetch real data
+    const data = await this.fetchAnalyticsData();
+
+    // 2. Wait for DOM to accept layouts
     setTimeout(() => {
       requestAnimationFrame(() => {
-        this.renderPlotlyCharts();
+        this.renderPlotlyCharts(data);
       });
     }, 100);
   }
 
-  renderPlotlyCharts() {
-    const config = { responsive: true, displayModeBar: false };
+  async fetchAnalyticsData() {
+    try {
+      const [customersRes, revenueRes, fleetRes, topModelsRes, avgDurationRes] =
+        await Promise.all([
+          fetch("http://localhost:3000/api/analytics/top-customers"),
+          fetch("http://localhost:3000/api/analytics/revenue-monthly"),
+          fetch("http://localhost:3000/api/analytics/fleet-status"),
+          fetch("http://localhost:3000/api/analytics/top-models"),
+          fetch("http://localhost:3000/api/analytics/avg-duration"),
+        ]);
 
-    const darkLayout = {
+      return {
+        customers: await customersRes.json(),
+        revenue: await revenueRes.json(),
+        fleet: await fleetRes.json(),
+        topModels: await topModelsRes.json(),
+        avgDuration: await avgDurationRes.json(),
+      };
+    } catch (err) {
+      console.error("Failed to load analytics data", err);
+      toast.error("Could not load analytics data");
+      return {
+        customers: [],
+        revenue: [],
+        fleet: [],
+        topModels: [],
+        avgDuration: [],
+      };
+    }
+  }
+
+  renderPlotlyCharts({ customers, revenue, fleet, topModels, avgDuration }) {
+    const config = { responsive: true, displayModeBar: false };
+    const isDark = document.documentElement.classList.contains("dark");
+
+    // Theme Colors
+    const textColor = isDark ? "#9ca3af" : "#374151";
+    const gridColor = isDark ? "#374151" : "#e5e7eb";
+
+    const commonLayout = {
       paper_bgcolor: "rgba(0,0,0,0)",
       plot_bgcolor: "rgba(0,0,0,0)",
-      font: { color: "#9ca3af", family: "Montserrat" },
+      font: { color: textColor, family: "Montserrat" },
       margin: { t: 10, l: 40, r: 20, b: 40 },
-      autosize: true, // IMPORTANT
+      autosize: true,
       showlegend: true,
       legend: { font: { size: 10 }, orientation: "h", y: -0.15 },
     };
 
-    // --- MOCK DATA ---
-    const customers = [
-      { name: "Alice J.", count: 12 },
-      { name: "Bob S.", count: 10 },
-      { name: "Charlie", count: 8 },
-      { name: "Diana P.", count: 5 },
-      { name: "Evan H.", count: 4 },
-    ];
-    const revenue = [
-      { month: "Jan", total: 5000 },
-      { month: "Feb", total: 7500 },
-      { month: "Mar", total: 6000 },
-      { month: "Apr", total: 9000 },
-      { month: "May", total: 11000 },
-      { month: "Jun", total: 14000 },
-      { month: "Jul", total: 13000 },
-      { month: "Aug", total: 15000 },
-      { month: "Sep", total: 17000 },
-      { month: "Oct", total: 16000 },
-      { month: "Nov", total: 18000 },
-      { month: "Dec", total: 20000 },
-    ];
-    const fleet = [
-      { status: "Available", count: 10 },
-      { status: "Rented", count: 5 },
-      { status: "Maintenance", count: 2 },
-    ];
-
     try {
       // 1. Top 10 Customers
+      const custNames = customers.map((c) => c.name);
+      const custCounts = customers.map((c) => parseInt(c.count));
+
       Plotly.newPlot(
         "plotCustomers",
         [
           {
             type: "bar",
             orientation: "h",
-            x: customers.map((c) => c.count),
-            y: customers.map((c) => c.name),
+            x: custCounts,
+            y: custNames,
             marker: { color: "#22d3ee" },
           },
         ],
         {
-          ...darkLayout,
-          margin: { t: 10, l: 80, r: 20, b: 30 },
+          ...commonLayout,
+          margin: { t: 10, l: 100, r: 20, b: 30 }, // More left margin for names
           yaxis: { automargin: true },
         },
         config
       );
 
-      // 2. Top 5 Cars
+      // 2. Top 5 Rented Models
+      const modelLabels = topModels.map((m) => `${m.make} ${m.name}`);
+      const modelValues = topModels.map((m) => parseInt(m.count));
+
       Plotly.newPlot(
         "plotTopCars",
         [
           {
-            values: [40, 25, 20, 10, 5],
-            labels: ["Mercedes", "Porsche", "Lambo", "Range Rover", "Tesla"],
+            values: modelValues,
+            labels: modelLabels,
             type: "pie",
             marker: {
-              colors: ["#06b6d4", "#0891b2", "#0e7490", "#155e75", "#164e63"],
+              colors: ["#22d3ee", "#f43f5e", "#f59e0b", "#10b981", "#8b5cf6"],
             },
             textinfo: "none",
           },
         ],
-        darkLayout,
+        commonLayout,
         config
       );
 
-      // 3. Revenue (This will now take full width)
+      // 3. Revenue
+      const revMonths = revenue.map((r) => r.month);
+      const revTotals = revenue.map((r) => parseFloat(r.total));
+
       Plotly.newPlot(
         "plotRevenue",
         [
           {
-            x: revenue.map((r) => r.month),
-            y: revenue.map((r) => r.total),
+            x: revMonths,
+            y: revTotals,
             type: "scatter",
             mode: "lines+markers",
             line: { shape: "spline", color: "#22d3ee", width: 3 },
@@ -375,46 +396,69 @@ class AnalyticsManager {
           },
         ],
         {
-          ...darkLayout,
-          xaxis: { gridcolor: "#374151" },
-          yaxis: { gridcolor: "#374151" },
+          ...commonLayout,
+          xaxis: { gridcolor: gridColor },
+          yaxis: { gridcolor: gridColor },
         },
         config
       );
 
       // 4. Duration
+      const durNames = avgDuration.map((d) => d.name);
+      const durValues = avgDuration.map((d) => parseFloat(d.avg_days).toFixed(1));
+
       Plotly.newPlot(
         "plotDuration",
         [
           {
-            x: ["S-Class", "911", "Urus", "Ghost", "Tributo"],
-            y: [2.5, 1.8, 3.2, 4.0, 1.2],
+            x: durNames,
+            y: durValues,
             type: "bar",
             marker: { color: "#f59e0b" },
           },
         ],
-        darkLayout,
+        commonLayout,
         config
       );
 
       // 5. Fleet Status
+      const fleetLabels = fleet.map((f) => {
+        // Capitalize status
+        return f.status.charAt(0).toUpperCase() + f.status.slice(1);
+      });
+      const fleetValues = fleet.map((f) => parseInt(f.count));
+
+      // Color mapping for known statuses
+      const statusColors = fleet.map((f) => {
+        switch (f.status) {
+          case "available":
+            return "#10b981"; // Green
+          case "maintenance":
+            return "#ef4444"; // Red
+          case "rented":
+            return "#f59e0b"; // Amber
+          default:
+            return "#6b7280"; // Gray
+        }
+      });
+
       Plotly.newPlot(
         "plotFleetStatus",
         [
           {
-            values: fleet.map((f) => f.count),
-            labels: fleet.map((f) => f.status),
+            values: fleetValues,
+            labels: fleetLabels,
             type: "pie",
             hole: 0.6,
-            marker: { colors: ["#10b981", "#f59e0b", "#ef4444"] },
+            marker: { colors: statusColors },
             textinfo: "none",
           },
         ],
-        darkLayout,
+        commonLayout,
         config
       );
 
-      // FORCE RESIZE: Final safety check to make sure charts snap to container width
+      // FORCE RESIZE
       window.dispatchEvent(new Event("resize"));
     } catch (err) {
       console.error("Plotly Init Error:", err);
@@ -438,49 +482,74 @@ class KPIManager {
   constructor() {
     this.kpis = [
       {
-        title: translations[window.app?.language || "en"]?.admin?.total_cars || "Total Cars",
+        title:
+          translations[window.app?.language || "en"]?.admin?.total_cars ||
+          "Total Cars",
         value: "...",
-        description: translations[window.app?.language || "en"]?.admin?.in_fleet || "In Fleet",
+        description:
+          translations[window.app?.language || "en"]?.admin?.in_fleet ||
+          "In Fleet",
         iconPath:
           "M19 17h2c.6 0 1-.4 1-1v-3c0-.6-.4-1-1-1h-1.4M2 17h3l2.6-6.3c.4-.9 1.1-1.4 2.1-1.4h6.6c1 0 1.7.5 2.1 1.4L19 17M5 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM15 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0z",
         color: "cyan",
       },
       {
-        title: translations[window.app?.language || "en"]?.admin?.total_clients || "Total Clients",
+        title:
+          translations[window.app?.language || "en"]?.admin?.total_clients ||
+          "Total Clients",
         value: "...",
-        description: translations[window.app?.language || "en"]?.admin?.registered_users || "Registered Users",
+        description:
+          translations[window.app?.language || "en"]?.admin?.registered_users ||
+          "Registered Users",
         iconPath:
           "M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 7a4 4 0 1 0 0 8 4 4 0 0 0 0-8z",
         color: "green",
       },
       {
-        title: translations[window.app?.language || "en"]?.admin?.active_rentals || "Active Rentals",
+        title:
+          translations[window.app?.language || "en"]?.admin?.active_rentals ||
+          "Active Rentals",
         value: "...",
-        description: translations[window.app?.language || "en"]?.admin?.on_road || "Currently on the road",
+        description:
+          translations[window.app?.language || "en"]?.admin?.on_road ||
+          "Currently on the road",
         iconPath:
           "M21 2l-6.5 6.5a4 4 0 1 0 4 4L22 7.5zm-5 5-2 2M15 19a4 4 0 1 0 0-8 4 4 0 0 0 0 8z",
         color: "amber",
       },
       {
-        title: translations[window.app?.language || "en"]?.admin?.revenue_year || "Revenue This Year",
+        title:
+          translations[window.app?.language || "en"]?.admin?.revenue_year ||
+          "Revenue This Year",
         value: "...",
-        description: translations[window.app?.language || "en"]?.admin?.earnings_summary || "Real-time earnings summary",
+        description:
+          translations[window.app?.language || "en"]?.admin?.earnings_summary ||
+          "Real-time earnings summary",
         iconPath:
           "M12 1v22M17 5H7c-2.2 0-4 1.8-4 4s1.8 4 4 4h10c2.2 0 4 1.8 4 4s-1.8 4-4 4H7",
         color: "rose",
       },
       {
-        title: translations[window.app?.language || "en"]?.admin?.available_cars || "Available Cars",
+        title:
+          translations[window.app?.language || "en"]?.admin?.available_cars ||
+          "Available Cars",
         value: "...",
-        description: translations[window.app?.language || "en"]?.admin?.ready_booking || "Ready for booking",
+        description:
+          translations[window.app?.language || "en"]?.admin?.ready_booking ||
+          "Ready for booking",
         iconPath: "M22 11.08V12a10 10 0 1 1-5.93-8.5M22 4L12 14.01l-3-3",
         color: "teal",
       },
       {
-        title: translations[window.app?.language || "en"]?.admin?.total_locations || "Total Locations", // NEW
+        title:
+          translations[window.app?.language || "en"]?.admin?.total_locations ||
+          "Total Locations", // NEW
         value: "...",
-        description: translations[window.app?.language || "en"]?.admin?.global_presence || "Global presence",
-        iconPath: "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
+        description:
+          translations[window.app?.language || "en"]?.admin?.global_presence ||
+          "Global presence",
+        iconPath:
+          "M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z M12 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
         color: "indigo",
       },
     ];
@@ -488,14 +557,15 @@ class KPIManager {
 
   async fetchData() {
     try {
-      const [cars, clients, rentals, revenue, available, locations] = await Promise.all([
-        getCarsCount(),
-        getClientsCount(),
-        getRentalsCount(),
-        getRevenue(),
-        getAvailableCars(),
-        getLocationsCount(), // NEW
-      ]);
+      const [cars, clients, rentals, revenue, available, locations] =
+        await Promise.all([
+          getCarsCount(),
+          getClientsCount(),
+          getRentalsCount(),
+          getRevenue(),
+          getAvailableCars(),
+          getLocationsCount(), // NEW
+        ]);
 
       this.kpis[0].value = cars;
       this.kpis[1].value = clients;
@@ -513,15 +583,15 @@ class KPIManager {
   }
 
   renderCard(kpi) {
-    const colorClass = `text-${kpi.color}-400`;
-    const bgClass = `bg-${kpi.color}-900/30`;
+    const colorClass = `text-${kpi.color}-500 dark:text-${kpi.color}-400`;
+    const bgClass = `bg-${kpi.color}-100 dark:bg-${kpi.color}-900/30`;
     return `
-            <div class="flex flex-col p-5 bg-gray-800 rounded-xl shadow-lg hover:shadow-cyan-500/30 transition-shadow duration-300 transform hover:scale-[1.01] border border-gray-700/50">
+            <div class="flex flex-col p-5 bg-white dark:bg-gray-800 rounded-xl shadow-lg hover:shadow-cyan-500/30 transition-shadow duration-300 transform hover:scale-[1.01] border border-gray-200 dark:border-gray-700/50">
               <div class="flex items-start justify-between">
                 <div>
-                  <p class="text-sm font-medium text-gray-400 mb-1">${kpi.title
+                  <p class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-1">${kpi.title
       }</p>
-                  <div class="text-3xl font-bold text-gray-100">${kpi.value
+                  <div class="text-3xl font-bold text-gray-800 dark:text-gray-100">${kpi.value
       }</div>
                 </div>
                 <div class="p-3 rounded-full ${bgClass} ${colorClass}">
@@ -774,7 +844,7 @@ class TableManager {
           ? paginatedData
             .map(
               (item) =>
-                `<tr class="bg-gray-800 border-b border-gray-700 hover:bg-gray-700/50 transition">${table.renderRowContent(
+                `<tr class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">${table.renderRowContent(
                   item
                 )}</tr>`
             )
@@ -830,7 +900,7 @@ class TableManager {
         (opt) => `
       <select onchange="window.app.tableManager.handleFilter('${id}', '${opt.key
           }', this.value)" 
-              class="px-3 py-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring-cyan-500 text-sm outline-none">
+              class="px-3 py-2 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-cyan-500 text-sm outline-none transition">
         <option value="all">${opt.label}</option>
         ${opt.options
             .map((val) => `<option value="${val}">${val}</option>`)
@@ -842,14 +912,16 @@ class TableManager {
 
     setTimeout(() => this.updateTableUI(id), 0);
 
+    const t = translations[window.app?.language || "en"]?.admin || translations.en.admin;
+
     return `
-      <div class="bg-gray-800 p-6 rounded-xl shadow-2xl border border-gray-700/50 animate-fade-in">
-        <h3 class="text-xl font-semibold text-gray-100 mb-4 border-b border-gray-700 pb-2 flex justify-between items-center">
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700/50 animate-fade-in">
+        <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-4 border-b border-gray-200 dark:border-gray-700 pb-2 flex justify-between items-center">
             ${title}
             <button onclick="window.app.tableManager.exportToCSV('${id}', '${title}.csv')" 
-                    class="text-sm bg-gray-700 hover:bg-gray-600 text-cyan-400 px-3 py-1.5 rounded flex items-center gap-2 border border-gray-600 transition">
+                    class="text-sm bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-cyan-600 dark:text-cyan-400 px-3 py-1.5 rounded flex items-center gap-2 border border-gray-300 dark:border-gray-600 transition">
                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-               Export CSV
+               ${t.export_csv}
             </button>
         </h3>
         
@@ -862,7 +934,7 @@ class TableManager {
              </div>
              <input type="text" placeholder="Search records..." 
                  oninput="window.app.tableManager.handleSearch('${id}', this.value)" 
-                 class="w-full pl-10 p-2 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg focus:ring-cyan-500 placeholder-gray-500 outline-none" />
+                 class="w-full pl-10 p-2 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-cyan-500 placeholder-gray-500 dark:placeholder-gray-400 outline-none" />
           </div>
 
           <div class="flex gap-2 w-full md:w-auto">
@@ -870,16 +942,16 @@ class TableManager {
           </div>
         </div>
 
-        <div class="overflow-x-auto rounded-lg border border-gray-700">
-          <table class="w-full text-sm text-left text-gray-400 ${isCompact ? "compact-table" : ""
+        <div class="overflow-x-auto rounded-lg border border-gray-200 dark:border-gray-700">
+          <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400 ${isCompact ? "compact-table" : ""
       }">
-            <thead id="${id}-thead" class="text-xs text-gray-200 uppercase bg-gray-700/80">
+            <thead id="${id}-thead" class="text-xs text-gray-700 dark:text-gray-200 uppercase bg-gray-100/80 dark:bg-gray-700/80">
               <tr>
                 ${columns
         .map((c) => {
           const isSortable = c.key !== "actions" && c.key !== "image";
           const cursor = isSortable
-            ? "cursor-pointer hover:bg-gray-700 hover:text-white"
+            ? "cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
             : "";
           const clickEvent = isSortable
             ? `onclick="window.app.tableManager.handleSort('${id}', '${c.key}')"`
@@ -907,7 +979,7 @@ class TableManager {
         <div class="flex flex-col sm:flex-row justify-between items-center mt-6 pt-4">
           <div class="flex items-center gap-4 mb-4 sm:mb-0">
             <span class="text-sm text-gray-400" id="${id}-page-info">Page 1 of 1</span>
-            <select onchange="window.app.tableManager.handleItemsPerPageChange('${id}', this.value)" class="px-3 py-1 bg-gray-700 text-gray-200 border border-gray-600 rounded-lg text-sm outline-none">
+            <select onchange="window.app.tableManager.handleItemsPerPageChange('${id}', this.value)" class="px-3 py-1 bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg text-sm outline-none transition">
               <option value="10">10 / page</option>
               <option value="25">25 / page</option>
               <option value="50">50 / page</option>
@@ -1024,7 +1096,7 @@ class Sidebar {
           "M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z",
       },
       {
-        name: t.analytics,
+        name: t.graphs_analytics,
         route: "analytics",
         iconPath: "M12 20V10M18 20V4M6 20V16",
       },
@@ -1047,8 +1119,8 @@ class Sidebar {
   createMenuItem(item) {
     const isActive = item.route === this.router.currentRoute;
     const menuClass = isActive
-      ? "bg-cyan-700/50 text-cyan-400 font-semibold shadow-inner shadow-cyan-500/20"
-      : "text-gray-400 hover:bg-gray-700 hover:text-gray-100";
+      ? "bg-cyan-100 dark:bg-cyan-700/50 text-cyan-700 dark:text-cyan-400 font-semibold shadow-inner"
+      : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-gray-100";
 
     return `
             <div class="flex items-center p-3 rounded-xl transition duration-200 cursor-pointer group ${menuClass}" 
@@ -1058,7 +1130,7 @@ class Sidebar {
               <span class="ml-3 whitespace-nowrap overflow-hidden sidebar-text transition-all duration-300">
                 ${item.name}
               </span>
-              <span class="hidden lg:group-hover:block absolute left-full ml-3 px-3 py-1 bg-gray-700 text-xs rounded-lg text-gray-100 z-50 shadow-md">
+              <span class="hidden lg:group-hover:block absolute left-full ml-3 px-3 py-1 bg-gray-900 dark:bg-gray-700 text-xs rounded-lg text-white z-50 shadow-md">
                 ${item.name}
               </span>
             </div>`;
@@ -1110,17 +1182,18 @@ class Sidebar {
 
 class DetailsRenderer {
   static renderHeader(title, onBack) {
+    const t = translations[window.app?.language || "en"]?.admin || translations.en.admin;
     return `
-      <div class="flex justify-between items-center mb-8 border-b border-gray-700 pb-4">
+      <div class="flex justify-between items-center mb-8 border-b border-gray-200 dark:border-gray-700 pb-4">
         <div class="flex items-center gap-4">
-          <button onclick="${onBack}" class="p-2 bg-gray-700 hover:bg-gray-600 rounded-lg transition text-gray-300">
+          <button onclick="${onBack}" class="p-2 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition text-gray-600 dark:text-gray-300">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
           </button>
-          <h2 class="text-2xl font-bold text-cyan-400">${title}</h2>
+          <h2 class="text-2xl font-bold text-cyan-600 dark:text-cyan-400">${title}</h2>
         </div>
-        <button onclick="window.app.exportToPDF()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg flex items-center gap-2 transition border border-gray-600">
-          <svg class="w-5 h-5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-          Export PDF
+        <button onclick="window.app.exportToPDF()" class="bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-900 dark:text-white px-4 py-2 rounded-lg flex items-center gap-2 transition border border-gray-300 dark:border-gray-600">
+          <svg class="w-5 h-5 text-red-500 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+          ${t.export_pdf}
         </button>
       </div>`;
   }
@@ -1152,26 +1225,26 @@ class DetailsRenderer {
     return `
       <div class="p-8 max-w-6xl mx-auto animate-fade-in" id="printable-area">
         ${this.renderHeader(
-      `Vehicle Details: ${car.make} ${car.name}`,
+      `Vehicle Details: ${car.name}`,
       "window.app.router.navigate('cars')"
     )}
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-1 space-y-6">
-            <div class="bg-gray-800 rounded-xl p-2 border border-gray-700 shadow-lg">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-2 border border-gray-200 dark:border-gray-700 shadow-lg">
               <img src="${imgUrl}" class="w-full h-64 object-cover rounded-lg" onerror="this.src='http://localhost:3000/assets/images/placeholder.png'">
             </div>
             
-            <div class="bg-gray-800 rounded-xl p-6 border border-gray-700 shadow-lg">
-               <h3 class="text-gray-400 text-sm uppercase tracking-wider mb-4">Status & Pricing</h3>
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-lg">
+               <h3 class="text-gray-500 dark:text-gray-400 text-sm uppercase tracking-wider mb-4">Status & Pricing</h3>
                <div class="flex justify-between items-center mb-4">
-                  <span class="text-gray-300">Daily Rate</span>
-                  <span class="text-2xl font-bold text-cyan-400">$${car.price
+                  <span class="text-gray-600 dark:text-gray-300">Daily Rate</span>
+                  <span class="text-2xl font-bold text-cyan-600 dark:text-cyan-400">$${car.price
       }</span>
                </div>
                <div class="flex justify-between items-center">
-                  <span class="text-gray-300">Status</span>
-                  <span class="px-3 py-1 rounded-full text-sm font-medium bg-gray-700 text-white capitalize border border-gray-600">
+                  <span class="text-gray-600 dark:text-gray-300">Status</span>
+                  <span class="px-3 py-1 rounded-full text-sm font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-white capitalize border border-gray-200 dark:border-gray-600">
                     ${car.status}
                   </span>
                </div>
@@ -1179,50 +1252,50 @@ class DetailsRenderer {
           </div>
 
           <div class="lg:col-span-2 space-y-6">
-            <div class="bg-gray-800 rounded-xl p-8 border border-gray-700 shadow-lg">
-              <h3 class="text-xl font-bold text-white mb-6">Technical Specifications</h3>
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-8 border border-gray-200 dark:border-gray-700 shadow-lg">
+              <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Technical Specifications</h3>
               
               <div class="grid grid-cols-2 gap-6 mb-6">
                 <div>
                   <p class="text-gray-500 text-sm">Vehicle ID (DB)</p>
-                  <p class="text-white font-medium">#${car.id}</p>
+                  <p class="text-gray-800 dark:text-white font-medium">#${car.id}</p>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">VIN / Registration</p>
-                  <p class="text-white font-medium">${car.vin || "N/A"}</p>
+                  <p class="text-gray-800 dark:text-white font-medium">${car.vin || "N/A"}</p>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">Make</p>
-                  <p class="text-white font-medium">${car.make}</p>
+                  <p class="text-gray-800 dark:text-white font-medium">${car.make}</p>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">Model</p>
-                  <p class="text-white font-medium">${car.name}</p>
+                  <p class="text-gray-800 dark:text-white font-medium">${car.name}</p>
                 </div>
                 <div>
                   <p class="text-gray-500 text-sm">Color</p>
                   <div class="flex items-center gap-2">
                     <span class="w-4 h-4 rounded-full border border-gray-500" style="background-color: ${car.color
       }"></span>
-                    <span class="text-white font-medium capitalize">${car.color
+                    <span class="text-gray-800 dark:text-white font-medium capitalize">${car.color
       }</span>
                   </div>
                 </div>
                  <div>
                   <p class="text-gray-500 text-sm">Location</p>
-                  <p class="text-white font-medium">${locations}</p>
+                  <p class="text-gray-800 dark:text-white font-medium">${locations}</p>
                 </div>
               </div>
 
-              <div class="border-t border-gray-700 pt-6">
+              <div class="border-t border-gray-200 dark:border-gray-700 pt-6">
                 <p class="text-gray-500 text-sm mb-2">Description</p>
-                <p class="text-gray-300 leading-relaxed">${desc}</p>
+                <p class="text-gray-600 dark:text-gray-300 leading-relaxed">${desc}</p>
               </div>
             </div>
 
             <div class="flex gap-4 justify-end pt-4" data-html2canvas-ignore="true">
               <button onclick="window.app.deleteVehicle(${car.id
-      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+      })" class="px-6 py-2 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 hover:bg-red-200 dark:hover:bg-red-900/40 rounded-lg transition font-medium">
                 Supprimer (Delete)
               </button>
               <button onclick="window.app.openCarModal(${carStr})" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
@@ -1255,17 +1328,17 @@ class DetailsRenderer {
       "window.app.router.navigate('rentals')"
     )}
 
-        <div class="bg-gray-800 rounded-xl border border-gray-700 shadow-2xl overflow-hidden relative">
+        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-2xl overflow-hidden relative">
           <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-5">
-             <span class="text-9xl font-bold text-white uppercase transform -rotate-12">${rental.status
+             <span class="text-9xl font-bold text-gray-900 dark:text-white uppercase transform -rotate-12">${rental.status
       }</span>
           </div>
 
-          <div class="p-8 border-b border-gray-700 bg-gray-900/50 flex justify-between items-start">
+          <div class="p-8 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/50 flex justify-between items-start">
             <div>
-               <h1 class="text-3xl font-bold text-white mb-2">INVOICE</h1>
-               <p class="text-gray-400 text-sm">Issued Date: ${createdDate}</p>
-               <p class="text-gray-400 text-sm">Transaction ID: #${rental.id
+               <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">INVOICE</h1>
+               <p class="text-gray-500 dark:text-gray-400 text-sm">Issued Date: ${createdDate}</p>
+               <p class="text-gray-500 dark:text-gray-400 text-sm">Transaction ID: #${rental.id
       }</p>
             </div>
             <div class="text-right">
@@ -1277,27 +1350,27 @@ class DetailsRenderer {
 
           <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
-               <h4 class="text-cyan-400 font-semibold uppercase tracking-wider text-xs mb-4">Billed To</h4>
-               <p class="text-xl text-white font-bold">${rental.first_name} ${rental.last_name
+               <h4 class="text-cyan-600 dark:text-cyan-400 font-semibold uppercase tracking-wider text-xs mb-4">Billed To</h4>
+               <p class="text-xl text-gray-900 dark:text-white font-bold">${rental.first_name} ${rental.last_name
       }</p>
-               <p class="text-gray-400">${rental.email}</p>
+               <p class="text-gray-600 dark:text-gray-400">${rental.email}</p>
                <p class="text-gray-500 text-sm mt-2">Client ID: #${rental.id
       }</p>
             </div>
 
             <div>
-               <h4 class="text-cyan-400 font-semibold uppercase tracking-wider text-xs mb-4">Rental Info</h4>
+               <h4 class="text-cyan-600 dark:text-cyan-400 font-semibold uppercase tracking-wider text-xs mb-4">Rental Info</h4>
                <div class="flex justify-between mb-2">
-                  <span class="text-gray-400">Pick-up Date:</span>
-                  <span class="text-white">${startDate}</span>
+                  <span class="text-gray-500 dark:text-gray-400">Pick-up Date:</span>
+                  <span class="text-gray-900 dark:text-white">${startDate}</span>
                </div>
                <div class="flex justify-between mb-2">
-                  <span class="text-gray-400">Return Date:</span>
-                  <span class="text-white">${endDate}</span>
+                  <span class="text-gray-500 dark:text-gray-400">Return Date:</span>
+                  <span class="text-gray-900 dark:text-white">${endDate}</span>
                </div>
                 <div class="flex justify-between mb-2">
-                  <span class="text-gray-400">Duration:</span>
-                  <span class="text-white">
+                  <span class="text-gray-500 dark:text-gray-400">Duration:</span>
+                  <span class="text-gray-900 dark:text-white">
                     ${Math.ceil(
         (new Date(rental.rental_end) -
           new Date(rental.rental_start)) /
@@ -1311,18 +1384,18 @@ class DetailsRenderer {
           <div class="p-8">
              <table class="w-full text-left text-sm">
                 <thead>
-                   <tr class="border-b border-gray-600 text-gray-400">
+                   <tr class="border-b border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400">
                       <th class="pb-3">Vehicle Description</th>
                       <th class="pb-3">VIN</th>
                       <th class="pb-3 text-right">Total Amount</th>
                    </tr>
                 </thead>
-                <tbody class="text-gray-200">
-                   <tr class="border-b border-gray-700">
+                <tbody class="text-gray-700 dark:text-gray-200">
+                   <tr class="border-b border-gray-200 dark:border-gray-700">
                       <td class="py-4">
                          <div class="flex items-center gap-4">
                             <img src="/assets/images/${rental.car_image
-      }" class="w-16 h-10 object-cover rounded border border-gray-600">
+      }" class="w-16 h-10 object-cover rounded border border-gray-200 dark:border-gray-600">
                             <div>
                                <p class="font-bold">${rental.car_make} ${rental.car_name
       }</p>
@@ -1331,16 +1404,16 @@ class DetailsRenderer {
                          </div>
                       </td>
                       <td class="py-4">${rental.vin}</td>
-                      <td class="py-4 text-right font-bold text-lg text-emerald-400">$${rental.price
+                      <td class="py-4 text-right font-bold text-lg text-emerald-600 dark:text-emerald-400">$${rental.price
       }</td>
                    </tr>
                 </tbody>
              </table>
           </div>
 
-          <div class="bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-700" data-html2canvas-ignore="true">
+          <div class="bg-gray-100 dark:bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-200 dark:border-gray-700" data-html2canvas-ignore="true">
              <button onclick="window.app.deleteRental(${rental.id
-      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+      })" class="px-6 py-2 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 hover:bg-red-200 dark:hover:bg-red-900/40 rounded-lg transition font-medium">
                 Delete Record
              </button>
              <button onclick="window.app.promptRentalStatus(${rental.id}, '${rental.status
@@ -1489,16 +1562,16 @@ class DetailsRenderer {
       "window.app.router.navigate('models')"
     )}
 
-<div class="bg-gray-800 rounded-xl border border-gray-700 shadow-xl overflow-hidden">
+<div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
   <div class="p-8">
     <div class="flex items-center gap-6 mb-8">
       <div class="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center text-white shadow-lg">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
       </div>
       <div>
-        <h3 class="text-2xl font-bold text-white">${model.car_make} ${model.car_name
+        <h3 class="text-2xl font-bold text-gray-900 dark:text-white">${model.car_make} ${model.car_name
       }</h3>
-        <p class="text-cyan-400">Model ID: #${model.id} | Car ID: #${model.car_id
+        <p class="text-cyan-600 dark:text-cyan-400">Model ID: #${model.id} | Car ID: #${model.car_id
       }</p>
       </div>
     </div>
@@ -1506,34 +1579,34 @@ class DetailsRenderer {
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="space-y-6">
         <div>
-          <h4 class="text-sm font-medium text-gray-400 mb-2">3D File</h4>
-          <div class="bg-gray-900 p-4 rounded-lg border border-gray-700 flex items-center justify-between">
-            <span class="text-gray-300 font-mono text-sm truncate mr-4">${model.file_path
+          <h4 class="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">3D File</h4>
+          <div class="bg-gray-100 dark:bg-gray-900 p-4 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-between">
+            <span class="text-gray-600 dark:text-gray-300 font-mono text-sm truncate mr-4">${model.file_path
       }</span>
             <a href="/assets/models/${model.file_path
-      }" download class="text-cyan-400 hover:text-cyan-300 text-sm font-bold">Download</a>
+      }" download class="text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 text-sm font-bold">Download</a>
           </div>
         </div>
       </div>
 
       <div class="space-y-6">
         <div class="grid grid-cols-2 gap-4">
-          <div class="bg-gray-700/30 p-4 rounded-lg">
-            <label class="text-xs text-gray-400 uppercase tracking-wider">Scale X</label>
-            <p class="text-2xl font-bold text-white mt-1">${model.scale_x}</p>
+          <div class="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg">
+            <label class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">Scale X</label>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">${model.scale_x}</p>
           </div>
-          <div class="bg-gray-700/30 p-4 rounded-lg">
-            <label class="text-xs text-gray-400 uppercase tracking-wider">Rotation Y</label>
-            <p class="text-2xl font-bold text-white mt-1">${model.rot_y}</p>
+          <div class="bg-gray-50 dark:bg-gray-700/30 p-4 rounded-lg">
+            <label class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider">Rotation Y</label>
+            <p class="text-2xl font-bold text-gray-900 dark:text-white mt-1">${model.rot_y}</p>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-700" data-html2canvas-ignore="true">
+  <div class="bg-gray-100 dark:bg-gray-900/50 p-6 flex justify-end gap-4 border-t border-gray-200 dark:border-gray-700" data-html2canvas-ignore="true">
     <button onclick="window.app.deleteModel(${model.id
-      })" class="px-6 py-2 bg-red-900/20 text-red-400 border border-red-900/50 hover:bg-red-900/40 rounded-lg transition font-medium">
+      })" class="px-6 py-2 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-900/50 hover:bg-red-200 dark:hover:bg-red-900/40 rounded-lg transition font-medium">
       Supprimer (Delete)
     </button>
     <button onclick="window.app.openModelModal(${modelStr})" class="px-6 py-2 bg-cyan-600 text-white hover:bg-cyan-500 rounded-lg shadow-lg shadow-cyan-500/20 transition font-medium">
@@ -1588,6 +1661,7 @@ class App {
     // 6. Start Background Tasks
     this.initAutoLogout();
     this.initLanguageSelector();
+    this.initTheme();
     this.updateStaticTranslations();
   }
 
@@ -1595,7 +1669,9 @@ class App {
     const selector = document.getElementById("admin-language-selector");
     if (selector) {
       selector.value = this.language;
-      selector.addEventListener("change", (e) => this.changeLanguage(e.target.value));
+      selector.addEventListener("change", (e) =>
+        this.changeLanguage(e.target.value)
+      );
     }
   }
 
@@ -1607,13 +1683,42 @@ class App {
     this.renderContent(); // Re-render current view (tables/settings)
   }
 
+  initTheme() {
+    // Default to dark
+    const savedTheme = localStorage.getItem("theme");
+    const isDark = savedTheme === "dark" || !savedTheme;
+
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    this.updateThemeIcon();
+  }
+
+  toggleTheme() {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+    this.updateThemeIcon();
+  }
+
+  updateThemeIcon() {
+    const isDark = document.documentElement.classList.contains("dark");
+    const sun = document.getElementById("theme-icon-sun");
+    const moon = document.getElementById("theme-icon-moon");
+    if (sun && moon) {
+      if (isDark) {
+        sun.classList.remove("hidden"); // Dark mode -> Show Sun (to switch to light)
+        moon.classList.add("hidden");
+      } else {
+        sun.classList.add("hidden");
+        moon.classList.remove("hidden"); // Light mode -> Show Moon (to switch to dark)
+      }
+    }
+  }
+
   updateStaticTranslations() {
     const t = translations[this.language]?.admin || translations.en.admin;
-
-    // Fixed Header Elements
-    // Note: Some elements might need specific IDs added in HTML if not present
-    // For now, assuming dynamic re-renders handle most, but Logout tooltip/text
-    // could be updated if we had direct access. Be careful with DOM Elements.
   }
 
   injectRentalModal() {
@@ -1621,27 +1726,28 @@ class App {
 
     const modalHTML = `
       <div id="rentalModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div id="rentalModalBackdrop" class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity opacity-0 transition-opacity duration-300"></div>
+        <div id="rentalModalBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity opacity-0 transition-opacity duration-300"></div>
         
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div id="rentalModalPanel" class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-700">
+            <div id="rentalModalPanel" class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-200 dark:border-gray-700">
               
               <form id="rentalForm" onsubmit="window.app.handleRentalSubmit(event)">
+                <input type="hidden" id="rentalId" name="rental_id" value="">
                 <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <h3 class="text-xl font-bold text-cyan-400 mb-4">Create New Rental</h3>
+                  <h3 class="text-xl font-bold text-cyan-600 dark:text-cyan-400 mb-4">Create New Rental</h3>
                   
                   <div class="space-y-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">Select Client</label>
-                      <select id="rentalClientSelect" name="client_id" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Select Client</label>
+                      <select id="rentalClientSelect" name="client_id" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                          <option value="">Loading clients...</option>
                       </select>
                     </div>
 
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">Select Vehicle Model</label>
-                      <select id="rentalCarSelect" name="car_id" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Select Vehicle Model</label>
+                      <select id="rentalCarSelect" name="car_id" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                          <option value="">Loading cars...</option>
                       </select>
                       <p class="text-xs text-gray-500 mt-1">Only shows models with available units.</p>
@@ -1649,20 +1755,20 @@ class App {
 
                     <div class="grid grid-cols-2 gap-4">
                       <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Start Date</label>
-                        <input type="date" name="rental_start" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Start Date</label>
+                        <input type="date" name="rental_start" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                       </div>
                       <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">End Date</label>
-                        <input type="date" name="rental_end" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">End Date</label>
+                        <input type="date" name="rental_end" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-700">
+                <div class="bg-gray-100 dark:bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-200 dark:border-gray-700">
                   <button type="submit" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:ml-3 sm:w-auto">Confirm Booking</button>
-                  <button type="button" onclick="window.app.closeRentalModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 ring-1 ring-inset ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
+                  <button type="button" onclick="window.app.closeRentalModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-gray-500 ring-1 ring-inset ring-gray-300 dark:ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
                 </div>
               </form>
             </div>
@@ -1676,10 +1782,21 @@ class App {
     document.body.insertAdjacentHTML("beforeend", modalHTML);
   }
 
-  async openRentalModal() {
-    // 1. Reset Form
+  async openRentalModal(rental = null) {
+    // 1. Reset Form & Title
     const form = document.getElementById("rentalForm");
+    const title = document.querySelector("#rentalModal h3");
+    const rentalIdInput = document.getElementById("rentalId");
+
     if (form) form.reset();
+
+    if (rental) {
+      title.innerText = "Edit Rental";
+      rentalIdInput.value = rental.id;
+    } else {
+      title.innerText = "Create New Rental";
+      rentalIdInput.value = "";
+    }
 
     const clientSelect = document.getElementById("rentalClientSelect");
     const carSelect = document.getElementById("rentalCarSelect");
@@ -1693,13 +1810,15 @@ class App {
     // Populate Clients
     clientSelect.innerHTML = '<option value="">-- Select Client --</option>';
     this.clientsData.forEach((c) => {
-      clientSelect.innerHTML += `<option value="${c.id}">${c.first_name} ${c.last_name} (${c.email})</option>`;
+      const selected = rental && rental.client_id === c.id ? "selected" : "";
+      clientSelect.innerHTML += `<option value="${c.id}" ${selected}>${c.first_name} ${c.last_name} (${c.email})</option>`;
     });
 
-    // Populate Cars (Extract unique models from fleet data or use separate API)
-    // Here we use a Set to get unique car models from the fleet list
+    // Populate Cars (Extract unique models from fleet data)
     const uniqueCars = new Map();
     this.fleetData.forEach((unit) => {
+      // Ideally we should show ALL cars in edit mode or at least the current one even if rented
+      // For simplicity, we existing logic but ensure current rental car is available option
       if (!uniqueCars.has(unit.car_id)) {
         uniqueCars.set(unit.car_id, { name: unit.name, make: unit.make });
       }
@@ -1707,8 +1826,42 @@ class App {
 
     carSelect.innerHTML = '<option value="">-- Select Vehicle --</option>';
     uniqueCars.forEach((val, key) => {
-      carSelect.innerHTML += `<option value="${key}">${val.make} ${val.name}</option>`;
+      // Use car_model_id to match the dropdown value (which is Model ID)
+      const selected = rental && rental.car_model_id === parseInt(key) ? "selected" : "";
+      carSelect.innerHTML += `<option value="${key}" ${selected}>${val.make} ${val.name}</option>`;
     });
+
+    // Pre-fill Dates & Status for Edit Mode
+    if (rental) {
+      // Format dates for input[type="date"] (YYYY-MM-DD)
+      const formatDate = (isoStr) => {
+        if (!isoStr) return "";
+        return new Date(isoStr).toISOString().split('T')[0];
+      };
+      form.querySelector('[name="rental_start"]').value = formatDate(rental.rental_start);
+      form.querySelector('[name="rental_end"]').value = formatDate(rental.rental_end);
+
+      // Inject Status Field if not present
+      if (!document.getElementById("rentalStatusDiv")) {
+        const statusDiv = document.createElement("div");
+        statusDiv.id = "rentalStatusDiv";
+        statusDiv.innerHTML = `
+                <label class="block text-sm font-medium text-gray-400 mb-1">Status</label>
+                <select name="status" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                    <option value="rented">Rented (Active)</option>
+                    <option value="completed">Completed</option>
+                    <option value="cancelled">Cancelled</option>
+                </select>
+             `;
+        // Insert before the dates grid
+        form.querySelector('.grid.grid-cols-2').before(statusDiv);
+      }
+      form.querySelector('[name="status"]').value = rental.status;
+    } else {
+      // Remove status field if in correct mode
+      const statusDiv = document.getElementById("rentalStatusDiv");
+      if (statusDiv) statusDiv.remove();
+    }
 
     // 3. Show Modal
     const modal = document.getElementById("rentalModal");
@@ -1751,15 +1904,22 @@ class App {
     event.preventDefault();
     const btn = event.target.querySelector('button[type="submit"]');
     const originalText = btn.innerHTML;
-    btn.innerHTML = "Booking...";
+    btn.innerHTML = "Saving...";
     btn.disabled = true;
 
     const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
+    const rentalId = document.getElementById("rentalId").value;
+
+    const url = rentalId
+      ? `http://localhost:3000/api/rentals/${rentalId}`
+      : "http://localhost:3000/api/rentals";
+
+    const method = rentalId ? "PUT" : "POST";
 
     try {
-      const res = await fetch("http://localhost:3000/api/rentals", {
-        method: "POST",
+      const res = await fetch(url, {
+        method: method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       });
@@ -1767,12 +1927,12 @@ class App {
       const result = await res.json();
 
       if (res.ok) {
-        toast.success("Rental created successfully!");
+        toast.success(rentalId ? "Rental updated successfully!" : "Rental created successfully!");
         this.closeRentalModal();
         this.fetchTableData(); // Refresh tables
         this.kpiManager.fetchData(); // Refresh KPIs (Revenue/Active rentals)
       } else {
-        toast.error("Error: " + (result.error || "Failed to create rental"));
+        toast.error("Error: " + (result.error || "Failed to save rental"));
       }
     } catch (e) {
       console.error(e);
@@ -1788,7 +1948,8 @@ class App {
     const formattedData = this.rentalsData.map((r) => ({
       ...r,
       full_name: `${r.first_name} ${r.last_name} `,
-      formatted_date: new Date(r.rental_start).toLocaleDateString(),
+      formatted_start: new Date(r.rental_start).toLocaleDateString(),
+      formatted_end: new Date(r.rental_end).toLocaleDateString(),
       formatted_price: `$${r.price} `,
     }));
 
@@ -1796,6 +1957,7 @@ class App {
     const uniqueMakes = [...new Set(formattedData.map((r) => r.car_make))];
 
     const t = translations[this.language].admin;
+    const tRoot = translations[this.language]; // Access root translations for dates
     const filterOptions = [
       {
         key: "status",
@@ -1813,13 +1975,13 @@ class App {
       const rentalStr = JSON.stringify(rental).replace(/"/g, "&quot;");
       return `
         <div class="flex gap-2">
-            <button onclick="window.app.viewDetails('rental', ${rentalStr})" class="text-emerald-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-emerald-600" title="Invoice">
+            <button onclick="window.app.viewDetails('rental', ${rentalStr})" class="text-emerald-600 dark:text-emerald-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-emerald-600" title="Invoice">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
             </button>
-            <button onclick="window.app.promptRentalStatus(${rental.id}, '${rental.status}')" class="text-cyan-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-cyan-600" title="Update Status">
+            <button onclick="window.app.openRentalModal(${rentalStr})" class="text-cyan-600 dark:text-cyan-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-cyan-600" title="Edit Rental">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
             </button>
-            <button onclick="window.app.deleteRental(${rental.id})" class="text-red-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-red-600" title="Delete">
+            <button onclick="window.app.deleteRental(${rental.id})" class="text-red-600 dark:text-red-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-red-600" title="Delete">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
             </button>
         </div>`;
@@ -1836,28 +1998,33 @@ class App {
         { key: "full_name", label: t.name }, // Using 'Name' or we could add 'Client Name'
         { key: "car_name", label: t.manage_vehicle }, // Vehicle
         { key: "car_make", label: t.make },
-        { key: "formatted_date", label: "Date" }, // We might need a key for Date
+        { key: "formatted_start", label: tRoot.date_debut },
+        { key: "formatted_end", label: tRoot.date_fin },
         { key: "formatted_price", label: t.price },
         { key: "status", label: t.status },
         { key: "actions", label: "" },
       ],
       (r) => {
-        let badge = "bg-gray-700 text-gray-400";
+        let badge = "bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-400";
         if (r.status === "rented" || r.status === "active")
-          badge = "bg-green-900/30 text-green-400 border border-green-900/50";
+          badge = "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-900/50";
         if (r.status === "cancelled")
-          badge = "bg-red-900/30 text-red-400 border border-red-900/50";
+          badge = "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-900/50";
         if (r.status === "completed")
-          badge = "bg-blue-900/30 text-blue-400 border border-blue-900/50";
+          badge = "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-900/50";
 
         return `
-          <td class="px-6 py-4 text-gray-400">#${r.id}</td>
-          <td class="px-6 py-4 font-medium text-white">${r.first_name} ${r.last_name}</td>
-          <td class="px-6 py-4 text-gray-300">${r.car_make} ${r.car_name}</td>
-          <td class="px-6 py-4 text-gray-400">${r.car_make}</td>
-          <td class="px-6 py-4 text-gray-400">${r.formatted_date}</td>
-          <td class="px-6 py-4 font-bold text-cyan-400">${r.formatted_price}</td>
-          <td class="px-6 py-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ${badge}">${r.status}</span></td>
+          <td class="px-6 py-4 text-gray-500 dark:text-gray-400">#${r.id}</td>
+          <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">${r.first_name} ${r.last_name
+          }</td>
+          <td class="px-6 py-4 text-gray-700 dark:text-gray-300">${r.car_name}</td>
+          <td class="px-6 py-4 text-gray-700 dark:text-gray-400">${r.car_make}</td>
+          <td class="px-6 py-4 text-gray-900 dark:text-gray-300">${r.formatted_start}</td>
+          <td class="px-6 py-4 text-gray-900 dark:text-gray-300">${r.formatted_end}</td>
+          <td class="px-6 py-4 font-bold text-cyan-600 dark:text-cyan-400">${r.formatted_price
+          }</td>
+          <td class="px-6 py-4"><span class="px-2 py-1 rounded text-xs font-bold uppercase ${badge}">${r.status
+          }</span></td>
           <td class="px-6 py-4">${getActions(r)}</td>
         `;
       },
@@ -1949,14 +2116,13 @@ class App {
       mainContent.innerHTML = DetailsRenderer.renderModelDetails(data);
     }
 
-    // Update Router state manually so we know we are in a sub-view
     this.router.currentRoute = `${type}-details`;
   }
 
-  // --- NEW: Export to PDF Logic ---
+  // --- Export to PDF Logic ---
   exportToPDF() {
     const element = document.getElementById("printable-area");
-    const btn = event.currentTarget; // The export button
+    const btn = event.currentTarget;
     const originalText = btn.innerHTML;
 
     btn.innerHTML = "Generating...";
@@ -1965,7 +2131,7 @@ class App {
       margin: [0.5, 0.5],
       filename: `Autolux_Report_${new Date().getTime()}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true, backgroundColor: "#111827" }, // Dark bg for PDF
+      html2canvas: { scale: 2, useCORS: true, backgroundColor: "#111827" },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
 
@@ -2188,7 +2354,7 @@ class App {
     if (car) {
       // --- EDIT MODE ---
       // 1. Lock Dropdown (Cannot change model of existing unit easily)
-      select.innerHTML = `<option value="${car.car_id}" selected>${car.make} ${car.name}</option>`;
+      select.innerHTML = `<option value="${car.car_id}" selected>${car.make}</option>`;
       select.disabled = true;
 
       // 2. Fill Unit Data (VIN, Color, etc.)
@@ -2323,31 +2489,31 @@ class App {
 
     const modalHTML = `
       <div id="locationModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div id="locationModalBackdrop" class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity opacity-0 transition-opacity duration-300"></div>
+        <div id="locationModalBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity opacity-0 transition-opacity duration-300"></div>
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div id="locationModalPanel" class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-700">
+            <div id="locationModalPanel" class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-200 dark:border-gray-700">
               
               <form id="locationForm" onsubmit="window.app.handleLocationSubmit(event)">
                 <input type="hidden" name="locationId" id="locationId">
                 
                 <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <h3 class="text-xl font-bold text-cyan-400 mb-4" id="locationModalTitle">Add Location</h3>
+                  <h3 class="text-xl font-bold text-cyan-600 dark:text-cyan-400 mb-4" id="locationModalTitle">Add Location</h3>
                   <div class="space-y-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">City Name</label>
-                      <input type="text" name="city_name" id="locCityName" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">City Name</label>
+                      <input type="text" name="city_name" id="locCityName" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">Map Embed URL (Google Maps)</label>
-                      <textarea name="map_embed_url" id="locMapUrl" rows="3" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500 font-mono text-xs"></textarea>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Map Embed URL (Google Maps)</label>
+                      <textarea name="map_embed_url" id="locMapUrl" rows="3" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 font-mono text-xs transition"></textarea>
                     </div>
                   </div>
                 </div>
 
-                <div class="bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-700">
+                <div class="bg-gray-100 dark:bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-200 dark:border-gray-700">
                   <button type="submit" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:ml-3 sm:w-auto">Save Location</button>
-                  <button type="button" onclick="window.app.closeLocationModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 ring-1 ring-inset ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
+                  <button type="button" onclick="window.app.closeLocationModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-gray-500 ring-1 ring-inset ring-gray-300 dark:ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
                 </div>
               </form>
             </div>
@@ -2481,42 +2647,42 @@ class App {
 
     const modalHTML = `
       <div id="clientModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div id="clientModalBackdrop" class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity opacity-0 transition-opacity duration-300"></div>
+        <div id="clientModalBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity opacity-0 transition-opacity duration-300"></div>
         
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div id="clientModalPanel" class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-700">
+            <div id="clientModalPanel" class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-200 dark:border-gray-700">
               
               <form id="clientForm" onsubmit="window.app.handleClientSubmit(event)">
                 <input type="hidden" name="clientId" id="clientUnitId">
                 
                 <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <h3 class="text-xl font-bold text-cyan-400 mb-4">Edit Client</h3>
+                  <h3 class="text-xl font-bold text-cyan-600 dark:text-cyan-400 mb-4">Edit Client</h3>
                   <div class="space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                       <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">First Name</label>
-                        <input type="text" name="first_name" id="clientFirstName" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">First Name</label>
+                        <input type="text" name="first_name" id="clientFirstName" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                       </div>
                       <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Last Name</label>
-                        <input type="text" name="last_name" id="clientLastName" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Last Name</label>
+                        <input type="text" name="last_name" id="clientLastName" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                       </div>
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">Email</label>
-                      <input type="email" name="email" id="clientEmail" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Email</label>
+                      <input type="email" name="email" id="clientEmail" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">Phone</label>
-                      <input type="text" name="phone" id="clientPhone" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Phone</label>
+                      <input type="text" name="phone" id="clientPhone" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                     </div>
                   </div>
                 </div>
 
-                <div class="bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-700">
+                <div class="bg-gray-100 dark:bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-200 dark:border-gray-700">
                   <button type="submit" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:ml-3 sm:w-auto">Save Changes</button>
-                  <button type="button" onclick="window.app.closeClientModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 ring-1 ring-inset ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
+                  <button type="button" onclick="window.app.closeClientModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-gray-500 ring-1 ring-inset ring-gray-300 dark:ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
                 </div>
               </form>
             </div>
@@ -2723,13 +2889,13 @@ class App {
       const carStr = JSON.stringify(car).replace(/"/g, "&quot;");
       return `
             <div class="flex gap-2">
-              <button onclick="window.app.viewDetails('car', ${carStr})" class="text-emerald-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-emerald-600" title="View Details">
+              <button onclick="window.app.viewDetails('car', ${carStr})" class="text-emerald-600 dark:text-emerald-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-emerald-600" title="View Details">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
               </button>
-              <button onclick="window.app.openCarModal(${carStr})" class="text-cyan-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-cyan-600" title="Edit">
+              <button onclick="window.app.openCarModal(${carStr})" class="text-cyan-600 dark:text-cyan-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-cyan-600" title="Edit">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
               </button>
-              <button onclick="window.app.deleteVehicle(${car.id})" class="text-red-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-red-600" title="Delete">
+              <button onclick="window.app.deleteVehicle(${car.id})" class="text-red-600 dark:text-red-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-red-600" title="Delete">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
             </div>
@@ -2759,16 +2925,16 @@ class App {
           ? `<img src="${imgUrl}" alt="${car.name}" class="w-10 h-10 object-cover rounded border border-gray-600" onerror="this.src='http://localhost:3000/assets/images/placeholder.png'">`
           : "-";
 
-        let badgeColor = "bg-green-900/30 text-green-400";
+        let badgeColor = "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800";
         if (car.status === "rented")
-          badgeColor = "bg-amber-900/30 text-amber-400";
+          badgeColor = "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800";
         if (car.status === "maintenance")
-          badgeColor = "bg-red-900/30 text-red-400";
+          badgeColor = "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 border border-red-200 dark:border-red-800";
 
         return `
-        <td class="px-6 py-4 font-medium text-white">${car.id}</td>
+        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">${car.id}</td>
         <td class="px-6 py-4">${imgHtml}</td>
-        <td class="px-6 py-4 font-medium text-white">${car.name}</td>
+        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">${car.name}</td>
         <td class="px-6 py-4">${car.make}</td>
         <td class="px-6 py-4">$${car.price}</td>
         <td class="px-6 py-4"><span class="inline-block w-6 h-6 rounded-full border border-gray-300" style="background-color: ${car.color
@@ -2830,19 +2996,19 @@ class App {
       return `
             <div class="flex gap-2">
               <button onclick="window.app.viewDetails('client', ${clientStr})" 
-                      class="text-emerald-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-emerald-600"
+                      class="text-emerald-600 dark:text-emerald-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-emerald-600"
                       title="View Details">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
               </button>
 
               <button onclick="window.app.openClientModal(${clientStr})" 
-                      class="text-cyan-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-cyan-600"
+                      class="text-cyan-600 dark:text-cyan-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-cyan-600"
                       title="Edit">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
               </button>
               
               <button onclick="window.app.deleteClient(${client.id})" 
-                      class="text-red-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-red-600"
+                      class="text-red-600 dark:text-red-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-red-600"
                       title="Delete">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
               </button>
@@ -2864,14 +3030,14 @@ class App {
         { key: "actions", label: "" },
       ],
       (c) => `
-          <td class="px-6 py-4 text-gray-400">#${c.id}</td>
-          <td class="px-6 py-4 font-medium text-white">
+          <td class="px-6 py-4 text-gray-500 dark:text-gray-400">#${c.id}</td>
+          <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
             ${c.first_name} ${c.last_name}
           </td>
-          <td class="px-6 py-4 text-cyan-400">${c.email}</td>
+          <td class="px-6 py-4 text-cyan-600 dark:text-cyan-400">${c.email}</td>
           <td class="px-6 py-4">
             ${c.phone
-          ? `<span class="text-gray-300 font-mono text-xs">${c.phone}</span>`
+          ? `<span class="text-gray-900 dark:text-gray-300 font-mono text-xs">${c.phone}</span>`
           : `<span class="text-xs text-red-400 bg-red-900/20 px-2 py-1 rounded border border-red-900/30">Missing</span>`
         }
           </td>
@@ -2912,13 +3078,13 @@ class App {
 
       return `
         <div class="flex gap-2">
-           <button onclick="window.app.viewDetails('location', ${locStr})" class="text-emerald-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-emerald-600" title="View Details">
+           <button onclick="window.app.viewDetails('location', ${locStr})" class="text-emerald-600 dark:text-emerald-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-emerald-600" title="View Details">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
            </button>
-           <button onclick="window.app.openLocationModal(${locStr})" class="text-cyan-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-cyan-600" title="Edit">
+           <button onclick="window.app.openLocationModal(${locStr})" class="text-cyan-600 dark:text-cyan-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-cyan-600" title="Edit">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
            </button>
-           <button onclick="window.app.deleteLocation(${location.id})" class="text-red-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-red-600" title="Delete">
+           <button onclick="window.app.deleteLocation(${location.id})" class="text-red-600 dark:text-red-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-red-600" title="Delete">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
            </button>
         </div>
@@ -2938,8 +3104,8 @@ class App {
         { key: "actions", label: "" },
       ],
       (l) => `
-          <td class="px-6 py-4 text-gray-400">#${l.id}</td>
-          <td class="px-6 py-4 font-bold text-white text-lg">${l.city_name}</td>
+          <td class="px-6 py-4 text-gray-500 dark:text-gray-400">#${l.id}</td>
+          <td class="px-6 py-4 font-bold text-gray-900 dark:text-white text-lg">${l.city_name}</td>
           <td class="px-6 py-4 text-cyan-400 font-mono text-xs">
             <a href="${l.map_embed_url
         }" target="_blank" class="hover:underline truncate block w-64">${l.short_url
@@ -2966,13 +3132,13 @@ class App {
       const modelStr = JSON.stringify(model).replace(/"/g, "&quot;");
       return `
         <div class="flex gap-2">
-           <button onclick="window.app.viewDetails('model', ${modelStr})" class="text-emerald-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-emerald-600" title="View Details">
+           <button onclick="window.app.viewDetails('model', ${modelStr})" class="text-emerald-600 dark:text-emerald-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-emerald-600" title="View Details">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
            </button>
-           <button onclick="window.app.openModelModal(${modelStr})" class="text-cyan-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-cyan-600" title="Edit">
+           <button onclick="window.app.openModelModal(${modelStr})" class="text-cyan-600 dark:text-cyan-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-cyan-600" title="Edit">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
            </button>
-           <button onclick="window.app.deleteModel(${model.id})" class="text-red-400 hover:text-white transition p-2 bg-gray-700 rounded hover:bg-red-600" title="Delete">
+           <button onclick="window.app.deleteModel(${model.id})" class="text-red-600 dark:text-red-400 hover:text-white transition p-2 bg-gray-100 dark:bg-gray-700 rounded hover:bg-red-600" title="Delete">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
            </button>
         </div>
@@ -2994,13 +3160,13 @@ class App {
         { key: "actions", label: "" },
       ],
       (m) => `
-          <td class="px-6 py-4 text-gray-400">#${m.id}</td>
-          <td class="px-6 py-4 font-medium text-white">${m.car_make} ${m.car_name
+          <td class="px-6 py-4 text-gray-500 dark:text-gray-400">#${m.id}</td>
+          <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">${m.car_make} ${m.car_name
         }</td>
-          <td class="px-6 py-4 text-cyan-400 font-mono text-xs truncate max-w-[200px]">${m.file_path
+          <td class="px-6 py-4 text-cyan-600 dark:text-cyan-400 font-mono text-xs truncate max-w-[200px]">${m.file_path
         }</td>
-          <td class="px-6 py-4 text-gray-300">${m.scale_x}</td>
-          <td class="px-6 py-4 text-gray-300">${m.rot_y}</td>
+          <td class="px-6 py-4 text-gray-700 dark:text-gray-300">${m.scale_x}</td>
+          <td class="px-6 py-4 text-gray-700 dark:text-gray-300">${m.rot_y}</td>
           <td class="px-6 py-4">${getActions(m)}</td>
       `,
       filterOptions
@@ -3014,44 +3180,44 @@ class App {
 
     const modalHTML = `
       <div id="modelModal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-        <div id="modelModalBackdrop" class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity opacity-0 transition-opacity duration-300"></div>
+        <div id="modelModalBackdrop" class="fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity opacity-0 transition-opacity duration-300"></div>
         <div class="fixed inset-0 z-10 overflow-y-auto">
           <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-            <div id="modelModalPanel" class="relative transform overflow-hidden rounded-lg bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-700">
+            <div id="modelModalPanel" class="relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-800 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300 border border-gray-200 dark:border-gray-700">
               
               <form id="modelForm" onsubmit="window.app.handleModelSubmit(event)">
                 <input type="hidden" name="modelId" id="modelId">
                 
                 <div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                  <h3 class="text-xl font-bold text-cyan-400 mb-4" id="modelModalTitle">Add Model</h3>
+                  <h3 class="text-xl font-bold text-cyan-600 dark:text-cyan-400 mb-4" id="modelModalTitle">Add Model</h3>
                   <div class="space-y-4">
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">Select Car</label>
-                      <select name="car_id" id="modelCarId" required class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Select Car</label>
+                      <select name="car_id" id="modelCarId" required class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                          <option value="">Loading cars...</option>
                       </select>
                     </div>
                     <div>
-                      <label class="block text-sm font-medium text-gray-400 mb-1">Model File (.glb)</label>
-                      <input type="file" name="file" id="modelFile" accept=".glb,.gltf" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500 text-sm">
-                      <p id="currentModelFile" class="text-xs text-gray-500 mt-1 hidden"></p>
+                      <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Model File (.glb)</label>
+                      <input type="file" name="file" id="modelFile" accept=".glb,.gltf" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-500 dark:text-gray-300 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-cyan-100 dark:file:bg-cyan-900 file:text-cyan-700 dark:file:text-cyan-400 hover:file:bg-cyan-200 dark:hover:file:bg-cyan-800 focus:ring-cyan-500 focus:border-cyan-500 text-sm transition">
+                      <p id="currentModelFile" class="text-xs text-gray-500 dark:text-gray-400 mt-1 hidden"></p>
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                       <div>
-                        <label class="block text-sm font-medium text-gray-400 mb-1">Scale X</label>
-                        <input type="number" step="0.01" name="scale_x" id="modelScaleX" value="1.0" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                        <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Scale X</label>
+                        <input type="number" step="0.01" name="scale_x" id="modelScaleX" value="1.0" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                       </div>
                       <div>
-                         <label class="block text-sm font-medium text-gray-400 mb-1">Rotation Y</label>
-                         <input type="number" step="0.01" name="rot_y" id="modelRotY" value="0.0" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white focus:ring-cyan-500 focus:border-cyan-500">
+                         <label class="block text-sm font-medium text-gray-700 dark:text-gray-400 mb-1">Rotation Y</label>
+                         <input type="number" step="0.01" name="rot_y" id="modelRotY" value="0.0" class="w-full bg-gray-50 dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded p-2 text-gray-900 dark:text-white focus:ring-cyan-500 focus:border-cyan-500 transition">
                       </div>
                     </div>
                   </div>
                 </div>
 
-                <div class="bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-700">
+                <div class="bg-gray-100 dark:bg-gray-700/50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6 border-t border-gray-200 dark:border-gray-700">
                   <button type="submit" class="inline-flex w-full justify-center rounded-md bg-cyan-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 sm:ml-3 sm:w-auto">Save Model</button>
-                  <button type="button" onclick="window.app.closeModelModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-gray-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 ring-1 ring-inset ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
+                  <button type="button" onclick="window.app.closeModelModal()" class="mt-3 inline-flex w-full justify-center rounded-md bg-white dark:bg-gray-600 px-3 py-2 text-sm font-semibold text-gray-900 dark:text-white shadow-sm hover:bg-gray-50 dark:hover:bg-gray-500 ring-1 ring-inset ring-gray-300 dark:ring-gray-500 sm:mt-0 sm:w-auto">Cancel</button>
                 </div>
               </form>
             </div>
@@ -3231,7 +3397,8 @@ class App {
         contentHtml = `
           <div class="p-8 space-y-6">
               <div class="flex justify-between items-center">
-                  <h2 class="text-2xl font-bold text-cyan-400">${t.clients_management}</h2>
+                  <h2 class="text-2xl font-bold text-cyan-400">${t.clients_management
+          }</h2>
                   <button onclick="window.app.openClientModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                      ${t.add_client}
@@ -3246,7 +3413,8 @@ class App {
         contentHtml = `
           <div class="p-8 space-y-6">
              <div class="flex justify-between items-center">
-                 <h2 class="text-2xl font-bold text-cyan-400">${t.rentals_management}</h2>
+                 <h2 class="text-2xl font-bold text-cyan-400">${t.rentals_management
+          }</h2>
                  <button onclick="window.app.openRentalModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     ${t.add_rental}
@@ -3260,7 +3428,8 @@ class App {
         contentHtml = `
           <div class="p-8 space-y-6">
              <div class="flex justify-between items-center">
-                 <h2 class="text-2xl font-bold text-cyan-400">${t.locations_management}</h2>
+                 <h2 class="text-2xl font-bold text-cyan-400">${t.locations_management
+          }</h2>
                  <button onclick="window.app.openLocationModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     ${t.add_location}
@@ -3275,7 +3444,8 @@ class App {
         contentHtml = `
             <div class="p-8 space-y-6">
                <div class="flex justify-between items-center">
-                   <h2 class="text-2xl font-bold text-cyan-400">${t.models_management}</h2>
+                   <h2 class="text-2xl font-bold text-cyan-400">${t.models_management
+          }</h2>
                    <button onclick="window.app.openModelModal()" class="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-2 px-6 rounded-lg shadow-lg flex items-center gap-2 transition transform hover:scale-105">
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                       ${t.add_model}

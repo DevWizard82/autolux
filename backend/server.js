@@ -200,14 +200,14 @@ app.get("/api/analytics/top-customers", async (req, res) => {
   res.json(result.rows);
 });
 
-// Get Revenue by Month for Current Year
+// Get Revenue by Month (Last 12 Months)
 app.get("/api/analytics/revenue-monthly", async (req, res) => {
   const result = await pool.query(`
     SELECT TO_CHAR(rental_start, 'Mon') as month, SUM(price) as total
     FROM rentals
-    WHERE EXTRACT(YEAR FROM rental_start) = EXTRACT(YEAR FROM CURRENT_DATE)
-    GROUP BY month, EXTRACT(MONTH FROM rental_start)
-    ORDER BY EXTRACT(MONTH FROM rental_start)
+    WHERE rental_start >= CURRENT_DATE - INTERVAL '11 months'
+    GROUP BY month, EXTRACT(YEAR FROM rental_start), EXTRACT(MONTH FROM rental_start)
+    ORDER BY EXTRACT(YEAR FROM rental_start), EXTRACT(MONTH FROM rental_start)
   `);
   res.json(result.rows);
 });
@@ -218,6 +218,33 @@ app.get("/api/analytics/fleet-status", async (req, res) => {
     SELECT status, COUNT(*) as count 
     FROM car_units 
     GROUP BY status
+  `);
+  res.json(result.rows);
+});
+
+// Get Top 5 Rented Models
+app.get("/api/analytics/top-models", async (req, res) => {
+  const result = await pool.query(`
+    SELECT c.make, c.name, COUNT(r.id) as count
+    FROM rentals r
+    JOIN car_units cu ON r.car_id = cu.id
+    JOIN cars c ON cu.car_id = c.id
+    GROUP BY c.id, c.make, c.name
+    ORDER BY count DESC
+    LIMIT 5
+  `);
+  res.json(result.rows);
+});
+
+// Get Average Rental Duration per Model
+app.get("/api/analytics/avg-duration", async (req, res) => {
+  const result = await pool.query(`
+    SELECT c.name, AVG(r.rental_end - r.rental_start) as avg_days
+    FROM rentals r
+    JOIN car_units cu ON r.car_id = cu.id
+    JOIN cars c ON cu.car_id = c.id
+    GROUP BY c.id, c.name
+    LIMIT 10
   `);
   res.json(result.rows);
 });
@@ -1020,7 +1047,7 @@ app.get("/api/locations/count", async (req, res) => {
 app.get("/api/rentalscount", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT count(*) FROM rentals WHERE status = 'rented';"
+      "SELECT count(*) FROM rentals WHERE status = 'rented' AND rental_start <= NOW() AND rental_end >= NOW();"
     );
     res.json({
       message: "rentals count fetched successfully",
@@ -1036,7 +1063,7 @@ app.get("/api/rentalscount", async (req, res) => {
 app.get("/api/revenue", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT SUM(price) FROM rentals WHERE status = 'rented' AND EXTRACT(YEAR FROM rental_start) = EXTRACT(YEAR FROM CURRENT_DATE)"
+      "SELECT SUM(price) FROM rentals WHERE status IN ('rented', 'completed') AND EXTRACT(YEAR FROM rental_start) = EXTRACT(YEAR FROM CURRENT_DATE)"
     );
     res.json({
       message: "this year's revenue fetched successfully",
@@ -1183,6 +1210,7 @@ app.get("/api/admin/rentals", async (req, res) => {
     const query = `
       SELECT 
         r.id, 
+        r.client_id,
         r.rental_start, 
         r.rental_end, 
         r.status, 
@@ -1191,6 +1219,7 @@ app.get("/api/admin/rentals", async (req, res) => {
         c.first_name, 
         c.last_name, 
         c.email,
+        cu.car_id AS car_model_id,
         ca.name as car_name, 
         ca.make as car_make,
         ca.image as car_image,
@@ -1210,42 +1239,75 @@ app.get("/api/admin/rentals", async (req, res) => {
 });
 
 // 2. UPDATE RENTAL STATUS (Edit)
+// 2. UPDATE RENTAL (Edit specific fields or Status)
 app.put("/api/rentals/:id", async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body; // e.g., 'active', 'completed', 'cancelled'
+  // Now accepts full update payload
+  const { client_id, car_id, rental_start, rental_end, status } = req.body;
 
   const client = await pool.connect();
   try {
     await client.query("BEGIN");
 
-    // Update Rental
-    await client.query("UPDATE rentals SET status = $1 WHERE id = $2", [
-      status,
-      id,
-    ]);
+    // 1. Get current state to check if car changed
+    const currentRes = await client.query("SELECT car_id, status FROM rentals WHERE id = $1", [id]);
+    if (currentRes.rows.length === 0) {
+      throw new Error("Rental not found");
+    }
+    const oldRental = currentRes.rows[0];
 
-    // If cancelled or completed, free up the car unit
-    if (status === "cancelled" || status === "completed") {
-      // Find the car unit associated with this rental
-      const rentalRes = await client.query(
-        "SELECT car_id FROM rentals WHERE id = $1",
-        [id]
-      );
-      if (rentalRes.rows.length > 0) {
-        const unitId = rentalRes.rows[0].car_id;
-        await client.query(
-          "UPDATE car_units SET status = 'available' WHERE id = $1",
-          [unitId]
-        );
+    // 2. Calculate Price (if dates changed or car changed, strict logic would require fetching car price again)
+    // For simplicity, we'll re-calculate price if car_id is provided.
+    let newPrice = null;
+    if (car_id && rental_start && rental_end) {
+      const carRes = await client.query("SELECT price FROM cars WHERE id = (SELECT car_id FROM car_units WHERE id = $1)", [car_id]);
+      if (carRes.rows.length > 0) {
+        const dayPrice = carRes.rows[0].price;
+        const start = new Date(rental_start);
+        const end = new Date(rental_end);
+        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) || 1;
+        newPrice = days * dayPrice;
+      }
+    }
+
+    // 3. Update Rental Record
+    // We maintain old values if new ones aren't sent (though frontend should send all for full edit)
+    await client.query(
+      `UPDATE rentals 
+       SET client_id = COALESCE($1, client_id),
+           car_id = COALESCE($2, car_id),
+           rental_start = COALESCE($3, rental_start),
+           rental_end = COALESCE($4, rental_end),
+           status = COALESCE($5, status),
+           price = COALESCE($6, price)
+       WHERE id = $7`,
+      [client_id, car_id, rental_start, rental_end, status, newPrice, id]
+    );
+
+    // 4. Handle Car Swaps (If car_id changed)
+    if (car_id && parseInt(car_id) !== oldRental.car_id) {
+      // Free up old car
+      await client.query("UPDATE car_units SET status = 'available' WHERE id = $1", [oldRental.car_id]);
+      // Occupy new car (if status is active)
+      if (status === 'rented' || status === 'active') {
+        await client.query("UPDATE car_units SET status = 'rented' WHERE id = $1", [car_id]);
+      }
+    }
+    // 5. Handle Status Changes (Same car, but status changed e.g. Rented -> Completed)
+    else if (status && status !== oldRental.status) {
+      if (['cancelled', 'completed'].includes(status)) {
+        await client.query("UPDATE car_units SET status = 'available' WHERE id = $1", [oldRental.car_id]);
+      } else if (['rented', 'active'].includes(status)) {
+        await client.query("UPDATE car_units SET status = 'rented' WHERE id = $1", [oldRental.car_id]);
       }
     }
 
     await client.query("COMMIT");
-    res.json({ success: true, message: "Rental status updated" });
+    res.json({ success: true, message: "Rental updated successfully" });
   } catch (err) {
     await client.query("ROLLBACK");
     console.error(err);
-    res.status(500).json({ error: "Update failed" });
+    res.status(500).json({ error: "Update failed: " + err.message });
   } finally {
     client.release();
   }

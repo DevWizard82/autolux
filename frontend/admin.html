@@ -8,6 +8,11 @@
   <script src="./src/js/gatekeeper.js"></script>
   <script src="https://cdn.plot.ly/plotly-2.27.0.min.js" charset="utf-8"></script>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+    }
+  </script>
   <style>
     /* Custom scrollbar for a sleek look */
     ::-webkit-scrollbar {
@@ -102,14 +107,27 @@
         </svg>
       </button>
       <h1 class="text-3xl font-extrabold text-cyan-400 tracking-wider">
-        AUTO<span class="text-gray-100 font-light">LUX</span>
+        AUTO<span class="text-gray-500 dark:text-gray-100 font-light">LUX</span>
       </h1>
     </div>
 
     <div class="flex items-center space-x-4">
+      <!-- Theme Toggle -->
+      <button id="theme-toggle" class="p-2 text-gray-400 hover:text-cyan-400 dark:hover:text-cyan-400 transition"
+        title="Toggle Theme" onclick="window.app.toggleTheme()">
+        <svg id="theme-icon-sun" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z">
+          </path>
+        </svg>
+        <svg id="theme-icon-moon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+        </svg>
+      </button>
       <!-- Language Selector -->
       <select id="admin-language-selector"
-        class="bg-gray-800 text-gray-200 text-sm rounded-lg border border-gray-700 px-3 py-1.5 focus:ring-2 focus:ring-cyan-500 outline-none hover:bg-gray-700 transition cursor-pointer">
+        class="bg-gray-50 text-gray-900 dark:bg-gray-800 dark:text-gray-200 text-sm rounded-lg border border-gray-300 dark:border-gray-700 px-3 py-1.5 focus:ring-2 focus:ring-cyan-500 outline-none hover:bg-gray-100 dark:hover:bg-gray-700 transition cursor-pointer">
         <option value="en">🇺🇸 EN</option>
         <option value="fr">🇫🇷 FR</option>
         <option value="ar">🇲🇦 AR</option>
@@ -124,12 +142,12 @@
 
       <!-- Profile/Logout -->
       <div id="nav-user-info"
-        class="flex items-center space-x-3 p-1 rounded-full bg-gray-800 pr-3 border border-gray-700 hover:border-cyan-500 transition cursor-pointer group">
+        class="flex items-center space-x-3 p-1 rounded-full bg-gray-100 dark:bg-gray-800 pr-3 border border-gray-200 dark:border-gray-700 hover:border-cyan-500 transition cursor-pointer group">
         <div id="admin-avatar"
-          class="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-sm font-bold text-white border-2 border-gray-600 group-hover:border-cyan-400 transition">
+          class="w-10 h-10 rounded-full bg-cyan-600 flex items-center justify-center text-sm font-bold text-white border-2 border-gray-300 dark:border-gray-600 group-hover:border-cyan-400 transition">
         </div>
 
-        <span id="admin-name" class="hidden sm:inline text-sm font-medium text-gray-100">
+        <span id="admin-name" class="hidden sm:inline text-sm font-medium text-gray-700 dark:text-gray-100">
         </span>
 
         <button class="text-red-400 hover:text-red-300 p-2 rounded-full transition" title="Logout"
@@ -146,7 +164,7 @@
   <div class="flex main-container">
     <!-- Sidebar -->
     <div id="sidebar"
-      class="fixed lg:static h-full bg-gray-800/95 lg:bg-gray-800 z-30 sidebar-transition shadow-2xl border-r border-gray-700 w-0 -translate-x-full lg:w-20 lg:translate-x-0">
+      class="fixed lg:static h-full bg-white/95 dark:bg-gray-800/95 lg:bg-white lg:dark:bg-gray-800 z-30 sidebar-transition shadow-2xl border-r border-gray-200 dark:border-gray-700 w-0 -translate-x-full lg:w-20 lg:translate-x-0">
       <!-- Mobile Close Button (only visible on small screens when open) -->
       <div class="flex items-center justify-between p-4 lg:hidden">
         <div class="text-xl font-bold text-cyan-400">LUXURI</div>
@@ -182,10 +200,10 @@
 
     <div class="flex min-h-full items-end justify-center p-4 sm:items-center sm:p-0">
       <div id="modalPanel"
-        class="relative bg-gray-800 rounded-lg shadow-xl border border-gray-700 w-full max-w-2xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300">
+        class="relative bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 w-full max-w-2xl opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95 transition-all duration-300">
         <!-- Close Button -->
         <button type="button" onclick="window.app.closeCarModal()"
-          class="absolute right-4 top-4 text-gray-400 hover:text-gray-100 z-10">
+          class="absolute right-4 top-4 text-gray-400 hover:text-gray-600 dark:hover:text-gray-100 z-10 transition">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
           </svg>
@@ -203,97 +221,98 @@
 
             <!-- 1. Model Selection -->
             <div>
-              <label class="block text-sm font-semibold text-gray-300 mb-2">
+              <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                 1. Select Model
-                <span class="text-red-400">*</span>
+                <span class="text-red-500 dark:text-red-400">*</span>
               </label>
               <select id="modelSelect" onchange="window.app.handleModelSelect(this.value)" required
-                class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500">
+                class="w-full bg-gray-50 dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition">
                 <option value="">-- Loading Models --</option>
               </select>
             </div>
 
             <!-- 2. Model Details Section -->
-            <div id="modelFields" class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50 relative">
+            <div id="modelFields"
+              class="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-lg border border-gray-200 dark:border-gray-700/50 relative">
               <div id="modelLockOverlay"
-                class="hidden absolute inset-0 bg-gray-900/60 z-10 flex flex-col items-center justify-center text-center rounded-lg backdrop-blur-[1px] border border-gray-600 border-dashed">
-                <p class="text-gray-300 font-semibold text-sm">
+                class="hidden absolute inset-0 bg-white/60 dark:bg-gray-900/60 z-10 flex flex-col items-center justify-center text-center rounded-lg backdrop-blur-[1px] border border-gray-300 dark:border-gray-600 border-dashed">
+                <p class="text-gray-600 dark:text-gray-300 font-semibold text-sm">
                   Using Existing Model Specs
                 </p>
                 <button type="button" onclick="window.app.unlockModelFields()"
-                  class="mt-2 text-xs text-cyan-400 hover:text-cyan-300 underline">
+                  class="mt-2 text-xs text-cyan-600 dark:text-cyan-400 hover:text-cyan-500 dark:hover:text-cyan-300 underline">
                   Override
                 </button>
               </div>
 
-              <h4 class="text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider">
+              <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
                 2. Model Details
               </h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs text-gray-400 mb-1">Make</label>
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Make</label>
                   <input type="text" name="make" id="carMake" required
-                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                    class="w-full bg-gray-50 dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 transition" />
                 </div>
                 <div>
-                  <label class="block text-xs text-gray-400 mb-1">Name</label>
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Name</label>
                   <input type="text" name="name" id="carName" required
-                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                    class="w-full bg-gray-50 dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 transition" />
                 </div>
                 <div>
-                  <label class="block text-xs text-gray-400 mb-1">Price / Day</label>
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Price / Day</label>
                   <input type="number" name="price" id="carPrice" required
-                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                    class="w-full bg-gray-50 dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 transition" />
                 </div>
                 <div>
-                  <label class="block text-xs text-gray-400 mb-1">Image</label>
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Image</label>
                   <input type="file" name="image" id="carImage"
-                    class="w-full text-sm text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-cyan-900 file:text-cyan-400 hover:file:bg-cyan-800" />
+                    class="w-full text-sm text-gray-500 dark:text-gray-400 file:mr-2 file:py-1 file:px-3 file:rounded-full file:border-0 file:bg-cyan-100 dark:file:bg-cyan-900 file:text-cyan-700 dark:file:text-cyan-400 hover:file:bg-cyan-200 dark:hover:file:bg-cyan-800 transition" />
                 </div>
 
                 <div class="md:col-span-2">
-                  <label class="block text-xs text-gray-400 mb-1">
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">
                     Description (Default)
                   </label>
                   <textarea name="description" id="carDescription" rows="2"
                     placeholder="e.g. German sporting excellence..."
-                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500 text-sm"></textarea>
+                    class="w-full bg-gray-50 dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 text-sm transition"></textarea>
                 </div>
                 <div class="md:col-span-2">
-                  <label class="block text-xs text-gray-400 mb-1">
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">
                     Available Locations
                   </label>
                   <input type="text" name="location_text" id="carLocation" placeholder="e.g. Casablanca, Rabat, Tangier"
-                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500 text-sm" />
+                    class="w-full bg-gray-50 dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 text-sm transition" />
                 </div>
               </div>
             </div>
 
             <!-- 3. Unit Details Section (VIN, Color, Status) -->
-            <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50">
-              <h4 class="text-sm font-semibold text-gray-300 mb-3 uppercase tracking-wider">
+            <div class="bg-gray-50 dark:bg-gray-900/50 p-4 rounded-lg border border-gray-200 dark:border-gray-700/50">
+              <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3 uppercase tracking-wider">
                 3. Fleet Unit Details
               </h4>
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label class="block text-xs text-gray-400 mb-1">VIN</label>
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">VIN</label>
                   <input type="text" name="vin" id="carVin" placeholder="e.g. WBD123456789AB1234"
-                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500" />
+                    class="w-full bg-white dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 transition" />
                 </div>
                 <div>
-                  <label class="block text-xs text-gray-400 mb-1">Color</label>
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Color</label>
                   <div class="flex gap-2">
                     <input type="color" name="color" id="colorPicker" value="#ffffff"
                       onchange="document.getElementById('carColor').value = this.value"
-                      class="w-12 h-10 bg-gray-700 rounded border border-gray-600 cursor-pointer" />
+                      class="w-12 h-10 bg-white dark:bg-gray-700 rounded border border-gray-300 dark:border-gray-600 cursor-pointer" />
                     <input type="text" name="colorHex" id="carColor" value="#ffffff" readonly
-                      class="flex-1 bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none" />
+                      class="flex-1 bg-white dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none" />
                   </div>
                 </div>
                 <div class="md:col-span-2">
-                  <label class="block text-xs text-gray-400 mb-1">Status</label>
+                  <label class="block text-xs text-gray-500 dark:text-gray-400 mb-1">Status</label>
                   <select name="status" id="carStatus"
-                    class="w-full bg-gray-700 rounded p-2 text-white border border-gray-600 outline-none focus:border-cyan-500">
+                    class="w-full bg-white dark:bg-gray-700 rounded p-2 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-600 outline-none focus:border-cyan-500 transition">
                     <option value="available">Available</option>
                     <option value="rented">Rented</option>
                     <option value="maintenance">Maintenance</option>
@@ -305,7 +324,7 @@
             <!-- Buttons -->
             <div class="flex gap-3 justify-end">
               <button type="button" onclick="window.app.closeCarModal()"
-                class="px-4 py-2 text-gray-300 hover:text-gray-100 bg-gray-700 hover:bg-gray-600 rounded-lg transition">
+                class="px-4 py-2 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg transition">
                 Cancel
               </button>
               <button type="submit"
