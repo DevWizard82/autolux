@@ -8,7 +8,7 @@ import {
   getCarStrip,
   getTypes,
   getColors,
-  BASE_URL
+  BASE_URL,
 } from "./api.js";
 
 // --- SHOWROOM CLASS ---
@@ -29,7 +29,7 @@ class Showroom {
       60,
       window.innerWidth / window.innerHeight,
       0.1,
-      1000
+      1000,
     );
     this.camera.position.set(0, this.CAM_HEIGHT, 15);
 
@@ -117,7 +117,7 @@ class Showroom {
 
     const floor = new THREE.Mesh(
       new THREE.PlaneGeometry(this.ROOM_SIZE, this.ROOM_SIZE),
-      floorMat
+      floorMat,
     );
     floor.rotation.x = -Math.PI / 2;
     floor.receiveShadow = true;
@@ -125,7 +125,7 @@ class Showroom {
 
     const ceiling = new THREE.Mesh(
       new THREE.PlaneGeometry(this.ROOM_SIZE, this.ROOM_SIZE),
-      ceilingMat
+      ceilingMat,
     );
     ceiling.rotation.x = Math.PI / 2;
     ceiling.position.y = this.ROOM_HEIGHT;
@@ -135,12 +135,12 @@ class Showroom {
     const wallGeoSide = new THREE.BoxGeometry(
       0.2,
       this.ROOM_HEIGHT,
-      this.ROOM_SIZE
+      this.ROOM_SIZE,
     );
     const wallGeoBack = new THREE.BoxGeometry(
       this.ROOM_SIZE,
       this.ROOM_HEIGHT,
-      0.2
+      0.2,
     );
 
     const positions = [
@@ -203,7 +203,7 @@ class Car {
         this.model.rotation.set(
           THREE.MathUtils.degToRad(modelData.rot_x || 0),
           THREE.MathUtils.degToRad(modelData.rot_y || 0),
-          THREE.MathUtils.degToRad(modelData.rot_z || 0)
+          THREE.MathUtils.degToRad(modelData.rot_z || 0),
         );
       }
 
@@ -234,7 +234,7 @@ class Car {
       console.error("Failed to load car:", err);
       const placeholder = new THREE.Mesh(
         new THREE.BoxGeometry(2, 1, 4),
-        new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.2 })
+        new THREE.MeshStandardMaterial({ color: 0x333333, roughness: 0.2 }),
       );
       placeholder.position.y = 0.5;
       placeholder.castShadow = true;
@@ -443,7 +443,7 @@ class Configurator {
           if (!node.userData.originalMaterial) {
             node.userData.originalMaterial = node.material.clone();
           }
-          // node.material = node.userData.originalMaterial.clone(); 
+          // node.material = node.userData.originalMaterial.clone();
           // Often better to just modify current if unique, but let's stick to simple set
 
           node.material.color.set(color);
@@ -604,7 +604,9 @@ class Configurator {
   if (modelData && modelData.scale_x) scale = modelData.scale_x;
 
   // Use BASE_URL to fetch from backend
-  const car = new Car(`${BASE_URL}/assets/models/${modelName}`, scale, modelName);
+  const GITHUB_MODELS_URL =
+    "https://github.com/DevWizard82/autolux/releases/download/v1.0";
+  const car = new Car(`${GITHUB_MODELS_URL}/${modelName}`, scale, modelName);
   await car.load(modelData);
   showroom.addCar(car);
 
