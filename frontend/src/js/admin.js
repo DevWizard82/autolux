@@ -135,7 +135,7 @@ class SettingsManager {
 
       try {
         const res = await fetch(
-          "http://localhost:3000/api/auth/update-profile",
+          "/api/auth/update-profile",
           {
             method: "PUT",
             headers: {
@@ -176,7 +176,7 @@ class SettingsManager {
       try {
         // API CALL
         const res = await fetch(
-          "http://localhost:3000/api/auth/update-password",
+          "/api/auth/update-password",
           {
             method: "PUT",
             headers: {
@@ -288,11 +288,11 @@ class AnalyticsManager {
     try {
       const [customersRes, revenueRes, fleetRes, topModelsRes, avgDurationRes] =
         await Promise.all([
-          fetch("http://localhost:3000/api/analytics/top-customers"),
-          fetch("http://localhost:3000/api/analytics/revenue-monthly"),
-          fetch("http://localhost:3000/api/analytics/fleet-status"),
-          fetch("http://localhost:3000/api/analytics/top-models"),
-          fetch("http://localhost:3000/api/analytics/avg-duration"),
+          fetch("/api/analytics/top-customers"),
+          fetch("/api/analytics/revenue-monthly"),
+          fetch("/api/analytics/fleet-status"),
+          fetch("/api/analytics/top-models"),
+          fetch("/api/analytics/avg-duration"),
         ]);
 
       return {
@@ -1220,7 +1220,7 @@ class DetailsRenderer {
 
     const imgUrl = car.image
       ? `/assets/images/${car.image}`
-      : "http://localhost:3000/assets/images/placeholder.png";
+      : "/assets/images/placeholder.png";
 
     return `
       <div class="p-8 max-w-6xl mx-auto animate-fade-in" id="printable-area">
@@ -1232,7 +1232,7 @@ class DetailsRenderer {
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div class="lg:col-span-1 space-y-6">
             <div class="bg-white dark:bg-gray-800 rounded-xl p-2 border border-gray-200 dark:border-gray-700 shadow-lg">
-              <img src="${imgUrl}" class="w-full h-64 object-cover rounded-lg" onerror="this.src='http://localhost:3000/assets/images/placeholder.png'">
+              <img src="${imgUrl}" class="w-full h-64 object-cover rounded-lg" onerror="this.src='/assets/images/placeholder.png'">
             </div>
             
             <div class="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-lg">
@@ -1912,8 +1912,8 @@ class App {
     const rentalId = document.getElementById("rentalId").value;
 
     const url = rentalId
-      ? `http://localhost:3000/api/rentals/${rentalId}`
-      : "http://localhost:3000/api/rentals";
+      ? `/api/rentals/${rentalId}`
+      : "/api/rentals";
 
     const method = rentalId ? "PUT" : "POST";
 
@@ -2049,7 +2049,7 @@ class App {
       }
 
       try {
-        const res = await fetch(`http://localhost:3000/api/rentals/${id}`, {
+        const res = await fetch(`/api/rentals/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ status: newStatus.toLowerCase() }),
@@ -2081,7 +2081,7 @@ class App {
       return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/rentals/${id}`, {
+      const res = await fetch(`/api/rentals/${id}`, {
         method: "DELETE",
       });
 
@@ -2225,8 +2225,8 @@ class App {
 
     // Determine URL and Method based on if we have an ID
     const url = clientId
-      ? `http://localhost:3000/api/clients/${clientId}`
-      : `http://localhost:3000/api/clients`;
+      ? `/api/clients/${clientId}`
+      : `/api/clients`;
 
     const method = clientId ? "PUT" : "POST";
 
@@ -2321,7 +2321,7 @@ class App {
   // 3. LOAD MODELS FOR DROPDOWN
   async loadModelsForDropdown() {
     try {
-      const res = await fetch("http://localhost:3000/api/cars");
+      const res = await fetch("/api/cars");
       const data = await res.json();
       this.modelsCache = data.data || data;
 
@@ -2434,8 +2434,8 @@ class App {
     const unitId = formData.get("unitId");
 
     const url = unitId
-      ? `http://localhost:3000/api/cars/${unitId}`
-      : `http://localhost:3000/api/cars`;
+      ? `/api/cars/${unitId}`
+      : `/api/cars`;
     const method = unitId ? "PUT" : "POST";
 
     try {
@@ -2465,7 +2465,7 @@ class App {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/cars/${unitId}`, {
+      const res = await fetch(`/api/cars/${unitId}`, {
         method: "DELETE",
       });
 
@@ -2592,8 +2592,8 @@ class App {
     };
 
     const url = id
-      ? `http://localhost:3000/api/locations/${id}`
-      : `http://localhost:3000/api/locations`;
+      ? `/api/locations/${id}`
+      : `/api/locations`;
     const method = id ? "PUT" : "POST";
 
     try {
@@ -2624,7 +2624,7 @@ class App {
     if (!confirm("Are you sure you want to delete this location?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/locations/${id}`, {
+      const res = await fetch(`/api/locations/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {
@@ -2700,7 +2700,7 @@ class App {
     }
 
     try {
-      const res = await fetch(`http://localhost:3000/api/clients/${clientId}`, {
+      const res = await fetch(`/api/clients/${clientId}`, {
         method: "DELETE",
       });
 
@@ -2922,7 +2922,7 @@ class App {
       (car) => {
         const imgUrl = car.image ? `/assets/images/${car.image}` : "";
         const imgHtml = imgUrl
-          ? `<img src="${imgUrl}" alt="${car.name}" class="w-10 h-10 object-cover rounded border border-gray-600" onerror="this.src='http://localhost:3000/assets/images/placeholder.png'">`
+          ? `<img src="${imgUrl}" alt="${car.name}" class="w-10 h-10 object-cover rounded border border-gray-600" onerror="this.src='/assets/images/placeholder.png'">`
           : "-";
 
         let badgeColor = "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 border border-green-200 dark:border-green-800";
@@ -3325,8 +3325,8 @@ class App {
     }
 
     const url = id
-      ? `http://localhost:3000/api/models/${id}`
-      : `http://localhost:3000/api/models`;
+      ? `/api/models/${id}`
+      : `/api/models`;
     const method = id ? "PUT" : "POST";
 
     try {
@@ -3357,7 +3357,7 @@ class App {
     if (!confirm("Are you sure you want to delete this model?")) return;
 
     try {
-      const res = await fetch(`http://localhost:3000/api/models/${id}`, {
+      const res = await fetch(`/api/models/${id}`, {
         method: "DELETE",
       });
       if (res.ok) {

@@ -1,7 +1,7 @@
 import { translations } from "./translations.js";
 import { toast } from "./toast.js";
 
-const BASE_URL = "http://localhost:3000";
+const BASE_URL = "";
 
 // State
 let currentUser = null;

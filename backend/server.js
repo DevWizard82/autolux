@@ -32,15 +32,29 @@ app.use(express.static("public"));
 // --- MULTER CONFIGURATION ---
 
 // 1. Define the Upload Directory using process.cwd() (Project Root)
-// This fixes issues where __dirname might point to a 'src' or 'dist' subfolder
-const uploadDir = path.join(__dirname, "../frontend/public/assets/images");
+let uploadDir;
+let modelUploadDir;
 
-// 2. Ensure directory exists
-if (!fs.existsSync(uploadDir)) {
-  console.log(`Creating directory: ${uploadDir}`);
-  fs.mkdirSync(uploadDir, { recursive: true });
+if (process.env.NODE_ENV === "production") {
+  // Use /tmp in Vercel (writable)
+  uploadDir = "/tmp";
+  modelUploadDir = "/tmp";
+
+  // Ensure we don't crash if these don't exist (though /tmp always exists)
 } else {
-  console.log(`Upload directory exists: ${uploadDir}`);
+  // Local Development
+  uploadDir = path.join(__dirname, "../frontend/public/assets/images");
+  modelUploadDir = path.join(__dirname, "../frontend/public/assets/models");
+
+  // Ensure directories exist locally
+  if (!fs.existsSync(uploadDir)) {
+    console.log(`Creating directory: ${uploadDir}`);
+    fs.mkdirSync(uploadDir, { recursive: true });
+  }
+  if (!fs.existsSync(modelUploadDir)) {
+    console.log(`Creating directory: ${modelUploadDir}`);
+    fs.mkdirSync(modelUploadDir, { recursive: true });
+  }
 }
 
 // 3. Serve the 'public' folder
@@ -64,7 +78,7 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const allowedTypes = /jpeg|jpg|png|webp/;
   const extName = allowedTypes.test(
-    path.extname(file.originalname).toLowerCase()
+    path.extname(file.originalname).toLowerCase(),
   );
   const mimeType = allowedTypes.test(file.mimetype);
 
@@ -82,12 +96,7 @@ const upload = multer({
 });
 
 // --- MODEL MULTER CONFIGURATION ---
-const modelUploadDir = path.join(__dirname, "../frontend/public/assets/models");
-
-if (!fs.existsSync(modelUploadDir)) {
-  console.log(`Creating directory: ${modelUploadDir}`);
-  fs.mkdirSync(modelUploadDir, { recursive: true });
-}
+// modelUploadDir is already defined above
 
 const modelStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -131,7 +140,7 @@ app.put("/api/auth/update-password", async (req, res) => {
     // 2. Verify the CURRENT password
     const validPassword = await bcrypt.compare(
       currentPassword,
-      user.password_hash
+      user.password_hash,
     );
     if (!validPassword) {
       return res
@@ -169,7 +178,7 @@ app.put("/api/auth/update-profile", async (req, res) => {
   try {
     const userRes = await pool.query(
       "UPDATE clients set first_name = $1, last_name = $2, email = $3 WHERE id = $4",
-      [firstName, lastName, email, userId]
+      [firstName, lastName, email, userId],
     );
 
     res.json({
@@ -311,7 +320,7 @@ app.post("/api/cars", upload.single("image"), async (req, res) => {
       // (e.g. User typed "BMW M5" but forgot to select it from dropdown)
       const checkExisting = await client.query(
         "SELECT id FROM cars WHERE LOWER(make) = LOWER($1) AND LOWER(name) = LOWER($2)",
-        [make, name]
+        [make, name],
       );
 
       if (checkExisting.rows.length > 0) {
@@ -320,10 +329,10 @@ app.post("/api/cars", upload.single("image"), async (req, res) => {
       } else {
         // B. Definitely New -> Insert into 'cars' table
         const descJson = createMultilingualData(
-          description || `The ${make} ${name}`
+          description || `The ${make} ${name}`,
         );
         const locJson = createMultilingualData(
-          location_text || "Casablanca, Rabat"
+          location_text || "Casablanca, Rabat",
         );
 
         const nameStr = `${make} ${name}`;
@@ -332,7 +341,7 @@ app.post("/api/cars", upload.single("image"), async (req, res) => {
           `INSERT INTO cars (name, make, price, image, category, description, locations, created_at, updated_at)
            VALUES ($1, $2, $3, $4, 'custom', $5, $6, NOW(), NOW())
            RETURNING id`,
-          [nameStr, make, price, image, descJson, locJson]
+          [nameStr, make, price, image, descJson, locJson],
         );
         finalCarId = insertModel.rows[0].id;
       }
@@ -341,7 +350,7 @@ app.post("/api/cars", upload.single("image"), async (req, res) => {
     // SAFETY CHECK: If we still don't have an ID, stop here.
     if (!finalCarId) {
       throw new Error(
-        "Car Model ID is missing. Please select a model or provide Name/Make to create a new one."
+        "Car Model ID is missing. Please select a model or provide Name/Make to create a new one.",
       );
     }
 
@@ -349,7 +358,7 @@ app.post("/api/cars", upload.single("image"), async (req, res) => {
     await client.query(
       `INSERT INTO car_units (car_id, color, vin, mileage, status, created_at)
        VALUES ($1, $2, $3, $4, 'available', NOW())`,
-      [finalCarId, color, vin, mileage || 0]
+      [finalCarId, color, vin, mileage || 0],
     );
 
     await client.query("COMMIT");
@@ -373,7 +382,7 @@ app.delete("/api/cars/:unitId", async (req, res) => {
     // Get the unit to find the car_id
     const unitRes = await client.query(
       "SELECT car_id FROM car_units WHERE id = $1",
-      [unitId]
+      [unitId],
     );
 
     if (unitRes.rowCount === 0) {
@@ -389,7 +398,7 @@ app.delete("/api/cars/:unitId", async (req, res) => {
     // Check if there are any other units for this car
     const otherUnitsRes = await client.query(
       "SELECT COUNT(*) as count FROM car_units WHERE car_id = $1",
-      [carId]
+      [carId],
     );
 
     // If no other units exist, optionally delete the car model too
@@ -434,7 +443,7 @@ app.post("/api/models", uploadModel.single("file"), async (req, res) => {
     // 1. Get Car Details for Naming
     const carRes = await client.query(
       "SELECT make, name FROM cars WHERE id = $1",
-      [car_id]
+      [car_id],
     );
     if (carRes.rowCount === 0) {
       throw new Error("Car not found");
@@ -468,7 +477,7 @@ app.post("/api/models", uploadModel.single("file"), async (req, res) => {
     // 3. Insert into DB
     const result = await client.query(
       "INSERT INTO models (car_id, file_path, scale_x, rot_y) VALUES ($1, $2, $3, $4) RETURNING *",
-      [car_id, finalFileName, scale_x || 1.0, rot_y || 0.0]
+      [car_id, finalFileName, scale_x || 1.0, rot_y || 0.0],
     );
 
     await client.query("COMMIT");
@@ -486,7 +495,7 @@ app.post("/api/models", uploadModel.single("file"), async (req, res) => {
     if (req.file && fs.existsSync(req.file.path)) {
       try {
         fs.unlinkSync(req.file.path);
-      } catch (e) { }
+      } catch (e) {}
     }
     console.error(err);
     res.status(500).json({ error: err.message || "Failed to create model" });
@@ -508,7 +517,7 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
     // 1. Check if model exists
     const modelCheck = await client.query(
       "SELECT * FROM models WHERE id = $1",
-      [id]
+      [id],
     );
     if (modelCheck.rowCount === 0) {
       throw new Error("Model not found");
@@ -518,7 +527,7 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
     const targetCarId = car_id || modelCheck.rows[0].car_id;
     const carRes = await client.query(
       "SELECT make, name FROM cars WHERE id = $1",
-      [targetCarId]
+      [targetCarId],
     );
     if (carRes.rowCount === 0) {
       throw new Error("Car not found");
@@ -559,7 +568,7 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
     // 4. Update DB
     const result = await client.query(
       "UPDATE models SET car_id = $1, file_path = $2, scale_x = $3, rot_y = $4 WHERE id = $5 RETURNING *",
-      [targetCarId, finalFileName, scale_x, rot_y, id]
+      [targetCarId, finalFileName, scale_x, rot_y, id],
     );
 
     await client.query("COMMIT");
@@ -575,7 +584,7 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
     if (req.file && fs.existsSync(req.file.path)) {
       try {
         fs.unlinkSync(req.file.path);
-      } catch (e) { }
+      } catch (e) {}
     }
     console.error(err);
     res.status(500).json({ error: err.message || "Failed to update model" });
@@ -620,13 +629,13 @@ const getCarParts = async (req, res, type) => {
 };
 
 app.get("/api/car-parts/trims/:modelname", (req, res) =>
-  getCarParts(req, res, "trim")
+  getCarParts(req, res, "trim"),
 );
 app.get("/api/car-parts/body/:modelname", (req, res) =>
-  getCarParts(req, res, "body")
+  getCarParts(req, res, "body"),
 );
 app.get("/api/car-parts/strip/:modelname", (req, res) =>
-  getCarParts(req, res, "strip")
+  getCarParts(req, res, "strip"),
 );
 
 // ----- Colors -----
@@ -635,7 +644,7 @@ app.get("/api/colors/:carId", async (req, res) => {
   try {
     const result = await pool.query(
       "SELECT DISTINCT color FROM car_units WHERE car_id = $1 AND status = 'available'",
-      [carId]
+      [carId],
     );
     res.json({
       message: "Available colors fetched successfully",
@@ -653,7 +662,7 @@ app.get("/api/types/:carId", async (req, res) => {
   try {
     const result = await pool.query(
       "SELECT DISTINCT part_type FROM car_parts WHERE car_id = $1",
-      [carId]
+      [carId],
     );
     res.json({
       message: "Car part types fetched successfully",
@@ -684,7 +693,7 @@ app.get("/api/locations/grouped", async (req, res) => {
 app.get("/api/locations", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT id, city_name, map_embed_url FROM locations ORDER BY city_name ASC"
+      "SELECT id, city_name, map_embed_url FROM locations ORDER BY city_name ASC",
     );
     res.json({ message: "Locations fetched successfully", data: result.rows });
   } catch (err) {
@@ -718,7 +727,7 @@ app.get("/api/carscount", async (req, res) => {
 app.get("/api/clientscount", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT count(id) from clients where role <> 'admin'"
+      "SELECT count(id) from clients where role <> 'admin'",
     );
     res.json({
       message: "clients count fetched successfully",
@@ -735,7 +744,7 @@ app.get("/api/clientscount", async (req, res) => {
 app.get("/api/clients", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT id, first_name, last_name, email, phone FROM clients WHERE (role <> 'admin' OR role IS NULL) ORDER BY created_at DESC"
+      "SELECT id, first_name, last_name, email, phone FROM clients WHERE (role <> 'admin' OR role IS NULL) ORDER BY created_at DESC",
     );
     res.json(result.rows);
   } catch (err) {
@@ -753,7 +762,7 @@ app.post("/api/clients", async (req, res) => {
   try {
     const userCheck = await pool.query(
       "SELECT * FROM clients WHERE email = $1",
-      [email]
+      [email],
     );
     if (userCheck.rows.length > 0) {
       return res
@@ -862,7 +871,10 @@ app.post("/api/rentals/cancel/:id", async (req, res) => {
     await client.query("BEGIN");
 
     // 1. Check if rental exists and is active
-    const rentalRes = await client.query("SELECT * FROM rentals WHERE id = $1", [id]);
+    const rentalRes = await client.query(
+      "SELECT * FROM rentals WHERE id = $1",
+      [id],
+    );
     if (rentalRes.rowCount === 0) {
       await client.query("ROLLBACK");
       return res.status(404).json({ error: "Rental not found" });
@@ -875,7 +887,10 @@ app.post("/api/rentals/cancel/:id", async (req, res) => {
     }
 
     // 2. Update rental status
-    await client.query("UPDATE rentals SET status = 'cancelled' WHERE id = $1", [id]);
+    await client.query(
+      "UPDATE rentals SET status = 'cancelled' WHERE id = $1",
+      [id],
+    );
 
     // Note: Since rentals are linked to 'cars' (models) and not specific 'car_units',
     // we cannot update a specific unit's status to 'available'.
@@ -891,8 +906,6 @@ app.post("/api/rentals/cancel/:id", async (req, res) => {
   }
 });
 
-
-
 // Delete a client by ID
 app.delete("/api/clients/:id", async (req, res) => {
   const { id } = req.params;
@@ -901,7 +914,7 @@ app.delete("/api/clients/:id", async (req, res) => {
     // 1. Perform the delete operation
     const result = await pool.query(
       "DELETE FROM clients WHERE id = $1 RETURNING *",
-      [id]
+      [id],
     );
 
     // 2. Check if a row was actually deleted
@@ -949,7 +962,7 @@ app.put("/api/cars/:unitId", upload.single("image"), async (req, res) => {
     // Get current car_id and image
     const currentCar = await pool.query(
       "SELECT car_id, c.image FROM car_units cu JOIN cars c ON cu.car_id = c.id WHERE cu.id = $1",
-      [unitId]
+      [unitId],
     );
 
     if (currentCar.rowCount === 0) {
@@ -962,7 +975,7 @@ app.put("/api/cars/:unitId", upload.single("image"), async (req, res) => {
     // Update car_units with unit-specific data
     await pool.query(
       "UPDATE car_units SET color = $1, vin = $2, status = $3 WHERE id = $4",
-      [color, vin, status, unitId]
+      [color, vin, status, unitId],
     );
 
     // Update cars table with image if provided
@@ -985,7 +998,7 @@ app.post("/api/locations", async (req, res) => {
   try {
     const result = await pool.query(
       "INSERT INTO locations (city_name, map_embed_url) VALUES ($1, $2) RETURNING *",
-      [city_name, map_embed_url]
+      [city_name, map_embed_url],
     );
     res.status(201).json(result.rows[0]);
   } catch (err) {
@@ -1000,7 +1013,7 @@ app.put("/api/locations/:id", async (req, res) => {
   try {
     const result = await pool.query(
       "UPDATE locations SET city_name = $1, map_embed_url = $2 WHERE id = $3 RETURNING *",
-      [city_name, map_embed_url, id]
+      [city_name, map_embed_url, id],
     );
     if (result.rowCount === 0)
       return res.status(404).json({ error: "Location not found" });
@@ -1047,7 +1060,7 @@ app.get("/api/locations/count", async (req, res) => {
 app.get("/api/rentalscount", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT count(*) FROM rentals WHERE status = 'rented' AND rental_start <= NOW() AND rental_end >= NOW();"
+      "SELECT count(*) FROM rentals WHERE status = 'rented' AND rental_start <= NOW() AND rental_end >= NOW();",
     );
     res.json({
       message: "rentals count fetched successfully",
@@ -1063,7 +1076,7 @@ app.get("/api/rentalscount", async (req, res) => {
 app.get("/api/revenue", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT SUM(price) FROM rentals WHERE status IN ('rented', 'completed') AND EXTRACT(YEAR FROM rental_start) = EXTRACT(YEAR FROM CURRENT_DATE)"
+      "SELECT SUM(price) FROM rentals WHERE status IN ('rented', 'completed') AND EXTRACT(YEAR FROM rental_start) = EXTRACT(YEAR FROM CURRENT_DATE)",
     );
     res.json({
       message: "this year's revenue fetched successfully",
@@ -1079,7 +1092,7 @@ app.get("/api/revenue", async (req, res) => {
 app.get("/api/cars/available", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT COUNT(*) from car_units where status='available'"
+      "SELECT COUNT(*) from car_units where status='available'",
     );
     res.json({
       message: "the available cars fetched successfully",
@@ -1095,7 +1108,7 @@ app.get("/api/cars/available", async (req, res) => {
 app.get("/api/arrivals", async (req, res) => {
   try {
     const result = await pool.query(
-      "SELECT * FROM cars ORDER BY created_at DESC LIMIT 3"
+      "SELECT * FROM cars ORDER BY created_at DESC LIMIT 3",
     );
     res.json({
       message: "Latest arrivals fetched successfully",
@@ -1161,7 +1174,7 @@ app.post("/api/rentals", async (req, res) => {
       `SELECT id, car_id FROM car_units 
        WHERE car_id = $1 AND status = 'available' 
        LIMIT 1 FOR UPDATE`, // "FOR UPDATE" prevents two people booking the same car at once
-      [car_id]
+      [car_id],
     );
 
     if (!unitRes.rowCount) {
@@ -1175,7 +1188,7 @@ app.post("/api/rentals", async (req, res) => {
 
     // 3. Calculate price
     const days = Math.ceil(
-      (new Date(rental_end) - new Date(rental_start)) / (1000 * 60 * 60 * 24)
+      (new Date(rental_end) - new Date(rental_start)) / (1000 * 60 * 60 * 24),
     );
     const totalPrice = days * dayPrice;
 
@@ -1183,7 +1196,7 @@ app.post("/api/rentals", async (req, res) => {
     const rentalRes = await client.query(
       `INSERT INTO rentals (car_id, client_id, rental_start, rental_end, price, status)
        VALUES ($1, $2, $3, $4, $5, 'rented') RETURNING *`,
-      [carUnitId, client_id, rental_start, rental_end, totalPrice]
+      [carUnitId, client_id, rental_start, rental_end, totalPrice],
     );
 
     // 5. UPDATE the status in car_units
@@ -1250,7 +1263,10 @@ app.put("/api/rentals/:id", async (req, res) => {
     await client.query("BEGIN");
 
     // 1. Get current state to check if car changed
-    const currentRes = await client.query("SELECT car_id, status FROM rentals WHERE id = $1", [id]);
+    const currentRes = await client.query(
+      "SELECT car_id, status FROM rentals WHERE id = $1",
+      [id],
+    );
     if (currentRes.rows.length === 0) {
       throw new Error("Rental not found");
     }
@@ -1260,7 +1276,10 @@ app.put("/api/rentals/:id", async (req, res) => {
     // For simplicity, we'll re-calculate price if car_id is provided.
     let newPrice = null;
     if (car_id && rental_start && rental_end) {
-      const carRes = await client.query("SELECT price FROM cars WHERE id = (SELECT car_id FROM car_units WHERE id = $1)", [car_id]);
+      const carRes = await client.query(
+        "SELECT price FROM cars WHERE id = (SELECT car_id FROM car_units WHERE id = $1)",
+        [car_id],
+      );
       if (carRes.rows.length > 0) {
         const dayPrice = carRes.rows[0].price;
         const start = new Date(rental_start);
@@ -1281,24 +1300,36 @@ app.put("/api/rentals/:id", async (req, res) => {
            status = COALESCE($5, status),
            price = COALESCE($6, price)
        WHERE id = $7`,
-      [client_id, car_id, rental_start, rental_end, status, newPrice, id]
+      [client_id, car_id, rental_start, rental_end, status, newPrice, id],
     );
 
     // 4. Handle Car Swaps (If car_id changed)
     if (car_id && parseInt(car_id) !== oldRental.car_id) {
       // Free up old car
-      await client.query("UPDATE car_units SET status = 'available' WHERE id = $1", [oldRental.car_id]);
+      await client.query(
+        "UPDATE car_units SET status = 'available' WHERE id = $1",
+        [oldRental.car_id],
+      );
       // Occupy new car (if status is active)
-      if (status === 'rented' || status === 'active') {
-        await client.query("UPDATE car_units SET status = 'rented' WHERE id = $1", [car_id]);
+      if (status === "rented" || status === "active") {
+        await client.query(
+          "UPDATE car_units SET status = 'rented' WHERE id = $1",
+          [car_id],
+        );
       }
     }
     // 5. Handle Status Changes (Same car, but status changed e.g. Rented -> Completed)
     else if (status && status !== oldRental.status) {
-      if (['cancelled', 'completed'].includes(status)) {
-        await client.query("UPDATE car_units SET status = 'available' WHERE id = $1", [oldRental.car_id]);
-      } else if (['rented', 'active'].includes(status)) {
-        await client.query("UPDATE car_units SET status = 'rented' WHERE id = $1", [oldRental.car_id]);
+      if (["cancelled", "completed"].includes(status)) {
+        await client.query(
+          "UPDATE car_units SET status = 'available' WHERE id = $1",
+          [oldRental.car_id],
+        );
+      } else if (["rented", "active"].includes(status)) {
+        await client.query(
+          "UPDATE car_units SET status = 'rented' WHERE id = $1",
+          [oldRental.car_id],
+        );
       }
     }
 
@@ -1325,4 +1356,8 @@ app.delete("/api/rentals/:id", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+if (process.env.NODE_ENV !== "production") {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+export default app;

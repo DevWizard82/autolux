@@ -1,0 +1,32 @@
+{
+  "name": "autolux-monorepo",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "cd frontend && npm install && npm run build && cd .. && mkdir -p dist && cp -r frontend/dist/* dist/",
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "body-parser": "^1.20.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16",
+    "pg": "^8.13.1",
+    "axios": "^1.7.9",
+    "izitoast": "^1.4.0",
+    "notyf": "^3.10.0",
+    "plotly.js-dist": "^2.35.3",
+    "three": "^0.172.0",
+    "toastify-js": "^1.12.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.7",
+    "tailwindcss": "^3.4.17",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38"
+  }
+}

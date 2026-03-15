@@ -78,7 +78,7 @@ form.addEventListener("submit", async (e) => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   try {
-    const res = await axios.post("http://localhost:3000/api/rentals", {
+    const res = await axios.post("/api/rentals", {
       client_id: parseInt(user.id),
       car_id: parseInt(car_id),
       rental_start,

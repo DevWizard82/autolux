@@ -19,12 +19,18 @@ async function displayCars(
   // Paramètres par défaut pour la ville, la catégorie et la langue, même si aucun argument n'est passé.
   city = "Toutes_les_villes", // Ville par défaut : toutes les villes
   category = "All", // Catégorie par défaut : toutes les catégories
-  language = "fr" // Langue par défaut : français
+  language = "fr", // Langue par défaut : français
 ) {
   // Vider le contenu actuel du conteneur de cartes
   cardContainer.innerHTML = "";
 
   language = localStorage.getItem("language") || "fr";
+
+  if (!cars || !Array.isArray(cars)) {
+    console.error("Invalid 'cars' array passed to displayCars:", cars);
+    cardContainer.innerHTML = "<p>Aucune voiture trouvée.</p>";
+    return;
+  }
 
   // Filtrer les voitures selon les critères de ville et de catégorie
   const filtered = cars.filter((car) => {
@@ -53,8 +59,8 @@ async function displayCars(
       <div class="card_content">
         <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
         <p class="${language === "ar" ? "rtl" : "ltr"}">${
-      car.description[language]
-    }</p>
+          car.description[language]
+        }</p>
         <div class="locations ${language === "ar" ? "rtl" : "ltr"}">
           <span class="available">${translations[language]["disponible"]}</span>
           <span class="carlocations">${car.locations[language]}</span>
@@ -73,7 +79,7 @@ async function displayCars(
           }" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
           <button class="model" id="${car.name.replace(
             /[- ]/g,
-            "_"
+            "_",
           )}"><i class="fas fa-cube"></i><span class="modeltext">Vue 3D</span></button>
         </div>
       </div>
@@ -127,26 +133,7 @@ document
   .querySelector('.category-btn[data-default="true"]')
   .classList.add("active");
 
-// Gère le clic sur chaque bouton de catégorie : met à jour l'apparence active, récupère la ville et la langue sélectionnées,
-// puis affiche les voitures filtrées selon la nouvelle catégorie choisie.
-categoriesSelect.forEach((button) => {
-  button.addEventListener("click", () => {
-    categoriesSelect.forEach((btn) => btn.classList.remove("active"));
-    button.classList.add("active");
-    const city = citiesSelect.value;
-    const category = button.getAttribute("data-original-value");
-    displayCars(city, category, languagesSelect.value);
-  });
-});
-
-// Lorsqu'une ville est sélectionnée, récupère la catégorie et la langue actuelles, puis met à jour l'affichage des voitures filtrées.
-citiesSelect.addEventListener("change", (e) => {
-  const city = e.target.value;
-  const category = document
-    .querySelector(".category-btn.active")
-    .getAttribute("data-original-value");
-  displayCars(city, category, languagesSelect.value);
-});
+// Event listeners for categories and cities are initialized inside init() where 'cars' is in scope
 
 let exchangeRates = {};
 
@@ -201,7 +188,7 @@ async function searchCars(cars, searchValue, language) {
 
   // Filtre les voitures selon la valeur de recherche (insensible à la casse)
   const filtered = cars.filter((car) =>
-    car.name.toUpperCase().includes(searchValue.toUpperCase())
+    car.name.toUpperCase().includes(searchValue.toUpperCase()),
   );
 
   // Pour chaque voiture filtrée, on crée dynamiquement une carte HTML
@@ -218,8 +205,8 @@ async function searchCars(cars, searchValue, language) {
       <div class="card_content">
         <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
         <p class="${language === "ar" ? "rtl" : "ltr"}">${
-      car.description[languagesSelect.value]
-    }</p>
+          car.description[languagesSelect.value]
+        }</p>
         <div class="locations ${language === "ar" ? "rtl" : "ltr"}">
           <span class="available">${translations[language]["disponible"]}</span>
           <span class="carlocations">${car.locations[language]}</span>
@@ -237,7 +224,7 @@ async function searchCars(cars, searchValue, language) {
           }" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
           <button class="model" id="${car.name.replace(
             /[- ]/g,
-            "_"
+            "_",
           )}"><i class="fas fa-cube"></i> <span class="modeltext">Vue 3D</span></button>
         </div>
       </div>
@@ -259,23 +246,7 @@ async function searchCars(cars, searchValue, language) {
   }
 }
 
-searchEl.addEventListener("keyup", () => {
-  // Lorsqu'on tape dans la barre de recherche, on enlève la classe "active" de tous les boutons de catégorie
-  categoriesSelect.forEach((category) => {
-    category.classList.remove("active");
-  });
-
-  // On remet la catégorie par défaut comme sélectionnée (all)
-  document
-    .querySelector('.category-btn[data-default="true"]')
-    .classList.add("active");
-
-  // On réinitialise la ville sélectionnée à "Toutes_les_villes"
-  citiesSelect.value = "Toutes_les_villes";
-
-  // On lance la fonction de recherche avec la valeur actuelle du champ de recherche et la langue sélectionnée
-  searchCars(searchEl.value, languagesSelect.value);
-});
+// Search event listener is initialized inside init() where 'cars' is in scope
 
 function updateLanguage(language) {
   if (!language) return;
@@ -287,7 +258,7 @@ function updateLanguage(language) {
   const navContact = document.querySelectorAll("nav a[href*='contact.html']");
 
   navContact.forEach(
-    (el) => (el.textContent = translations[language]["contact"])
+    (el) => (el.textContent = translations[language]["contact"]),
   );
 
   //declarer les elements a changer dans la page
@@ -347,35 +318,7 @@ function updateLanguage(language) {
   }, 50);
 }
 
-document.getElementById("languages1").addEventListener("change", (e) => {
-  const language = e.target.value;
-
-  languagesSelectSidebar.value = language;
-  languagesSelect.value = language;
-
-  updateLanguage(language);
-
-  const city = citiesSelect.value;
-  const category = document
-    .querySelector(".category-btn.active")
-    .getAttribute("data-original-value");
-  displayCars(city, category, language);
-});
-
-document.getElementById("languages").addEventListener("change", (e) => {
-  const language = e.target.value;
-
-  languagesSelectSidebar.value = language;
-  languagesSelect.value = language;
-
-  updateLanguage(language);
-
-  const city = citiesSelect.value;
-  const category = document
-    .querySelector(".category-btn.active")
-    .getAttribute("data-original-value");
-  displayCars(city, category, language);
-});
+// Language event listeners are initialized inside init() where 'cars' is in scope
 
 function open3D(id) {
   window.open(`carviewer.html?model=${encodeURIComponent(id)}.glb`, "_blank");
@@ -468,10 +411,10 @@ async function init() {
   }
 
   languagesSelect.addEventListener("change", (e) =>
-    handleLangChange(e.target.value)
+    handleLangChange(e.target.value),
   );
   languagesSelectSidebar.addEventListener("change", (e) =>
-    handleLangChange(e.target.value)
+    handleLangChange(e.target.value),
   );
 
   // Currency
@@ -506,7 +449,7 @@ async function init() {
       setTimeout(
         () =>
           (window.location.href = `book.html?id=${encodeURIComponent(carId)}`),
-        500
+        500,
       );
     }
   });

@@ -220,7 +220,7 @@ const observer = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.1 }
+  { threshold: 0.1 },
 );
 document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
 
@@ -230,6 +230,10 @@ async function loadLatestArrivals(language) {
   try {
     const cars = await getArrivals();
 
+    if (!cars || !Array.isArray(cars)) {
+      throw new Error("Invalid format received");
+    }
+
     container.innerHTML = cars
       .map(
         (car, index) => `
@@ -237,8 +241,8 @@ async function loadLatestArrivals(language) {
                style="transition-delay: ${index * 100}ms">
             <div class="relative h-64 overflow-hidden">
               <img src="/assets/images/${car.image}" alt="${
-          car.name
-        }" class="card-img w-full h-full object-cover" />
+                car.name
+              }" class="card-img w-full h-full object-cover" />
               <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-60"></div>
               <div class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-4 py-1.5 rounded-full text-luxury-gold text-xs font-bold border border-luxury-gold/20">
                 $${car.price} <span class="day"> / Day</span>
@@ -278,7 +282,7 @@ async function loadLatestArrivals(language) {
               </a>
             </div>
           </div>
-        `
+        `,
       )
       .join("");
 

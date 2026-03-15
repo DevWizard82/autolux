@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const BASE_URL = "http://localhost:3000";
+export const BASE_URL = import.meta.env.PROD ? "" : "http://localhost:3000";
 
 export async function getcars() {
   try {
@@ -25,7 +25,7 @@ export async function getmodels() {
 export async function getCarTrims(modelname) {
   try {
     const response = await axios.get(
-      `${BASE_URL}/api/car-parts/trims/${modelname}`
+      `${BASE_URL}/api/car-parts/trims/${modelname}`,
     );
     return response.data;
   } catch (err) {
@@ -107,7 +107,7 @@ export async function getFleetList() {
 export async function getCarBody(modelname) {
   try {
     const response = await axios.get(
-      `${BASE_URL}/api/car-parts/body/${modelname}`
+      `${BASE_URL}/api/car-parts/body/${modelname}`,
     );
     return response.data.data;
   } catch (err) {
@@ -119,7 +119,7 @@ export async function getCarBody(modelname) {
 export async function getCarStrip(modelname) {
   try {
     const response = await axios.get(
-      `${BASE_URL}/api/car-parts/strip/${modelname}`
+      `${BASE_URL}/api/car-parts/strip/${modelname}`,
     );
     return response.data.data;
   } catch (err) {
