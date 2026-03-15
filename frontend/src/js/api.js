@@ -1,6 +1,8 @@
 import axios from "axios";
 
-export const BASE_URL = import.meta.env.PROD ? "" : "http://localhost:3000";
+export const BASE_URL = import.meta.env.PROD
+  ? "https://autolux-production.up.railway.app"
+  : "http://localhost:3000";
 
 export async function getcars() {
   try {

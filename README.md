@@ -1,163 +1,56 @@
-# Luxury Cars Rental Agency – Full‑Stack Project
+# AutoLux Fleet Command 🏎️✨
 
-This repository contains a **full‑stack web application for a luxury cars rental agency**. The platform is designed to showcase high‑end vehicles, manage rentals, and provide an immersive user experience using a modern frontend and a robust backend.
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Site-deb887?style=for-the-badge)](https://glowing-paletas-7e25a6.netlify.app)
+[![Backend Status](https://img.shields.io/badge/Backend-Online-success?style=for-the-badge)](https://autolux-production.up.railway.app)
 
----
+AutoLux is a premium, full-stack luxury car rental management system. Designed for high-end automotive fleets, it features a highly interactive UI with 3D model viewing, real-time currency conversion, seamless multi-language support, and a secure, scalable PostgreSQL backend.
 
-## 📁 Project Structure
+## 🌟 Key Features
 
-```bash
-root/
-├── frontend/        # Vite + Frontend source code
+- **Immersive 3D Experience:** Integrated 3D car model viewers for a premium user experience.
+- **Global Ready (i18n):** Full translation support for 10 different languages (English, French, Arabic, Spanish, German, etc.).
+- **Real-Time Currency Conversion:** Live fetching of exchange rates to display pricing in the user's preferred currency.
+- **Dynamic Filtering & Search:** Instantly filter the fleet by city, category (Luxury, Sport, Hypercar, Electric), or search query.
+- **Secure Authentication:** JWT-based secure login and session management for administrators and clients.
+- **Automated Email Notifications:** Integrated Nodemailer via Gmail for reservation confirmations.
+- **Responsive Design:** Fully optimized for mobile, tablet, and desktop viewing using Tailwind CSS.
+
+## 🛠️ Tech Stack
+
+**Frontend (Client):**
+
+- Vanilla JavaScript (ES6+)
+- Vite (Build Tool)
+- Tailwind CSS
+- Axios (Data Fetching)
+- VanillaTilt.js (3D UI Interactions)
+
+**Backend (Server):**
+
+- Node.js & Express.js
+- PostgreSQL (Database)
+- JSON Web Tokens (JWT) for Authentication
+- Nodemailer (Email Services)
+
+**Infrastructure & Deployment:**
+
+- **Frontend:** Netlify
+- **Backend:** Railway
+- **Database:** Railway Provisioned PostgreSQL
+
+## 📂 Project Structure
+
+This project is structured as a monorepo, containing both the frontend and backend in a single repository.
+
+```text
+autolux/
+├── backend/                # Node.js/Express server and API routes
+│   ├── package.json
+│   └── index.js
+├── frontend/               # Vite frontend application
 │   ├── src/
-│   │   ├── css/
-│   │   ├── js/
-│   ├── public/
-│   │   ├── asssets/
-│   │       ├── images/
-│   │       ├── models/
+│   ├── index.html
 │   ├── package.json
-│   └── package-lock.json
-│
-├── backend/         # Node.js backend (API / server)
-│   ├── package.json
-│   ├── package-lock.json
-│   ├── routes/
-│   └── server.js
-│   └── routes/
-│   └── middlewares/
-│   └── db/
-│
-├── .gitignore
+│   └── vite.config.js
 └── README.md
 ```
-
----
-
-## 🛠️ Requirements
-
-Make sure the following are installed on your machine:
-
-- **Node.js** (v18 or higher recommended)
-- **npm** (comes with Node.js)
-- **Git**
-
-Check versions:
-
-```bash
-node -v
-npm -v
-```
-
----
-
-## 🚀 Getting Started
-
-### 1️⃣ Clone the repository
-
-```bash
-git clone <REPOSITORY_URL>
-cd <PROJECT_FOLDER>
-```
-
----
-
-### 2️⃣ Backend setup
-
-```bash
-cd backend
-npm install
-```
-
-#### Environment variables
-
-Create a `.env` file based on the example:
-
-Fill in the required values inside `.env`.
-
-#### Run backend
-
-```bash
-
-npm run dev
-```
-
----
-
-### 3️⃣ Frontend setup (Vite)
-
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
-The frontend will usually be available at:
-
-```
-http://localhost:5173
-```
-
----
-
-## 📦 Dependencies
-
-All dependencies are defined in:
-
-- `frontend/package.json`
-- `backend/package.json`
-
-You **do not** need to run `npm init`.
-Just run:
-
-```bash
-npm install
-```
-
----
-
-## 🔐 Security Notes
-
-- `node_modules/` and `.env` files are intentionally ignored
-- Sensitive data should **never** be committed
-- Use `.env.example` to document required environment variables
-
----
-
-## 🧪 Common Commands
-
-### Frontend
-
-```bash
-npm run dev
-```
-
-### Backend
-
-```bash
-npm run dev
-```
-
----
-
-## ❗ Troubleshooting
-
-- If dependencies fail to install, delete `node_modules` and run `npm install` again
-- Ensure correct Node.js version is installed
-- Make sure the backend is running before testing frontend features that depend on the API
-
----
-
-## 📄 License
-
-This project is for **educational purposes**.
-
----
-
-## 👤 Author
-
-Developed by **Anas**
-
----
-
-If you have any issues running the project, feel free to contact the author or open an issue.
