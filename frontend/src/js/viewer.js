@@ -604,8 +604,7 @@ class Configurator {
   if (modelData && modelData.scale_x) scale = modelData.scale_x;
 
   // Use BASE_URL to fetch from backend
-  const GITHUB_MODELS_URL =
-    "https://cdn.jsdelivr.net/gh/DevWizard82/autolux@v1.0";
+  const GITHUB_MODELS_URL = "https://f005.backblazeb2.com/file/autolux-models";
   const car = new Car(`${GITHUB_MODELS_URL}/${modelName}`, scale, modelName);
   await car.load(modelData);
   showroom.addCar(car);
