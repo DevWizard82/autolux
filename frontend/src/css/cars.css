@@ -199,7 +199,9 @@ li {
   color: #000;
   font-weight: bold;
   font-family: cursive;
-  transition: filter 0.3s ease, transform 0.3s ease;
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
 }
 
 /* Bouton modèle (voir modèle) */
@@ -214,7 +216,9 @@ li {
   align-items: center;
   gap: 8px;
   white-space: nowrap;
-  transition: filter 0.3s ease, transform 0.3s ease;
+  transition:
+    filter 0.3s ease,
+    transform 0.3s ease;
 }
 
 .model i {
@@ -626,4 +630,143 @@ a:hover {
 
 .logout-btn-modal:hover {
   background: rgba(255, 107, 107, 0.12);
+}
+
+.card_image {
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.image_overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.3s;
+  color: white;
+  font-size: 1.5rem;
+  opacity: 0;
+}
+
+.card_image:hover .image_overlay {
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 1;
+}
+
+/* Modal */
+.car-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 99999;
+  align-items: center;
+  justify-content: center;
+}
+
+.car-modal-overlay.active {
+  display: flex;
+}
+
+.car-modal-content {
+  background: #1a1a1a;
+  border-radius: 16px;
+  max-width: 900px;
+  width: 90%;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  max-height: 90vh;
+}
+
+.modal-close {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  background: rgba(0, 0, 0, 0.6);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  z-index: 10;
+}
+
+.modal-image-container {
+  flex: 1;
+  min-height: 300px;
+}
+
+.modal-image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-info {
+  flex: 1;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 15px;
+  color: white;
+}
+
+.modal-info h2 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.modal-info p {
+  color: #aaa;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.modal-locations {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ccc;
+  font-size: 0.9rem;
+}
+
+.modal-locations i {
+  color: #f5a623;
+}
+
+.modal-price {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: #f5a623;
+}
+
+.modal-reserver-btn {
+  background: #f5a623;
+  color: black;
+  border: none;
+  padding: 14px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+  align-self: flex-start;
+}
+
+.modal-reserver-btn:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 600px) {
+  .car-modal-content {
+    flex-direction: column;
+  }
 }

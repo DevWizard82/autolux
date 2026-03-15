@@ -53,37 +53,27 @@ async function displayCars(
 
     // Remplie le contenu HTML de la carte avec les informations de la voiture
     card.innerHTML = `
-      <div class="card_image">
-        <img src="assets/images/${car.image}" alt="${car.name}">
-      </div>
-      <div class="card_content">
-        <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
-        <p class="${language === "ar" ? "rtl" : "ltr"}">${
-          car.description[language]
-        }</p>
-        <div class="locations ${language === "ar" ? "rtl" : "ltr"}">
-          <span class="available">${translations[language]["disponible"]}</span>
-          <span class="carlocations">${car.locations[language]}</span>
-        </div>
-        <div class="price ${language === "ar" ? "rtlprice" : "ltrprice"}">
-          <span class="priceValue" data-original-value="${
-            car.price
-          }" data-currency="EUR">
-            ${car.price} EUR
-          </span><span class="perday">/jour</span>
-
-        </div>
-        <div class="btn_container">
-          <button class="reserver_btn" data-id="${
-            car.id
-          }" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
-          <button class="model" id="${car.name.replace(
-            /[- ]/g,
-            "_",
-          )}"><i class="fas fa-cube"></i><span class="modeltext">Vue 3D</span></button>
-        </div>
-      </div>
-    `;
+  <div class="card_image" onclick="openCarModal(${JSON.stringify(car).replace(/"/g, "&quot;")}, '${language}')">
+    <img src="assets/images/${car.image}" alt="${car.name}">
+    <div class="image_overlay"><i class="fas fa-expand"></i></div>
+  </div>
+  <div class="card_content">
+    <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
+    <p class="${language === "ar" ? "rtl" : "ltr"}">${car.description[language]}</p>
+    <div class="locations ${language === "ar" ? "rtl" : "ltr"}">
+      <span class="available">${translations[language]["disponible"]}</span>
+      <span class="carlocations">${car.locations[language]}</span>
+    </div>
+    <div class="price ${language === "ar" ? "rtlprice" : "ltrprice"}">
+      <span class="priceValue" data-original-value="${car.price}" data-currency="EUR">
+        ${car.price} EUR
+      </span><span class="perday">/jour</span>
+    </div>
+    <div class="btn_container">
+      <button class="reserver_btn" data-id="${car.id}" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
+    </div>
+  </div>
+`;
 
     // Ajoute la carte au conteneur
     cardContainer.appendChild(card);
@@ -454,6 +444,34 @@ async function init() {
     }
   });
 }
+
+function openCarModal(car, language) {
+  document.getElementById("modalCarImage").src = `assets/images/${car.image}`;
+  document.getElementById("modalCarName").textContent = car.name;
+  document.getElementById("modalCarDesc").textContent =
+    car.description[language];
+  document.getElementById("modalCarLocations").textContent =
+    car.locations[language];
+  document.getElementById("modalCarPrice").textContent = `${car.price} EUR`;
+  document.getElementById("modalReserverBtn").setAttribute("data-id", car.id);
+  document.getElementById("modalReserverBtn").onclick = () => {
+    closeCarModal();
+    document.getElementById(car.name.replace(/[- ]/g, "_")).click();
+  };
+  document.getElementById("carModal").classList.add("active");
+  document.body.style.overflow = "hidden";
+}
+
+function closeCarModal(event) {
+  if (!event || event.target === document.getElementById("carModal")) {
+    document.getElementById("carModal").classList.remove("active");
+    document.body.style.overflow = "";
+  }
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeCarModal();
+});
 
 // ---- Start App ----
 await init();

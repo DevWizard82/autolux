@@ -275,6 +275,32 @@
       <section class="card-container" id="card-container"></section>
     </section>
 
+    <div id="carModal" class="car-modal-overlay" onclick="closeCarModal(event)">
+      <div class="car-modal-content">
+        <button class="modal-close" onclick="closeCarModal()">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-image-container">
+          <img id="modalCarImage" src="" alt="" />
+        </div>
+        <div class="modal-info">
+          <h2 id="modalCarName"></h2>
+          <p id="modalCarDesc"></p>
+          <div class="modal-locations">
+            <i class="fas fa-map-marker-alt"></i>
+            <span id="modalCarLocations"></span>
+          </div>
+          <div class="modal-price">
+            <span id="modalCarPrice"></span>
+            <span>/jour</span>
+          </div>
+          <button class="modal-reserver-btn" id="modalReserverBtn">
+            Réserver
+          </button>
+        </div>
+      </div>
+    </div>
+
     <script type="module" src="./src/js/common.js"></script>
 
     <!-- Script JavaScript pour gérer les interactions -->
