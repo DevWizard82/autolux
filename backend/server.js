@@ -22,9 +22,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "https://glowing-paletas-7e25a6.netlify.app",
+    origin: "*",
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
   }),
 );
 
