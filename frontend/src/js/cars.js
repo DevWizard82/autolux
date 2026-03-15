@@ -254,19 +254,6 @@ function updateLanguage(language) {
   }, 50);
 }
 
-function open3D(id) {
-  window.open(`carviewer.html?model=${encodeURIComponent(id)}.glb`, "_blank");
-}
-
-document.body.addEventListener("click", (e) => {
-  const modelbtn = e.target.closest(".model");
-
-  if (modelbtn) {
-    const id = modelbtn.getAttribute("id");
-    open3D(id);
-  }
-});
-
 let carId;
 
 document.body.addEventListener("click", (e) => {
@@ -363,17 +350,10 @@ async function init() {
     updatePrice(e.target.value);
   });
 
-  // Reservation and 3D model buttons
+  // Reservation buttons
   document.body.addEventListener("click", (e) => {
-    const modelbtn = e.target.closest(".model");
-    const closebtn = e.target.closest(".close-btn");
     const reserverBtn = e.target.closest(".reserver_btn");
 
-    if (modelbtn) {
-      const id = modelbtn.id;
-      open3D(id);
-    }
-    if (closebtn) close3D();
     if (reserverBtn) {
       const id = reserverBtn.id;
       localStorage.setItem("id", id);
