@@ -609,11 +609,6 @@ class Configurator {
   await car.load(modelData);
   showroom.addCar(car);
 
-  const carId = modelData.car_id;
-
-  const configurator = new Configurator(car, carId, modelName);
-  await configurator.init();
-
   const controlsManager = new ControlsManager(showroom.camera, car, showroom);
 
   function animate() {
