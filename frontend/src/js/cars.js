@@ -1,9 +1,7 @@
 import { getcars } from "./api.js";
 
-//importer l'objet traductions contenant tout le texte dans les differentes pages html en 10 langues differentes(en, fr, ar, pt, es, de, ja, zh, ru, it)
 import { translations } from "./translations.js";
 
-//declaration des variables necessaires
 const cardContainer = document.getElementById("card-container");
 const citiesSelect = document.getElementById("cities");
 const categoriesSelect = document.querySelectorAll(".category-btn");
@@ -13,15 +11,12 @@ const searchEl = document.getElementById("search");
 let languagesSelect = document.getElementById("languages");
 let languagesSelectSidebar = document.getElementById("languages1");
 
-//fonction qui affiche les voitures selon les filtres choisis tel que les villes ou bien encore les differentes categories
 async function displayCars(
   cars,
-  // Paramètres par défaut pour la ville, la catégorie et la langue, même si aucun argument n'est passé.
-  city = "Toutes_les_villes", // Ville par défaut : toutes les villes
-  category = "All", // Catégorie par défaut : toutes les catégories
-  language = "fr", // Langue par défaut : français
+  city = "Toutes_les_villes",
+  category = "All",
+  language = "fr",
 ) {
-  // Vider le contenu actuel du conteneur de cartes
   cardContainer.innerHTML = "";
 
   language = localStorage.getItem("language") || "fr";
@@ -32,26 +27,19 @@ async function displayCars(
     return;
   }
 
-  // Filtrer les voitures selon les critères de ville et de catégorie
   const filtered = cars.filter((car) => {
-    // Vérifie si la catégorie correspond à celle sélectionnée
     const categoriesMatch =
       category === "All" || car.category === category.toLowerCase();
-    // Vérifie si la ville correspond à celle sélectionnée
     const citiesMatch =
       city === "Toutes_les_villes" || car.locations["fr"].includes(city);
 
-    // Retourne true si les deux critères sont remplis, sinon false
     return citiesMatch && categoriesMatch;
   });
 
-  // Pour chaque voiture filtrée, crée une carte d'affichage
   filtered.forEach((car) => {
-    // Crée un nouvel élément div pour la carte
     const card = document.createElement("div");
     card.className = "card";
 
-    // Remplie le contenu HTML de la carte avec les informations de la voiture
     card.innerHTML = `
   <div class="card_image" onclick="openCarModal(${JSON.stringify(car).replace(/"/g, "&quot;")}, '${language}')">
     <img src="assets/images/${car.image}" alt="${car.name}">
@@ -75,55 +63,39 @@ async function displayCars(
   </div>
 `;
 
-    // Ajoute la carte au conteneur
     cardContainer.appendChild(card);
-    // Ajoute l'effet 3D à la carte
     add3Deffect(card);
   });
 
-  // Si la devise sélectionnée n'est pas l'Euro, met à jour les prix
   if (currenciesSelect.value !== "EUR") {
     updatePrice(currenciesSelect.value);
   }
 
-  // Si la devise sélectionnée dans la barre latérale n'est pas l'Euro, met à jour les prix
   if (sidebarCurrencies.value !== "EUR") {
     updatePrice(sidebarCurrencies.value);
   }
 }
 
-//fonction qui ajoute l'effet 3d a la carte
 function add3Deffect(card) {
-  // Ajoute un écouteur d'événement pour détecter les mouvements de la souris sur la carte
   card.addEventListener("mousemove", (e) => {
-    // Récupère les dimensions et la position de la carte
     const rect = card.getBoundingClientRect();
-    // Calcule la position de la souris par rapport à la carte
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
-    // Détermine le centre de la carte
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
-    // Calcule l'angle de rotation selon l'axe X en fonction de la position verticale de la souris
     const rotateX = (y - centerY) / 10;
-    // Calcule l'angle de rotation selon l'axe Y en fonction de la position horizontale de la souris
     const rotateY = (x - centerX) / 10;
-    // Applique la transformation 3D à la carte en fonction des angles calculés
     card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
   });
 
-  // Réinitialise la transformation quand la souris quitte la carte
   card.addEventListener("mouseleave", () => {
     card.style.transform = `rotateX(0deg) rotateY(0deg)`;
   });
 }
 
-// Active visuellement le bouton de catégorie marqué comme sélectionné par défaut qui est "All".
 document
   .querySelector('.category-btn[data-default="true"]')
   .classList.add("active");
-
-// Event listeners for categories and cities are initialized inside init() where 'cars' is in scope
 
 let exchangeRates = {};
 
@@ -142,7 +114,6 @@ async function convert(amount, toCurrency) {
   return (amount * exchangeRates[toCurrency]).toFixed(2);
 }
 
-// Met à jour tous les prix affichés en les convertissant vers la devise choisie à l'aide de la fonction convert().
 async function updatePrice(toCurrency) {
   const priceElements = document.querySelectorAll(".priceValue");
 
@@ -157,77 +128,56 @@ async function updatePrice(toCurrency) {
   }
 }
 
-// Lors du changement de devise dans la liste déroulante principale, on met à jour la devise sélectionnée dans la sidebar, les prix affichés, et on recharge les voitures selon les filtres actuels.
 document.getElementById("currencies").addEventListener("change", async (e) => {
   const toCurrency = e.target.value;
   sidebarCurrencies.value = toCurrency;
   await updatePrice(toCurrency);
 });
 
-// Lors du changement de devise dans la liste déroulante de la barre laterale, on met à jour la devise sélectionnée dans le menu pricipal, les prix affichés, et on recharge les voitures selon les filtres actuels.
 document.getElementById("currencies1").addEventListener("change", async (e) => {
   const toCurrency = e.target.value;
   currenciesSelect.value = toCurrency;
   await updatePrice(toCurrency);
 });
 
-//fonction qui affiche les cartes apres application de filtres (barre de recherche)
 async function searchCars(cars, searchValue, language) {
-  // Vide le conteneur de cartes avant d'ajouter les nouvelles
   cardContainer.innerHTML = "";
 
-  // Filtre les voitures selon la valeur de recherche (insensible à la casse)
   const filtered = cars.filter((car) =>
     car.name.toUpperCase().includes(searchValue.toUpperCase()),
   );
-
-  // Pour chaque voiture filtrée, on crée dynamiquement une carte HTML
   filtered.forEach((car) => {
-    // Création de l'élément HTML principal pour la carte
     const card = document.createElement("div");
     card.className = "card";
 
-    // Remplissage du contenu HTML de la carte avec les données de la voiture
     card.innerHTML = `
-      <div class="card_image">
-        <img src="/assets/images/${car.image}" alt="${car.name}">
-      </div>
-      <div class="card_content">
-        <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
-        <p class="${language === "ar" ? "rtl" : "ltr"}">${
-          car.description[languagesSelect.value]
-        }</p>
-        <div class="locations ${language === "ar" ? "rtl" : "ltr"}">
-          <span class="available">${translations[language]["disponible"]}</span>
-          <span class="carlocations">${car.locations[language]}</span>
-        </div>
-        <div class="price ${language === "ar" ? "rtlprice" : "ltrprice"}">
-          <span class="priceValue" data-original-value="${
-            car.price
-          }" data-currency="EUR">
-            ${car.price} EUR
-          </span><span class="perday">/jour</span>
-        </div>
-        <div class="btn_container">
-          <button class="reserver_btn" data-id="${
-            car.id
-          }" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
-          <button class="model" id="${car.name.replace(
-            /[- ]/g,
-            "_",
-          )}"><i class="fas fa-cube"></i> <span class="modeltext">Vue 3D</span></button>
-        </div>
-      </div>
-    `;
+  <div class="card_image" onclick="openCarModal(${JSON.stringify(car).replace(/"/g, "&quot;")}, '${language}')">
+    <img src="assets/images/${car.image}" alt="${car.name}">
+    <div class="image_overlay"><i class="fas fa-expand"></i></div>
+  </div>
+  <div class="card_content">
+    <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
+    <p class="${language === "ar" ? "rtl" : "ltr"}">${car.description[language]}</p>
+    <div class="locations ${language === "ar" ? "rtl" : "ltr"}">
+      <span class="available">${translations[language]["disponible"]}</span>
+      <span class="carlocations">${car.locations[language]}</span>
+    </div>
+    <div class="price ${language === "ar" ? "rtlprice" : "ltrprice"}">
+      <span class="priceValue" data-original-value="${car.price}" data-currency="EUR">
+        ${car.price} EUR
+      </span><span class="perday">/jour</span>
+    </div>
+    <div class="btn_container">
+      <button class="reserver_btn" data-id="${car.id}" id="${car.name.replace(/[- ]/g, "_")}">Réserver</button>
+    </div>
+  </div>
+`;
 
-    // Ajoute la carte générée dans le conteneur principal
     cardContainer.appendChild(card);
 
-    // Applique un effet 3D interactif sur la carte
     add3Deffect(card);
   });
 
-  // Si une autre devise que l’euro est sélectionnée, on met à jour les prix affichés
   if (currenciesSelect.value !== "EUR") {
     updatePrice(currenciesSelect.value);
   }
@@ -235,8 +185,6 @@ async function searchCars(cars, searchValue, language) {
     updatePrice(sidebarCurrencies.value);
   }
 }
-
-// Search event listener is initialized inside init() where 'cars' is in scope
 
 function updateLanguage(language) {
   if (!language) return;
@@ -250,8 +198,6 @@ function updateLanguage(language) {
   navContact.forEach(
     (el) => (el.textContent = translations[language]["contact"]),
   );
-
-  //declarer les elements a changer dans la page
 
   const fleet = document.getElementById("fleet");
   const allCities = document.querySelector(".all");
@@ -307,8 +253,6 @@ function updateLanguage(language) {
     });
   }, 50);
 }
-
-// Language event listeners are initialized inside init() where 'cars' is in scope
 
 function open3D(id) {
   window.open(`carviewer.html?model=${encodeURIComponent(id)}.glb`, "_blank");
