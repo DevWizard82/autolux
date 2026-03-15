@@ -22,8 +22,14 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: "*",
+    origin: [
+      "http://localhost:3000",
+      "http://localhost:5173",
+      "https://glowing-paletas-7e25a6.netlify.app",
+      "https://autolux-production.up.railway.app",
+    ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    credentials: true,
   }),
 );
 
