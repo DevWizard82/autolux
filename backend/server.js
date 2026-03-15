@@ -20,13 +20,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(
-  cors({
-    origin: "https://glowing-paletas-7e25a6.netlify.app",
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
-  }),
-);
+app.use(cors());
 
 // Parse JSON & form data
 app.use(bodyParser.json());
