@@ -4,8 +4,12 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: false,
+  user: "postgres",
+  host: "interchange.proxy.rlwy.net",
+  database: "railway",
+  password: "wUHEGQQWoWsmAYOilaYPmvLLyNQdpAbs",
+  port: 46731,
+  ssl: { rejectUnauthorized: false },
 });
 
 pool

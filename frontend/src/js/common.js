@@ -18,10 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateNavbarUser() {
   // Retrieve user data
   const token = localStorage.getItem("token");
-  const user = JSON.parse(localStorage.getItem("user"));
-  const firstname = user.first_name || "Client";
-  const lastname = user.last_name || "";
-  const email = user.email || "user@autolux.ma";
+  const userString = localStorage.getItem("user");
+  const user = userString ? JSON.parse(userString) : null;
+  const firstname = user?.first_name || "Client";
+  const lastname = user?.last_name || "";
+  const email = user?.email || "user@autolux.ma";
 
   // Select DOM Elements
   const navLoginBtn = document.getElementById("nav-login-btn");
