@@ -22,14 +22,8 @@ const PORT = process.env.PORT || 3000;
 
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      "http://localhost:5173",
-      "autolux-zeta.vercel.app",
-      "https://autolux-production.up.railway.app",
-    ],
+    origin: ["https://autolux-zeta.vercel.app", "http://localhost:5173"],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    credentials: true,
   }),
 );
 
