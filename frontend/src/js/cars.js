@@ -41,9 +41,8 @@ async function displayCars(
     card.className = "card";
 
     card.innerHTML = `
-  <div class="card_image" onclick="openCarModal(${JSON.stringify(car).replace(/"/g, "&quot;")}, '${language}')">
+  <div class="card_image">
     <img src="assets/images/${car.image}" alt="${car.name}">
-    <div class="image_overlay"><i class="fas fa-expand"></i></div>
   </div>
   <div class="card_content">
     <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
@@ -151,9 +150,8 @@ async function searchCars(cars, searchValue, language) {
     card.className = "card";
 
     card.innerHTML = `
-  <div class="card_image" onclick="openCarModal(${JSON.stringify(car).replace(/"/g, "&quot;")}, '${language}')">
+  <div class="card_image">
     <img src="assets/images/${car.image}" alt="${car.name}">
-    <div class="image_overlay"><i class="fas fa-expand"></i></div>
   </div>
   <div class="card_content">
     <h3 class="${language === "ar" ? "rtl" : "ltr"}">${car.name}</h3>
