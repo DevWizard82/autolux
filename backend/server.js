@@ -25,7 +25,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "http://localhost:5173",
-      "https://glowing-paletas-7e25a6.netlify.app",
+      "autolux-zeta.vercel.app",
       "https://autolux-production.up.railway.app",
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -42,7 +42,6 @@ app.use(express.static("public"));
 
 // --- MULTER CONFIGURATION ---
 
-// 1. Define the Upload Directory using process.cwd() (Project Root)
 let uploadDir;
 let modelUploadDir;
 
@@ -50,8 +49,6 @@ if (process.env.NODE_ENV === "production") {
   // Use /tmp in Vercel (writable)
   uploadDir = "/tmp";
   modelUploadDir = "/tmp";
-
-  // Ensure we don't crash if these don't exist (though /tmp always exists)
 } else {
   // Local Development
   uploadDir = path.join(__dirname, "../frontend/public/assets/images");
