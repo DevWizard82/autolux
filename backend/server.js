@@ -20,12 +20,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(
-  cors({
-    origin: ["https://autolux-zeta.vercel.app", "http://localhost:5173"],
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  }),
-);
+app.use(cors());
 
 // Parse JSON & form data
 app.use(bodyParser.json());
