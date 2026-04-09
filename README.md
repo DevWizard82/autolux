@@ -1,6 +1,6 @@
 # AutoLux Fleet Command 🏎️✨
 
-[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Site-deb887?style=for-the-badge)](https://glowing-paletas-7e25a6.netlify.app)
+[![Live Demo](https://img.shields.io/badge/Live_Demo-View_Site-deb887?style=for-the-badge)](https://autolux-zeta.vercel.app)
 [![Backend Status](https://img.shields.io/badge/Backend-Online-success?style=for-the-badge)](https://autolux-production.up.railway.app)
 
 AutoLux is a premium, full-stack luxury car rental management system. Designed for high-end automotive fleets, it features a highly interactive UI, real-time currency conversion, seamless multi-language support, and a secure, scalable PostgreSQL backend.
