@@ -34,8 +34,8 @@ AutoLux is a premium, full-stack luxury car rental management system. Designed f
 **Infrastructure & Deployment:**
 
 - **Frontend:** Netlify
-- **Backend:** Railway
-- **Database:** Railway Provisioned PostgreSQL
+- **Backend:** Render
+- **Database:** Render Provisioned PostgreSQL
 
 ## 📂 Project Structure
 

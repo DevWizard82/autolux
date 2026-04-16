@@ -4,11 +4,11 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const pool = new pg.Pool({
-  user: dotenv.env.DB_USERNAME,
-  host: dotenv.env.DB_HOST,
-  database: dotenv.env.DB_NAME,
-  password: dotenv.env.DB_PASSWORD,
-  port: dotenv.env.DB_PORT,
+  user: process.env.DB_USERNAME,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
   ssl: { rejectUnauthorized: false },
 });
 
