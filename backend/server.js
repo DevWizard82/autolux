@@ -255,6 +255,10 @@ app.get("/api/analytics/avg-duration", async (req, res) => {
   res.json(result.rows);
 });
 
+app.get('/health', (req, res) => {
+  res.status(200).json({ ok: true });
+});
+
 // ----- Cars -----
 app.get("/api/cars", async (req, res) => {
   try {
@@ -492,7 +496,7 @@ app.post("/api/models", uploadModel.single("file"), async (req, res) => {
     if (req.file && fs.existsSync(req.file.path)) {
       try {
         fs.unlinkSync(req.file.path);
-      } catch (e) {}
+      } catch (e) { }
     }
     console.error(err);
     res.status(500).json({ error: err.message || "Failed to create model" });
@@ -581,7 +585,7 @@ app.put("/api/models/:id", uploadModel.single("file"), async (req, res) => {
     if (req.file && fs.existsSync(req.file.path)) {
       try {
         fs.unlinkSync(req.file.path);
-      } catch (e) {}
+      } catch (e) { }
     }
     console.error(err);
     res.status(500).json({ error: err.message || "Failed to update model" });
