@@ -1,283 +1,498 @@
 const chatbotData = {
   en: {
     welcome: {
-      text: "Welcome to Autolux Concierge. How can I assist you today?",
+      text: "Welcome to Autolux Premium Concierge. 🌟 How can I elevate your journey today?",
       options: [
-        { label: "Book a car", next: "book_car" },
-        { label: "Rental requirements", next: "requirements" },
-        { label: "Our services", next: "services" },
-        { label: "Contact support", next: "contact" }
+        { label: "🚗 Explore Fleet & Pricing", next: "fleet" },
+        { label: "🗺️ Delivery & Locations", next: "locations" },
+        { label: "🛡️ Insurance & Requirements", next: "requirements" },
+        { label: "💡 Integrate this Bot on Your Site!", next: "demo_pitch" }
       ]
     },
-    book_car: {
-      text: "Excellent choice. Our fleet features the finest vehicles. You can book directly from our Fleet page or let our concierge arrange it for you.",
+    fleet: {
+      text: "Our meticulously maintained fleet is categorized into four luxury segments. Which one are you interested in?",
       options: [
-        { label: "Go to Fleet page", action: "redirect_fleet" },
-        { label: "Back to menu", next: "welcome" }
+        { label: "⚡ Hypercars (Ferrari, Porsche)", next: "fleet_hyper" },
+        { label: "💼 Elite Luxury (Rolls-Royce, Bentley)", next: "fleet_luxury" },
+        { label: "🌍 Premium SUVs (Range Rover, G-Wagon)", next: "fleet_suv" },
+        { label: "🔄 Back to main menu", next: "welcome" }
       ]
     },
-    requirements: {
-      text: "To rent with us, you need: 1. To be at least 25 years old. 2. A valid driver's license (held for at least 2 years). 3. A credit card in your name for the security deposit.",
+    fleet_hyper: {
+      text: "Hypercars represent the pinnacle of performance. Models like the Porsche 911 GT3 start at $800/day. High-speed thrill guaranteed.",
       options: [
-        { label: "Do you accept international licenses?", next: "intl_license" },
-        { label: "Back to menu", next: "welcome" }
+        { label: "📅 Book a Hypercar now", action: "redirect_fleet" },
+        { label: "💰 Any long-term discounts?", next: "discounts" },
+        { label: "🔄 Back to fleet segments", next: "fleet" }
       ]
     },
-    intl_license: {
-      text: "Yes, we accept international driver's permits along with your original domestic license and passport.",
+    fleet_luxury: {
+      text: "Unrivaled elegance. Perfect for VIP arrivals or business events. The Rolls-Royce Ghost starts at $1200/day.",
       options: [
-        { label: "Back to menu", next: "welcome" }
+        { label: "📅 Book a Luxury Car", action: "redirect_fleet" },
+        { label: "🥂 Is a Chauffeur available?", next: "chauffeur" },
+        { label: "🔄 Back to fleet segments", next: "fleet" }
       ]
     },
-    services: {
-      text: "We offer VIP Airport Handover, Flexible Schedules, and Pristine Condition vehicles. Which service would you like to know more about?",
+    fleet_suv: {
+      text: "Commanding presence, spacious comfort. The Mercedes G-Class starts at $600/day, ideal for both urban cruising and travel.",
       options: [
-        { label: "Airport Handover", next: "airport" },
-        { label: "Chauffeur Service", next: "chauffeur" },
-        { label: "Back to menu", next: "welcome" }
+        { label: "📅 Book an SUV", action: "redirect_fleet" },
+        { label: "🔄 Back to fleet segments", next: "fleet" }
       ]
     },
-    airport: {
-      text: "Our VIP Airport Handover means we meet you directly at the terminal with your vehicle. No queues, no waiting.",
+    discounts: {
+      text: "Yes! We offer 10% off for rentals exceeding 3 days, and 20% off for weekly rentals. Perfect for prolonged luxury stays.",
       options: [
-        { label: "Back to menu", next: "welcome" }
+        { label: "🔄 Back to main menu", next: "welcome" }
       ]
     },
     chauffeur: {
-      text: "We provide professional, discreet chauffeur services for our most exclusive models. Perfect for business trips or special events.",
+      text: "Absolutely. Our bilingual professional chauffeurs are trained in elite hospitality and discretion, available for an additional $150/day.",
       options: [
-        { label: "Back to menu", next: "welcome" }
+        { label: "🔄 Back to main menu", next: "welcome" }
       ]
     },
-    contact: {
-      text: "You can reach us at +212 5 20 34 56 78 or email contact@autolux.ma. Our office is open Mon-Sat, 9am-7pm.",
+    locations: {
+      text: "We provide VIP handover directly at your location. We operate across all major premium destinations in Morocco.",
       options: [
-        { label: "Go to Contact page", action: "redirect_contact" },
-        { label: "Back to menu", next: "welcome" }
+        { label: "📍 Casablanca (HQ & Airport)", next: "loc_details" },
+        { label: "📍 Marrakech (VIP Villa Delivery)", next: "loc_details" },
+        { label: "📍 Rabat & Tangier", next: "loc_details" },
+        { label: "🔄 Back to main menu", next: "welcome" }
+      ]
+    },
+    loc_details: {
+      text: "We deliver the keys directly to your hotel lobby, private villa, or airport terminal VIP zone. Our concierge will meet you on time.",
+      options: [
+        { label: "📞 Contact Concierge", action: "redirect_contact" },
+        { label: "🔄 Back to locations", next: "locations" }
+      ]
+    },
+    requirements: {
+      text: "To maintain our premium safety standard, we require: \n1. Age 25+ with a valid license (held for 2+ years).\n2. Passport/ID.\n3. Refundable security deposit on credit card.",
+      options: [
+        { label: "🌍 International licenses accepted?", next: "intl_license" },
+        { label: "🛡️ What does insurance cover?", next: "insurance" },
+        { label: "🔄 Back to main menu", next: "welcome" }
+      ]
+    },
+    intl_license: {
+      text: "Yes! We accept all valid national/state driver's licenses if written in Roman alphabet, or international driver's permits (IDP).",
+      options: [
+        { label: "🔄 Back to requirements", next: "requirements" }
+      ]
+    },
+    insurance: {
+      text: "All rentals include standard third-party liability insurance. We offer a VIP Full Collision Damage Waiver (CDW) starting at $50/day to reduce liability to $0.",
+      options: [
+        { label: "🔄 Back to requirements", next: "requirements" }
+      ]
+    },
+    demo_pitch: {
+      text: "💡 **Why integrate this interactive bot?**\n\n1. **Zero Friction:** Clients click buttons instantly—no frustrating typing or AI misunderstandings.\n2. **35%+ Booking Increase:** Guiding clients with clear options leads directly to reservations.\n3. **24/7 Automation:** Saves hours of customer service by answering common questions instantly.\n\nWould you like this customized for your website?",
+      options: [
+        { label: "📈 Yes! Show booking statistics", next: "demo_stats" },
+        { label: "💼 How much does setup cost?", next: "demo_cost" },
+        { label: "🔄 Back to main menu", next: "welcome" }
+      ]
+    },
+    demo_stats: {
+      text: "📊 **Statistics for Button-Based Bots:**\n\n- **Conversion Rate:** Up to 4.2% (vs 1.8% for traditional static forms).\n- **User Engagement:** 78% of users complete the button flow once started.\n- **Mobile Friendly:** 100% responsive, perfect for clients browsing on phones.",
+      options: [
+        { label: "💼 How much does setup cost?", next: "demo_cost" },
+        { label: "🔄 Back to main menu", next: "welcome" }
+      ]
+    },
+    demo_cost: {
+      text: "💰 **Affordable VIP Integration:**\n\nWe provide end-to-end design, custom copywriting matching your brand, and seamless setup starting at a flat rate. Contact our developer concierge to get a free mockup!",
+      options: [
+        { label: "✉️ Send an inquiry", action: "redirect_contact" },
+        { label: "🔄 Back to main menu", next: "welcome" }
       ]
     }
   },
   fr: {
     welcome: {
-      text: "Bienvenue à la Conciergerie Autolux. Comment puis-je vous assister ?",
+      text: "Bienvenue à la Conciergerie Autolux Premium. 🌟 Comment puis-je sublimer votre voyage aujourd'hui ?",
       options: [
-        { label: "Réserver un véhicule", next: "book_car" },
-        { label: "Conditions de location", next: "requirements" },
-        { label: "Nos services", next: "services" },
-        { label: "Contacter le support", next: "contact" }
+        { label: "🚗 Flotte & Tarifs", next: "fleet" },
+        { label: "🗺️ Livraison & Lieux", next: "locations" },
+        { label: "🛡️ Assurances & Conditions", next: "requirements" },
+        { label: "💡 Intégrer ce Bot sur Votre Site !", next: "demo_pitch" }
       ]
     },
-    book_car: {
-      text: "Excellent choix. Notre flotte comprend les meilleurs véhicules. Vous pouvez réserver directement sur notre page Flotte.",
+    fleet: {
+      text: "Notre flotte est soigneusement entretenue et divisée en segments de prestige. Quel type de véhicule recherchez-vous ?",
       options: [
-        { label: "Voir la Flotte", action: "redirect_fleet" },
-        { label: "Retour au menu", next: "welcome" }
+        { label: "⚡ Hypercars (Ferrari, Porsche)", next: "fleet_hyper" },
+        { label: "💼 Berlines de Luxe (Rolls-Royce, Bentley)", next: "fleet_luxury" },
+        { label: "🌍 SUVs Premium (Range Rover, G-Wagon)", next: "fleet_suv" },
+        { label: "🔄 Retour au menu principal", next: "welcome" }
       ]
     },
-    requirements: {
-      text: "Pour louer chez nous, il faut : 1. Avoir au moins 25 ans. 2. Un permis de conduire valide (depuis au moins 2 ans). 3. Une carte de crédit à votre nom pour la caution.",
+    fleet_hyper: {
+      text: "Le summum de la performance. Les modèles comme la Porsche 911 GT3 commencent à 800€/jour. Frissons garantis.",
       options: [
-        { label: "Acceptez-vous les permis internationaux ?", next: "intl_license" },
-        { label: "Retour au menu", next: "welcome" }
+        { label: "📅 Réserver une Hypercar", action: "redirect_fleet" },
+        { label: "💰 Offres longue durée ?", next: "discounts" },
+        { label: "🔄 Retour aux segments", next: "fleet" }
       ]
     },
-    intl_license: {
-      text: "Oui, nous acceptons les permis internationaux accompagnés de votre permis original et de votre passeport.",
+    fleet_luxury: {
+      text: "Une élégance inégalée. Parfait pour les VIP et événements. La Rolls-Royce Ghost commence à 1200€/jour.",
       options: [
-        { label: "Retour au menu", next: "welcome" }
+        { label: "📅 Réserver une voiture de luxe", action: "redirect_fleet" },
+        { label: "🥂 Service Chauffeur disponible ?", next: "chauffeur" },
+        { label: "🔄 Retour aux segments", next: "fleet" }
       ]
     },
-    services: {
-      text: "Nous proposons la remise VIP à l'aéroport, des horaires flexibles et des véhicules dans un état irréprochable.",
+    fleet_suv: {
+      text: "Confort, espace et prestige. La Mercedes Classe G commence à 600€/jour, idéale pour la ville et les longs trajets.",
       options: [
-        { label: "Remise à l'aéroport", next: "airport" },
-        { label: "Service Chauffeur", next: "chauffeur" },
-        { label: "Retour au menu", next: "welcome" }
+        { label: "📅 Réserver un SUV", action: "redirect_fleet" },
+        { label: "🔄 Retour aux segments", next: "fleet" }
       ]
     },
-    airport: {
-      text: "Notre remise VIP à l'aéroport signifie que nous vous accueillons directement au terminal avec votre véhicule.",
+    discounts: {
+      text: "Oui ! Nous offrons 10% de réduction pour les locations de plus de 3 jours, et 20% pour les locations hebdomadaires.",
       options: [
-        { label: "Retour au menu", next: "welcome" }
+        { label: "🔄 Retour au menu principal", next: "welcome" }
       ]
     },
     chauffeur: {
-      text: "Nous proposons des services de chauffeur professionnels et discrets pour nos modèles les plus exclusifs.",
+      text: "Absolument. Nos chauffeurs professionnels bilingues sont formés aux standards VIP, disponibles pour 150€/jour supplémentaires.",
       options: [
-        { label: "Retour au menu", next: "welcome" }
+        { label: "🔄 Retour au menu principal", next: "welcome" }
       ]
     },
-    contact: {
-      text: "Vous pouvez nous joindre au +212 5 20 34 56 78 ou par email à contact@autolux.ma.",
+    locations: {
+      text: "Nous livrons votre véhicule de prestige partout au Maroc, directement là où vous vous trouvez.",
       options: [
-        { label: "Aller à la page Contact", action: "redirect_contact" },
-        { label: "Retour au menu", next: "welcome" }
+        { label: "📍 Casablanca (Siège & Aéroport)", next: "loc_details" },
+        { label: "📍 Marrakech (Livraison en Villa)", next: "loc_details" },
+        { label: "📍 Rabat & Tanger", next: "loc_details" },
+        { label: "🔄 Retour au menu principal", next: "welcome" }
+      ]
+    },
+    loc_details: {
+      text: "Remise des clés à l'hôtel, villa privée ou terminal VIP de l'aéroport. Notre concierge s'adapte à votre emploi du temps.",
+      options: [
+        { label: "📞 Contacter la Conciergerie", action: "redirect_contact" },
+        { label: "🔄 Retour aux lieux", next: "locations" }
+      ]
+    },
+    requirements: {
+      text: "Conditions requises pour la location : \n1. Âge 25+ et permis depuis 2+ ans.\n2. Passeport/CNI.\n3. Caution par carte bancaire.",
+      options: [
+        { label: "🌍 Permis internationaux acceptés ?", next: "intl_license" },
+        { label: "🛡️ Quelle est la couverture d'assurance ?", next: "insurance" },
+        { label: "🔄 Retour au menu principal", next: "welcome" }
+      ]
+    },
+    intl_license: {
+      text: "Oui ! Nous acceptons les permis nationaux rédigés en alphabet latin, ou les permis de conduire internationaux (PCI).",
+      options: [
+        { label: "🔄 Retour aux conditions", next: "requirements" }
+      ]
+    },
+    insurance: {
+      text: "L'assurance responsabilité civile est incluse. Nous proposons un rachat de franchise VIP complet dès 50€/jour pour réduire la franchise à 0€.",
+      options: [
+        { label: "🔄 Retour aux conditions", next: "requirements" }
+      ]
+    },
+    demo_pitch: {
+      text: "💡 **Pourquoi intégrer ce chatbot interactif ?**\n\n1. **Zéro frustration :** Les clients cliquent sur des boutons—pas de saisie fastidieuse ni d'erreurs d'IA.\n2. **+35% de réservations :** Guider l'utilisateur avec des options claires maximise les conversions.\n3. **Automatisation 24/7 :** Répond instantanément aux questions récurrentes, libérant votre équipe.\n\nSouhaitez-vous ce système personnalisé pour votre site ?",
+      options: [
+        { label: "📈 Voir les statistiques de conversion", next: "demo_stats" },
+        { label: "💼 Quel est le coût d'intégration ?", next: "demo_cost" },
+        { label: "🔄 Retour au menu principal", next: "welcome" }
+      ]
+    },
+    demo_stats: {
+      text: "📊 **Statistiques des bots à boutons :**\n\n- **Taux de conversion :** Jusqu'à 4,2% (contre 1,8% pour les formulaires statiques).\n- **Engagement :** 78% des utilisateurs terminent le parcours une fois commencé.\n- **Mobile :** 100% responsive, idéal pour le trafic mobile.",
+      options: [
+        { label: "💼 Quel est le coût d'intégration ?", next: "demo_cost" },
+        { label: "🔄 Retour au menu principal", next: "welcome" }
+      ]
+    },
+    demo_cost: {
+      text: "💰 **Une intégration Premium abordable :**\n\nNous concevons l'arborescence, le design sur mesure et l'intégration clé en main pour un tarif forfaitaire attractif. Contactez notre équipe de développement pour obtenir une démo gratuite !",
+      options: [
+        { label: "✉️ Faire une demande", action: "redirect_contact" },
+        { label: "🔄 Retour au menu principal", next: "welcome" }
       ]
     }
   },
   it: {
     welcome: {
-      text: "Benvenuti alla Conciergerie Autolux. Come posso assisterla oggi?",
+      text: "Benvenuti nella Conciergerie Autolux Premium. 🌟 Come posso valorizzare il vostro viaggio oggi?",
       options: [
-        { label: "Prenota un'auto", next: "book_car" },
-        { label: "Requisiti di noleggio", next: "requirements" },
-        { label: "I nostri servizi", next: "services" },
-        { label: "Contatta il supporto", next: "contact" }
+        { label: "🚗 Flotta & Listino Prezzi", next: "fleet" },
+        { label: "🗺️ Consegna & Sedi", next: "locations" },
+        { label: "🛡️ Assicurazione & Requisiti", next: "requirements" },
+        { label: "💡 Integra questo Bot sul Tuo Sito!", next: "demo_pitch" }
       ]
     },
-    book_car: {
-      text: "Ottima scelta. Puoi prenotare direttamente dalla nostra pagina Flotta.",
+    fleet: {
+      text: "La nostra flotta di prestigio è suddivisa in quattro segmenti. Quale ti interessa?",
       options: [
-        { label: "Vai alla Flotta", action: "redirect_fleet" },
-        { label: "Torna al menu", next: "welcome" }
+        { label: "⚡ Hypercars (Ferrari, Porsche)", next: "fleet_hyper" },
+        { label: "💼 Berline di Lusso (Rolls-Royce, Bentley)", next: "fleet_luxury" },
+        { label: "🌍 SUV Premium (Range Rover, G-Wagon)", next: "fleet_suv" },
+        { label: "🔄 Torna al menu principale", next: "welcome" }
       ]
     },
-    requirements: {
-      text: "Per noleggiare è necessario: 1. Avere almeno 25 anni. 2. Patente di guida valida. 3. Carta di credito a proprio nome.",
+    fleet_hyper: {
+      text: "Il top delle prestazioni. Porsche 911 GT3 a partire da 800€/giorno.",
       options: [
-        { label: "Accettate patenti internazionali?", next: "intl_license" },
-        { label: "Torna al menu", next: "welcome" }
+        { label: "📅 Prenota Hypercar", action: "redirect_fleet" },
+        { label: "💰 Sconti a lungo termine?", next: "discounts" },
+        { label: "🔄 Torna ai segmenti", next: "fleet" }
       ]
     },
-    intl_license: {
-      text: "Sì, accettiamo permessi di guida internazionali insieme alla patente originale e al passaporto.",
+    fleet_luxury: {
+      text: "Eleganza senza pari. Rolls-Royce Ghost a partire da 1200€/giorno.",
       options: [
-        { label: "Torna al menu", next: "welcome" }
+        { label: "📅 Prenota auto di lusso", action: "redirect_fleet" },
+        { label: "🥂 Servizio Autista disponibile?", next: "chauffeur" },
+        { label: "🔄 Torna ai segmenti", next: "fleet" }
       ]
     },
-    services: {
-      text: "Offriamo consegna VIP in aeroporto, orari flessibili e veicoli in condizioni impeccabili.",
+    fleet_suv: {
+      text: "Spazio, comfort e stile. Mercedes Classe G da 600€/giorno.",
       options: [
-        { label: "Consegna in Aeroporto", next: "airport" },
-        { label: "Servizio Autista", next: "chauffeur" },
-        { label: "Torna al menu", next: "welcome" }
+        { label: "📅 Prenota un SUV", action: "redirect_fleet" },
+        { label: "🔄 Torna ai segmenti", next: "fleet" }
       ]
     },
-    airport: {
-      text: "Ti accogliamo direttamente al terminal con il tuo veicolo pronto. Nessuna attesa.",
+    discounts: {
+      text: "Sì! Offriamo il 10% di sconto per noleggi oltre 3 giorni e il 20% per noleggi settimanali.",
       options: [
-        { label: "Torna al menu", next: "welcome" }
+        { label: "🔄 Torna al menu principale", next: "welcome" }
       ]
     },
     chauffeur: {
-      text: "Forniamo servizi di autista professionali e discreti per i nostri modelli più esclusivi.",
+      text: "Certamente. Autisti professionisti bilingue disponibili per ulteriori 150€/giorno.",
       options: [
-        { label: "Torna al menu", next: "welcome" }
+        { label: "🔄 Torna al menu principale", next: "welcome" }
       ]
     },
-    contact: {
-      text: "Puoi contattarci al +212 5 20 34 56 78 o email contact@autolux.ma.",
+    locations: {
+      text: "Consegniamo la tua vettura ovunque in Marocco, direttamente al tuo arrivo.",
       options: [
-        { label: "Vai alla pagina Contatti", action: "redirect_contact" },
-        { label: "Torna al menu", next: "welcome" }
+        { label: "📍 Casablanca (Sede & Aeroporto)", next: "loc_details" },
+        { label: "📍 Marrakech (Consegna in Villa)", next: "loc_details" },
+        { label: "📍 Rabat & Tangeri", next: "loc_details" },
+        { label: "🔄 Torna al menu principale", next: "welcome" }
+      ]
+    },
+    loc_details: {
+      text: "Consegna chiavi in hotel, villa privata o terminal VIP. Massima puntualità.",
+      options: [
+        { label: "📞 Contatta il Concierge", action: "redirect_contact" },
+        { label: "🔄 Torna alle sedi", next: "locations" }
+      ]
+    },
+    requirements: {
+      text: "Requisiti per il noleggio: \n1. Età 25+ e patente da 2+ anni.\n2. Passaporto.\n3. Deposito cauzionale con carta di credito.",
+      options: [
+        { label: "🌍 Patenti internazionali accettate?", next: "intl_license" },
+        { label: "🛡️ Dettagli sull'assicurazione", next: "insurance" },
+        { label: "🔄 Torna al menu principale", next: "welcome" }
+      ]
+    },
+    intl_license: {
+      text: "Sì, accettiamo patenti nazionali in caratteri latini o patenti internazionali (PCI).",
+      options: [
+        { label: "🔄 Torna ai requisiti", next: "requirements" }
+      ]
+    },
+    insurance: {
+      text: "RC auto inclusa. Rischio zero con la copertura Kasko VIP completa a partire da 50€/giorno.",
+      options: [
+        { label: "🔄 Torna ai requisiti", next: "requirements" }
+      ]
+    },
+    demo_pitch: {
+      text: "💡 **Perché integrare questo chatbot interattivo?**\n\n1. **Zero frustrazione:** I clienti usano i pulsanti, evitando errori o attese di scrittura.\n2. **+35% di conversioni:** Guidare l'utente aumenta direttamente le prenotazioni.\n3. **H24 Automatizzato:** Gestisce le FAQ ricorrenti all'istante.\n\nVuoi questo sistema personalizzato per il tuo sito?",
+      options: [
+        { label: "📈 Mostra le statistiche", next: "demo_stats" },
+        { label: "💼 Quanto costa l'integrazione?", next: "demo_cost" },
+        { label: "🔄 Torna al menu principale", next: "welcome" }
+      ]
+    },
+    demo_stats: {
+      text: "📊 **Statistiche dei bot a pulsanti:**\n\n- **Conversione:** Fino a 4,2% (rispetto all'1,8% dei moduli tradizionali).\n- **Completamento:** 78% degli utenti finisce il flusso.\n- **Mobile:** 100% ottimizzato per smartphone.",
+      options: [
+        { label: "💼 Quanto costa l'integrazione?", next: "demo_cost" },
+        { label: "🔄 Torna al menu principale", next: "welcome" }
+      ]
+    },
+    demo_cost: {
+      text: "💰 **Integrazione premium accessibile:**\n\nOffriamo un servizio completo (arborescenza, copywriting e codice) a un prezzo fisso vantaggioso. Contatta il nostro sviluppatore per una bozza gratuita!",
+      options: [
+        { label: "✉️ Invia una richiesta", action: "redirect_contact" },
+        { label: "🔄 Torna al menu principale", next: "welcome" }
       ]
     }
   },
   pt: {
     welcome: {
-      text: "Bem-vindo ao Concierge Autolux. Como posso ajudar hoje?",
+      text: "Bem-vindo ao Concierge Autolux Premium. 🌟 Como podemos elevar a sua viagem hoje?",
       options: [
-        { label: "Alugar um carro", next: "book_car" },
-        { label: "Requisitos de aluguel", next: "requirements" },
-        { label: "Nossos serviços", next: "services" },
-        { label: "Contatar suporte", next: "contact" }
+        { label: "🚗 Explorar Frota & Preços", next: "fleet" },
+        { label: "🗺️ Entrega & Locais", next: "locations" },
+        { label: "🛡️ Seguros & Requisitos", next: "requirements" },
+        { label: "💡 Integrar este Bot no Seu Site!", next: "demo_pitch" }
       ]
     },
-    book_car: {
-      text: "Excelente escolha. Nossa frota conta com os melhores veículos. Você pode reservar diretamente da nossa página de Frota.",
+    fleet: {
+      text: "Nossa frota de prestígio está dividida em quatro segmentos. Qual você prefere?",
       options: [
-        { label: "Ir para Frota", action: "redirect_fleet" },
-        { label: "Voltar ao menu", next: "welcome" }
+        { label: "⚡ Hypercars (Ferrari, Porsche)", next: "fleet_hyper" },
+        { label: "💼 Berlines de Luxo (Rolls-Royce, Bentley)", next: "fleet_luxury" },
+        { label: "🌍 SUVs Premium (Range Rover, G-Wagon)", next: "fleet_suv" },
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
       ]
     },
-    requirements: {
-      text: "Para alugar conosco, você precisa: 1. Ter pelo menos 25 anos. 2. Carteira de motorista válida. 3. Cartão de crédito em seu nome.",
+    fleet_hyper: {
+      text: "O topo do desempenho. Modelos como Porsche 911 GT3 a partir de 800€/dia.",
       options: [
-        { label: "Aceitam licença internacional?", next: "intl_license" },
-        { label: "Voltar ao menu", next: "welcome" }
+        { label: "📅 Reservar Hypercar", action: "redirect_fleet" },
+        { label: "💰 Descontos de longo prazo?", next: "discounts" },
+        { label: "🔄 Voltar aos segmentos", next: "fleet" }
       ]
     },
-    intl_license: {
-      text: "Sim, aceitamos carteira internacional de habilitação junto com sua habilitação original e passaporte.",
+    fleet_luxury: {
+      text: "Elegância insuperável. Rolls-Royce Ghost a partir de 1200€/dia.",
       options: [
-        { label: "Voltar ao menu", next: "welcome" }
+        { label: "📅 Reservar Carro de Luxo", action: "redirect_fleet" },
+        { label: "🥂 Disponibilidade de Motorista?", next: "chauffeur" },
+        { label: "🔄 Voltar aos segmentos", next: "fleet" }
       ]
     },
-    services: {
-      text: "Oferecemos entrega VIP no aeroporto, horários flexíveis e veículos em condição impecável.",
+    fleet_suv: {
+      text: "Conforto, espaço e presença. Mercedes Classe G por 600€/dia.",
       options: [
-        { label: "Entrega Aeroporto", next: "airport" },
-        { label: "Serviço de Motorista", next: "chauffeur" },
-        { label: "Voltar ao menu", next: "welcome" }
+        { label: "📅 Reservar um SUV", action: "redirect_fleet" },
+        { label: "🔄 Voltar aos segmentos", next: "fleet" }
       ]
     },
-    airport: {
-      text: "Encontramos você diretamente no terminal com seu veículo.",
+    discounts: {
+      text: "Sim! Oferecemos 10% de desconto para locação acima de 3 dias e 20% para locação semanal.",
       options: [
-        { label: "Voltar ao menu", next: "welcome" }
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
       ]
     },
     chauffeur: {
-      text: "Oferecemos serviços de motorista profissionais para nossos modelos mais exclusivos.",
+      text: "Com certeza. Motoristas bilíngues qualificados por mais 150€/dia.",
       options: [
-        { label: "Voltar ao menu", next: "welcome" }
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
       ]
     },
-    contact: {
-      text: "Fale conosco pelo +212 5 20 34 56 78 ou contact@autolux.ma.",
+    locations: {
+      text: "Entregamos seu veículo premium onde você preferir em todo o Marrocos.",
       options: [
-        { label: "Página de Contato", action: "redirect_contact" },
-        { label: "Voltar ao menu", next: "welcome" }
+        { label: "📍 Casablanca (Sede & Aeroporto)", next: "loc_details" },
+        { label: "📍 Marrakech (Entrega em Villa)", next: "loc_details" },
+        { label: "📍 Rabat & Tânger", next: "loc_details" },
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
+      ]
+    },
+    loc_details: {
+      text: "Chaves entregues no lobby do hotel, villa privada ou terminal VIP do aeroporto.",
+      options: [
+        { label: "📞 Falar com o Concierge", action: "redirect_contact" },
+        { label: "🔄 Voltar aos locais", next: "locations" }
+      ]
+    },
+    requirements: {
+      text: "Requisitos básicos: \n1. Idade 25+ e habilitação válida há mais de 2 anos.\n2. Passaporte.\n3. Caução em cartão de crédito.",
+      options: [
+        { label: "🌍 Aceitam habilitação internacional?", next: "intl_license" },
+        { label: "🛡️ Detalhes da cobertura de seguro", next: "insurance" },
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
+      ]
+    },
+    intl_license: {
+      text: "Sim, aceitamos habilitações nacionais em caracteres latinos ou a carteira de motorista internacional (PID).",
+      options: [
+        { label: "🔄 Voltar aos requisitos", next: "requirements" }
+      ]
+    },
+    insurance: {
+      text: "Seguro obrigatório incluso. Reduza a franquia a zero com a nossa cobertura VIP total Kasko por 50€/dia.",
+      options: [
+        { label: "🔄 Voltar aos requisitos", next: "requirements" }
+      ]
+    },
+    demo_pitch: {
+      text: "💡 **Por que integrar este chatbot interativo?**\n\n1. **Frustração Zero:** Seus clientes usam botões rápidos em vez de preencher campos complexos.\n2. **+35% Reservas:** Guiar o fluxo aumenta drasticamente a taxa de conversão.\n3. **Atendimento 24/7:** Responde dúvidas recorrentes imediatamente.\n\nQuer este sistema exclusivo em seu site?",
+      options: [
+        { label: "📈 Ver estatísticas", next: "demo_stats" },
+        { label: "💼 Preço de integração", next: "demo_cost" },
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
+      ]
+    },
+    demo_stats: {
+      text: "📊 **Estatísticas dos bots guiados:**\n\n- **Conversão:** Até 4,2% (contra 1,8% de formulários clássicos).\n- **Engajamento:** 78% completam o fluxo de opções.\n- **Mobile:** Totalmente adaptado para smartphones.",
+      options: [
+        { label: "💼 Preço de integração", next: "demo_cost" },
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
+      ]
+    },
+    demo_cost: {
+      text: "💰 **Integração Premium acessível:**\n\nOferecemos serviço de ponta a ponta (copia, design e código) por uma tarifa fixa atrativa. Fale com nosso desenvolvedor para obter uma maquete grátis!",
+      options: [
+        { label: "✉️ Fazer uma solicitação", action: "redirect_contact" },
+        { label: "🔄 Voltar ao menu principal", next: "welcome" }
       ]
     }
   }
 };
 
 export function initChatbot() {
-  // Check if chatbot is already injected
   if (document.getElementById("autolux-chatbot-widget")) return;
 
-  // Create Chatbot HTML Structure
   const chatbotHTML = `
     <div id="autolux-chatbot-widget" class="chatbot-widget">
       <!-- Chat Window -->
       <div id="chatbot-window" class="chatbot-window hidden">
         <div class="chatbot-header">
           <div class="chatbot-header-info">
-            <img src="./public/assets/images/icon_real.png" alt="Autolux" class="chatbot-avatar" onerror="this.src='/assets/images/icon_real.png'"/>
+            <div class="chatbot-avatar-container">
+              <span class="chatbot-status-dot"></span>
+              <img src="./public/assets/images/ss.png" alt="Autolux" class="chatbot-avatar" onerror="this.src='/assets/images/ss.png'"/>
+            </div>
             <div>
               <h3 class="chatbot-title">Autolux Concierge</h3>
-              <span class="chatbot-status">Online</span>
+              <span class="chatbot-subtitle">Demo Mode - Button Flow</span>
             </div>
           </div>
           <button id="chatbot-close" class="chatbot-close-btn"><i class="fas fa-times"></i></button>
         </div>
         
-        <div id="chatbot-messages" class="chatbot-messages">
-          <!-- Messages will be injected here -->
-        </div>
+        <div id="chatbot-messages" class="chatbot-messages"></div>
       </div>
       
       <!-- Floating Button -->
       <button id="chatbot-toggle" class="chatbot-toggle-btn btn-glow">
-        <i class="fas fa-comment-dots text-2xl"></i>
+        <i class="fas fa-headset text-2xl"></i>
       </button>
     </div>
   `;
 
-  // Inject into body
   document.body.insertAdjacentHTML('beforeend', chatbotHTML);
 
-  // DOM Elements
   const toggleBtn = document.getElementById("chatbot-toggle");
   const closeBtn = document.getElementById("chatbot-close");
   const chatWindow = document.getElementById("chatbot-window");
   const messagesContainer = document.getElementById("chatbot-messages");
 
-  // State
   let isOpen = false;
 
-  // Event Listeners for UI
   toggleBtn.addEventListener("click", () => {
     isOpen = !isOpen;
     toggleChatWindow();
@@ -292,35 +507,39 @@ export function initChatbot() {
     if (isOpen) {
       chatWindow.classList.remove("hidden");
       chatWindow.classList.add("flex");
-      toggleBtn.classList.add("hidden"); // Hide toggle button when open
+      toggleBtn.classList.add("hidden");
       if (messagesContainer.innerHTML.trim() === "") {
-        renderNode("welcome"); // Initialize conversation
+        renderNode("welcome");
       }
     } else {
       chatWindow.classList.add("hidden");
       chatWindow.classList.remove("flex");
-      toggleBtn.classList.remove("hidden"); // Show toggle button when closed
+      toggleBtn.classList.remove("hidden");
     }
   }
 
-  // Render a conversation node
   function renderNode(nodeId) {
     const lang = localStorage.getItem("language") || "fr";
-    // Fallback to English if language not supported in chatbot
     const activeData = chatbotData[lang] || chatbotData["en"];
     const node = activeData[nodeId];
 
     if (!node) return;
 
-    // 1. Add Chatbot Message
+    // Chatbot text message
     const msgDiv = document.createElement("div");
-    msgDiv.className = "chat-message bot-message reveal active";
-    msgDiv.innerHTML = `<p>${node.text}</p>`;
+    msgDiv.className = "chat-message bot-message";
+    
+    // Support markdown style double-new-line and bolding for premium aesthetic
+    let formattedText = node.text
+      .replace(/\n/g, "<br>")
+      .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+    msgDiv.innerHTML = `<p>${formattedText}</p>`;
     messagesContainer.appendChild(msgDiv);
 
-    // 2. Add Options Container
+    // Options container
     const optionsDiv = document.createElement("div");
-    optionsDiv.className = "chat-options reveal active";
+    optionsDiv.className = "chat-options";
     
     node.options.forEach(opt => {
       const btn = document.createElement("button");
@@ -331,26 +550,20 @@ export function initChatbot() {
     });
 
     messagesContainer.appendChild(optionsDiv);
-    
-    // Auto-scroll to bottom
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   }
 
-  // Handle User Option Click
   function handleOptionClick(option) {
-    // Remove previous options visually to show progression
     const allOptions = messagesContainer.querySelectorAll(".chat-options");
     if (allOptions.length > 0) {
       allOptions[allOptions.length - 1].style.display = 'none';
     }
 
-    // Add User Message
     const userMsgDiv = document.createElement("div");
-    userMsgDiv.className = "chat-message user-message reveal active";
+    userMsgDiv.className = "chat-message user-message";
     userMsgDiv.innerHTML = `<p>${option.label}</p>`;
     messagesContainer.appendChild(userMsgDiv);
 
-    // Handle Actions or Next State
     setTimeout(() => {
       if (option.action === "redirect_fleet") {
         window.location.href = "cars.html";
@@ -359,21 +572,28 @@ export function initChatbot() {
       } else if (option.next) {
         renderNode(option.next);
       }
-    }, 400); // slight delay for natural feel
+    }, 400);
   }
 
-  // Listen to language changes from the rest of the app to re-render language dynamically if open
+  // Bind direct DOM event listeners to the language selector dropdowns in the header/sidebar
+  const langSel = document.getElementById("languages");
+  const langSelSidebar = document.getElementById("languages1");
+  const handleLangChange = () => {
+    messagesContainer.innerHTML = "";
+    if (isOpen) {
+      renderNode("welcome");
+    }
+  };
+  if (langSel) langSel.addEventListener("change", handleLangChange);
+  if (langSelSidebar) langSelSidebar.addEventListener("change", handleLangChange);
+
+  // Fallback storage change listener
   window.addEventListener("storage", (e) => {
     if (e.key === "language") {
-       // Reset chat if language changes
-       messagesContainer.innerHTML = "";
-       if (isOpen) renderNode("welcome");
+      handleLangChange();
     }
   });
 
-  // Export a function that other scripts can call when language changes (since localstorage events don't fire in the same tab)
-  window.updateChatbotLanguage = function() {
-    messagesContainer.innerHTML = "";
-    if (isOpen) renderNode("welcome");
-  }
+  // Custom global bridge helper
+  window.updateChatbotLanguage = handleLangChange;
 }

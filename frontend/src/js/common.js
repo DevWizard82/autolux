@@ -1,3 +1,5 @@
+import { initChatbot } from "./chatbot.js";
+
 // 3. Mobile Menu Toggle
 const mobileMenuBtn = document.getElementById("mobile-menu-btn");
 const closeMenuBtn = document.getElementById("close-menu-btn");
@@ -13,6 +15,7 @@ closeMenuBtn.addEventListener("click", toggleMenu);
 // 4. USER AUTH & AVATAR LOGIC (CRITICAL)
 document.addEventListener("DOMContentLoaded", () => {
   updateNavbarUser();
+  initChatbot();
 });
 
 function updateNavbarUser() {
