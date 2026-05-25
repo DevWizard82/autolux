@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AUTOLUX | Premium Car Rental</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+    rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="shortcut icon" href="/assets/images/icon_real.png" type="image/x-icon" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            luxury: {
+              base: "#0d1115",
+              navy: "#0f1a2b",
+              orange: "#FFA500",
+              gold: "#D4AF37",
+            },
+          },
+          fontFamily: {
+            sans: ["Montserrat", "sans-serif"],
+            serif: ["Playfair Display", "serif"],
+          },
+          backgroundImage: {
+            "gradient-luxury":
+              "linear-gradient(135deg, #FFA500 0%, #D4AF37 100%)",
+            "gradient-luxury-hover":
+              "linear-gradient(135deg, #D4AF37 0%, #FFA500 100%)",
+            "gradient-dark": "linear-gradient(to bottom, #0d1115, #0f1a2b)",
+          },
+        },
+      },
+    };
+  </script>
+  <script type="module" crossorigin src="/assets/main-CIGOovmB.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="modulepreload" crossorigin href="/assets/common-DGhfhz67.js">
+  <link rel="modulepreload" crossorigin href="/assets/translations-g1k9azl_.js">
+  <link rel="modulepreload" crossorigin href="/assets/api-DVuG3n_9.js">
+  <link rel="stylesheet" crossorigin href="/assets/common-BhTOBuwG.css">
+</head>
+
+<body class="bg-luxury-base text-gray-200 overflow-x-hidden antialiased selection:bg-luxury-gold selection:text-black">
+  <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6">
+    <div class="container mx-auto px-6 flex justify-between items-center">
+      <a href="#" class="text-2xl md:text-3xl font-serif font-bold tracking-widest text-white group">
+        <img src="/assets/ss-DJoOutdB.png" alt="AUTOLUX" class="h-10" />
+      </a>
+
+      <div class="hidden md:flex items-center space-x-6 relative">
+        <select class="language-selector" id="languages">
+          <option value="en">🌍 EN</option>
+          <option value="fr" selected>🌍 FR</option>
+          <option value="ar">🌍 AR</option>
+          <option value="es">🌍 ES</option>
+          <option value="de">🌍 DE</option>
+          <option value="it">🌍 IT</option>
+          <option value="ru">🌍 RU</option>
+          <option value="zh">🌍 ZH</option>
+          <option value="ja">🌍 JA</option>
+          <option value="pt">🌍 PT</option>
+        </select>
+
+        <a href="#featured"
+          class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium">Fleet</a>
+        <a href="about.html"
+          class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium">About</a>
+
+        <a href="contact.html"
+          class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium">Contact</a>
+
+        <a href="login.html" id="nav-login-btn"
+          class="px-8 py-2.5 rounded-full border border-luxury-gold/50 text-luxury-gold hover:bg-gradient-luxury hover:border-transparent hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold">Login</a>
+
+        <div id="nav-user-info" class="relative hidden items-center"></div>
+      </div>
+
+      <button id="mobile-menu-btn" class="md:hidden text-luxury-gold text-2xl focus:outline-none">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+
+    <div id="mobile-menu"
+      class="fixed inset-0 bg-luxury-base/98 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-8">
+      <button id="close-menu-btn"
+        class="absolute top-6 right-6 text-white text-3xl hover:text-luxury-orange transition-colors">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <select class="language-selector" id="languages1">
+        <option value="en">🌍 EN</option>
+        <option value="fr" selected>🌍 FR</option>
+        <option value="ar">🌍 AR</option>
+      </select>
+
+      <a href="cars.html" class="text-3xl font-serif hover:text-gradient">Fleet</a>
+      <a href="about.html" class="text-3xl font-serif hover:text-gradient">About</a>
+
+      <a href="login.html" id="mobile-login-btn" class="text-3xl font-serif text-gradient font-bold">Login</a>
+
+      <div id="mobile-user-info" class="hidden relative flex-col items-center gap-4"></div>
+    </div>
+  </nav>
+
+  <header class="relative h-screen w-full flex items-center justify-center overflow-hidden">
+    <div class="absolute inset-0 z-0">
+      <div class="absolute inset-0 bg-gradient-to-b from-luxury-base/60 via-luxury-base/40 to-luxury-base"></div>
+      <div
+        class="absolute bottom-0 right-0 w-2/3 h-1/2 bg-gradient-to-t from-luxury-navy/80 to-transparent mix-blend-overlay">
+      </div>
+    </div>
+
+    <div class="relative z-10 text-center px-4 max-w-5xl mx-auto mt-16">
+      <p
+        class="reveal text-transparent bg-clip-text bg-gradient-to-r from-luxury-orange to-luxury-gold tracking-[0.4em] uppercase text-xs md:text-sm font-bold mb-6">
+        The Art of Performance
+      </p>
+
+      <h1
+        class="reveal text-5xl md:text-7xl lg:text-8xl font-serif font-bold text-white mb-8 leading-tight drop-shadow-2xl">
+        Unbound <br /><span class="text-gradient">Luxury</span>
+      </h1>
+
+      <p class="reveal text-gray-300 text-lg md:text-xl font-light mb-12 max-w-2xl mx-auto leading-relaxed">
+        Elevate your journey with an exclusive collection of the world's most
+        prestigious automobiles. Designed for those who demand excellence.
+      </p>
+
+      <div class="reveal flex flex-col sm:flex-row gap-6 justify-center items-center">
+        <a href="cars.html" id="view_fleet"
+          class="btn-glow px-10 py-4 rounded-full bg-gradient-luxury text-luxury-base font-bold uppercase tracking-widest hover:bg-gradient-luxury-hover transition-all duration-300 min-w-[200px]">
+          View Fleet
+        </a>
+        <a href="#featured"
+          class="px-10 py-4 rounded-full border border-white/20 text-white font-bold uppercase tracking-widest hover:bg-white/5 hover:border-luxury-orange transition-all duration-300 min-w-[200px] backdrop-blur-sm">
+          Discover More
+        </a>
+      </div>
+    </div>
+
+    <a href="#about"
+      class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce text-luxury-gold/70 hover:text-luxury-orange transition-colors">
+      <i class="fas fa-arrow-down text-xl"></i>
+    </a>
+  </header>
+
+  <section id="featured" class="py-28 bg-[#0b0e12] relative">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-20 reveal">
+        <span class="text-luxury-orange uppercase tracking-widest text-xs font-bold mb-3 block">Latest Arrivals</span>
+        <h2 class="text-4xl md:text-5xl font-serif text-white">
+          New Additions to the Collection
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="arrivals-container"></div>
+
+      <div class="mt-20 text-center reveal">
+        <a href="cars.html"
+          class="inline-block relative px-12 py-4 text-white font-bold uppercase tracking-widest group overflow-hidden rounded-full border border-luxury-gold/30 hover:border-transparent transition-colors">
+          <span
+            class="absolute inset-0 w-full h-full bg-gradient-to-r from-luxury-orange to-luxury-gold opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+          <span class="relative z-10 group-hover:text-black transition-colors duration-300 cta-full-collection">View
+            Full Collection</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" class="py-24 bg-gradient-dark relative overflow-hidden">
+    <div
+      class="absolute bottom-0 right-0 w-[600px] h-[600px] bg-luxury-orange rounded-full blur-[150px] opacity-10 pointer-events-none">
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="order-2 lg:order-1 reveal">
+          <span class="text-luxury-gold uppercase tracking-widest text-xs font-bold mb-2 block">Why Autolux?</span>
+          <h2 class="text-4xl font-serif text-white mb-8">
+            Concierge Level <br />
+            Service
+          </h2>
+
+          <div class="space-y-8">
+            <div class="flex group">
+              <div
+                class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-luxury-orange text-2xl group-hover:border-luxury-gold group-hover:scale-110 transition-all duration-300">
+                <i class="fas fa-gem"></i>
+              </div>
+              <div class="ml-6">
+                <h4 class="text-white font-serif text-xl mb-2 group-hover:text-luxury-gold transition-colors">
+                  Pristine Condition
+                </h4>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                  Every vehicle undergoes a rigorous 40-point inspection and
+                  detailing process before delivery.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex group">
+              <div
+                class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-luxury-orange text-2xl group-hover:border-luxury-gold group-hover:scale-110 transition-all duration-300">
+                <i class="fas fa-plane-arrival"></i>
+              </div>
+              <div class="ml-6">
+                <h4 class="text-white font-serif text-xl mb-2 group-hover:text-luxury-gold transition-colors">
+                  Airport VIP Handover
+                </h4>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                  Skip the counter. We meet you at the terminal with the keys
+                  and your luggage already loaded.
+                </p>
+              </div>
+            </div>
+
+            <div class="flex group">
+              <div
+                class="flex-shrink-0 w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-luxury-orange text-2xl group-hover:border-luxury-gold group-hover:scale-110 transition-all duration-300">
+                <i class="fas fa-clock"></i>
+              </div>
+              <div class="ml-6">
+                <h4 class="text-white font-serif text-xl mb-2 group-hover:text-luxury-gold transition-colors">
+                  Flexible Schedule
+                </h4>
+                <p class="text-gray-500 text-sm leading-relaxed">
+                  Your time is precious. We offer flexible pickup and drop-off
+                  times to suit your itinerary.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="order-1 lg:order-2 reveal delay-200 relative">
+          <div class="absolute inset-0 border-2 border-luxury-gold/20 transform rotate-6 rounded-3xl"></div>
+          <img src="/assets/images/luxury_interior.png" alt="Interior Luxury"
+            class="relative rounded-3xl shadow-2xl grayscale hover:grayscale-0 hover:scale-[1.02] transition-all duration-1000 ease-in-out z-10 w-full object-cover h-[500px] cursor-pointer" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-32 relative flex items-center justify-center overflow-hidden bg-luxury-base">
+    <div class="absolute inset-0">
+      <div
+        class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-luxury-navy to-transparent opacity-50">
+      </div>
+      <div
+        class="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-luxury-navy to-transparent opacity-50">
+      </div>
+    </div>
+
+    <div class="container mx-auto px-6 relative z-10 text-center reveal">
+      <h2 class="text-5xl md:text-7xl font-serif text-white mb-8">
+        Begin Your Journey
+      </h2>
+      <p class="text-xl text-gray-400 font-light mb-12 max-w-xl mx-auto">
+        Ready to experience the exceptional? Contact our concierge team to
+        reserve your vehicle today.
+      </p>
+
+      <div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+        <a id="book_now" href="cars.html"
+          class="btn-glow px-12 py-5 rounded-full bg-gradient-luxury text-luxury-base font-bold uppercase tracking-widest hover:scale-105 transition-transform duration-300 min-w-[220px]">
+          Book Now
+        </a>
+        <a href="contact.html"
+          class="group flex items-center gap-3 text-white hover:text-luxury-gold transition-colors px-6 py-4">
+          <span class="uppercase tracking-widest text-sm">Contact Concierge</span>
+          <i class="fas fa-long-arrow-alt-right group-hover:translate-x-2 transition-transform"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-[#050608] pt-20 pb-10 border-t border-white/5">
+    <div class="container mx-auto px-6">
+      <div class="grid md:grid-cols-4 gap-12 mb-16">
+        <div class="col-span-1 md:col-span-2">
+          <a href="#" class="text-3xl font-serif font-bold text-white mb-6 block">
+            AUTOLUX<span class="text-luxury-orange">.</span>
+          </a>
+          <p class="text-gray-500 text-sm leading-relaxed max-w-sm mb-8">
+            The premier destination for luxury car rentals. We provide an
+            unmatched fleet of high-end vehicles paired with impeccable
+            service.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#"
+              class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gradient-luxury hover:text-black transition-all duration-300">
+              <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gradient-luxury hover:text-black transition-all duration-300">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#"
+              class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-gray-400 hover:bg-gradient-luxury hover:text-black transition-all duration-300">
+              <i class="fab fa-twitter"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="text-white font-serif text-lg mb-8 relative inline-block">
+            Explore
+            <span class="absolute bottom-0 left-0 w-1/2 h-0.5 bg-luxury-gold"></span>
+          </h4>
+          <ul class="space-y-4 text-sm text-gray-500">
+            <li>
+              <a href="cars.html" id="fleet_footer"
+                class="hover:text-luxury-gold transition-colors flex items-center gap-2"><i
+                  class="fas fa-chevron-right text-[10px] text-luxury-orange"></i>
+                Fleet</a>
+            </li>
+            <li>
+              <a href="about.html" id="about_footer"
+                class="hover:text-luxury-gold transition-colors flex items-center gap-2"><i
+                  class="fas fa-chevron-right text-[10px] text-luxury-orange"></i>
+                About</a>
+            </li>
+            <li>
+              <a id="services_footer" href="#services"
+                class="hover:text-luxury-gold transition-colors flex items-center gap-2"><i
+                  class="fas fa-chevron-right text-[10px] text-luxury-orange"></i>
+                Services</a>
+            </li>
+            <li>
+              <a href="contact.html" id="contact_footer"
+                class="hover:text-luxury-gold transition-colors flex items-center gap-2"><i
+                  class="fas fa-chevron-right text-[10px] text-luxury-orange"></i>
+                Contact</a>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="text-white font-serif text-lg mb-8 relative inline-block">
+            Visit Us
+            <span class="absolute bottom-0 left-0 w-1/2 h-0.5 bg-luxury-gold"></span>
+          </h4>
+          <ul class="space-y-4 text-sm text-gray-500">
+            <li class="flex items-start gap-3">
+              <i class="fas fa-map-marker-alt mt-1 text-luxury-orange"></i>
+              <span>Twin Center Blvd Zerktouni<br />Casablanca, Morocco
+              </span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fas fa-phone-alt text-luxury-orange"></i>
+              <span>+212 522 45 67 89</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <i class="fas fa-envelope text-luxury-orange"></i>
+              <span>concierge@autolux.com</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div
+        class="border-t border-white/5 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-600">
+        <p>&copy; 2024 Autolux Luxury Rentals. Crafted for excellence.</p>
+        <div class="flex space-x-8 mt-4 md:mt-0">
+          <a href="#" class="hover:text-luxury-gold transition-colors">Privacy Policy</a>
+          <a href="#" class="hover:text-luxury-gold transition-colors">Terms of Service</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>

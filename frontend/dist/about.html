@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us | AUTOLUX</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="shortcut icon"
+      href="/assets/images/icon_real.png"
+      type="image/x-icon"
+    />
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              luxury: {
+                base: "#0d1115",
+                navy: "#0f1a2b",
+                orange: "#FFA500",
+                gold: "#D4AF37",
+              },
+            },
+            fontFamily: {
+              sans: ["Montserrat", "sans-serif"],
+              serif: ["Playfair Display", "serif"],
+            },
+            backgroundImage: {
+              "gradient-luxury":
+                "linear-gradient(135deg, #FFA500 0%, #D4AF37 100%)",
+              "gradient-luxury-hover":
+                "linear-gradient(135deg, #D4AF37 0%, #FFA500 100%)",
+              "gradient-dark": "linear-gradient(to bottom, #0d1115, #0f1a2b)",
+            },
+          },
+        },
+      };
+    </script>
+
+    <script type="module" crossorigin src="/assets/about-HNJnqRiC.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/assets/common-DGhfhz67.js">
+    <link rel="modulepreload" crossorigin href="/assets/translations-g1k9azl_.js">
+    <link rel="stylesheet" crossorigin href="/assets/common-BhTOBuwG.css">
+  </head>
+
+  <body
+    class="bg-luxury-base text-gray-200 overflow-x-hidden antialiased selection:bg-luxury-gold selection:text-black"
+  >
+    <!-- NAVBAR (EXACT SAME AS LANDING PAGE) -->
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6">
+      <div class="container mx-auto px-6 flex justify-between items-center">
+        <a
+          href="index.html"
+          class="text-2xl md:text-3xl font-serif font-bold tracking-widest text-white group"
+        >
+          <img src="/assets/ss-DJoOutdB.png" alt="AUTOLUX" class="h-10" />
+        </a>
+
+        <div class="hidden md:flex items-center space-x-6 relative">
+          <select class="language-selector" id="languages">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+
+          <a
+            href="cars.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium"
+            >Fleet</a
+          >
+          <a
+            href="about.html"
+            class="text-sm tracking-widest text-luxury-gold uppercase font-medium"
+            >About</a
+          >
+
+          <a
+            id="nav_contact"
+            href="contact.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium"
+            >Contact</a
+          >
+
+          <a
+            href="login.html"
+            id="nav-login-btn"
+            class="px-8 py-2.5 rounded-full border border-luxury-gold/50 text-luxury-gold hover:bg-gradient-luxury hover:border-transparent hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold"
+            >Login</a
+          >
+
+          <div id="nav-user-info" class="relative hidden items-center"></div>
+        </div>
+
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden text-luxury-gold text-2xl focus:outline-none"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="fixed inset-0 bg-luxury-base/98 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-8"
+      >
+        <button
+          id="close-menu-btn"
+          class="absolute top-6 right-6 text-white text-3xl hover:text-luxury-orange transition-colors"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+
+        <select class="language-selector" id="languages1">
+          <option value="en">🌍 EN</option>
+          <option value="fr" selected>🌍 FR</option>
+          <option value="ar">🌍 AR</option>
+          <option value="es">🌍 ES</option>
+          <option value="de">🌍 DE</option>
+          <option value="it">🌍 IT</option>
+          <option value="ru">🌍 RU</option>
+          <option value="zh">🌍 ZH</option>
+          <option value="ja">🌍 JA</option>
+          <option value="pt">🌍 PT</option>
+        </select>
+
+        <a href="cars.html" class="text-3xl font-serif">Fleet</a>
+        <a href="about.html" class="text-3xl font-serif text-gradient">About</a>
+
+        <a
+          href="login.html"
+          id="mobile-login-btn"
+          class="text-3xl font-serif text-gradient font-bold"
+          >Login</a
+        >
+
+        <div
+          id="mobile-user-info"
+          class="hidden relative flex-col items-center gap-4"
+        ></div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <header class="relative h-[70vh] flex items-center justify-center">
+      <div class="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1542362567-b07e54358753?q=80&w=1600&auto=format&fit=crop"
+          alt="Luxury Garage"
+          class="w-full h-full object-cover opacity-40"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-luxury-base/80 to-luxury-base"
+        ></div>
+      </div>
+
+      <div class="relative z-10 text-center px-6 reveal">
+        <span
+          id="who"
+          class="text-luxury-gold uppercase tracking-widest text-sm font-bold"
+          >Who We Are</span
+        >
+        <h1 class="text-5xl md:text-7xl font-serif text-white mt-6 mb-8">
+          About AUTOLUX
+        </h1>
+        <p class="text-gray-400 max-w-2xl mx-auto text-lg font-light">
+          A philosophy built on excellence, precision, and an uncompromising
+          passion for automotive luxury.
+        </p>
+      </div>
+    </header>
+
+    <!-- STORY -->
+    <section class="py-28 bg-luxury-base">
+      <div class="container mx-auto px-6">
+        <div class="grid lg:grid-cols-2 gap-20 items-center">
+          <div class="reveal">
+            <span
+              id="our_story"
+              class="block text-luxury-orange uppercase tracking-widest text-base font-bold"
+              >Our Story</span
+            >
+            <h2
+              class="text-4xl md:text-5xl font-serif text-white mt-4 mb-8"
+              id="crafted"
+            >
+              Crafted for the <span class="text-gradient">Exceptional</span>
+            </h2>
+            <p class="text-gray-400 leading-relaxed mb-6" id="crafted_p1">
+              AUTOLUX was founded with a singular vision: to redefine luxury car
+              rentals by combining world-class vehicles with concierge-level
+              service. We cater to individuals who see driving not as a
+              necessity, but as an experience.
+            </p>
+            <p class="text-gray-400 leading-relaxed" id="crafted_p2">
+              From iconic supercars to refined grand tourers, our fleet is
+              curated to reflect prestige, performance, and timeless design.
+            </p>
+          </div>
+
+          <div class="relative reveal">
+            <img
+              src="https://images.unsplash.com/photo-1525609004556-c46c7d6cf023?q=80&w=1000&auto=format&fit=crop"
+              alt="Luxury Interior"
+              class="rounded-3xl shadow-2xl"
+            />
+            <div
+              class="absolute -bottom-6 -right-6 w-full h-full border border-luxury-gold/20 rounded-3xl"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VALUES -->
+    <section class="py-28 bg-gradient-dark">
+      <div class="container mx-auto px-6">
+        <div class="text-center mb-20">
+          <span
+            id="our_values"
+            class="text-luxury-gold uppercase tracking-widest text-base font-bold"
+            >Our Values</span
+          >
+          <h2
+            id="define"
+            class="text-4xl md:text-5xl font-serif text-white mt-4"
+          >
+            What Defines Us
+          </h2>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-10">
+          <div
+            class="reveal bg-white/5 border border-white/10 rounded-2xl p-10 text-center"
+          >
+            <i class="fas fa-crown text-luxury-orange text-4xl mb-6"></i>
+            <h3 class="text-white font-serif text-xl mb-4" id="exclusive">
+              Exclusivity
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed" id="exclusivep">
+              A handpicked fleet reserved for clients who expect nothing less
+              than the extraordinary.
+            </p>
+          </div>
+
+          <div
+            class="reveal bg-white/5 border border-white/10 rounded-2xl p-10 text-center"
+          >
+            <i class="fas fa-handshake text-luxury-orange text-4xl mb-6"></i>
+            <h3 class="text-white font-serif text-xl mb-4" id="trust">Trust</h3>
+            <p class="text-gray-400 text-sm leading-relaxed" id="trustp">
+              Transparency, discretion, and reliability are at the core of
+              everything we do.
+            </p>
+          </div>
+
+          <div
+            class="reveal bg-white/5 border border-white/10 rounded-2xl p-10 text-center"
+          >
+            <i class="fas fa-bolt text-luxury-orange text-4xl mb-6"></i>
+            <h3 class="text-white font-serif text-xl mb-4" id="performance">
+              Performance
+            </h3>
+            <p class="text-gray-400 text-sm leading-relaxed" id="performancep">
+              Precision-engineered vehicles that deliver thrilling experiences
+              every time.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-32 bg-luxury-base text-center reveal">
+      <h2 class="text-5xl font-serif text-white mb-8" id="experience">
+        Experience AUTOLUX
+      </h2>
+      <p class="text-gray-400 max-w-xl mx-auto mb-12" id="experiencep">
+        Discover a new standard of luxury mobility tailored to your lifestyle.
+      </p>
+      <a
+        href="cars.html"
+        class="inline-block px-12 py-5 rounded-full bg-gradient-luxury text-luxury-base font-bold uppercase tracking-widest hover:scale-105 transition-transform"
+      >
+        Explore the Fleet
+      </a>
+    </section>
+
+
+  </body>
+</html>

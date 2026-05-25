@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Déclaration du jeu de caractères de la page et de la configuration de l'affichage -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Titre de la page affiché dans l'onglet du navigateur -->
+    <title>Autolux maroc - cars</title>
+
+    <!-- Lien vers le fichier CSS pour styliser la page -->
+
+    <!-- Lien vers la bibliothèque FontAwesome pour les icônes -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link
+      rel="icon"
+      href="/assets/icon_real-BDg5DJS2.png"
+      type="image/x-icon"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              luxury: {
+                base: "#0d1115",
+                navy: "#0f1a2b",
+                gold: "#D4AF37",
+                orange: "#FFA500",
+              },
+            },
+            fontFamily: {
+              sans: ["Montserrat", "sans-serif"],
+              serif: ["Playfair Display", "serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <script type="module" crossorigin src="/assets/cars-7Zp3eSM3.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+    <link rel="modulepreload" crossorigin href="/assets/common-DGhfhz67.js">
+    <link rel="modulepreload" crossorigin href="/assets/api-DVuG3n_9.js">
+    <link rel="modulepreload" crossorigin href="/assets/translations-g1k9azl_.js">
+    <link rel="stylesheet" crossorigin href="/assets/common-BhTOBuwG.css">
+    <link rel="stylesheet" crossorigin href="/assets/cars-Crc_JJ2k.css">
+  </head>
+  <body
+    class="bg-luxury-base text-gray-200 overflow-x-hidden antialiased selection:bg-luxury-gold selection:text-black"
+  >
+    <nav id="navbar" class="fixed w-full z-50 transition-all duration-300 py-6">
+      <div class="container mx-auto px-6 flex justify-between items-center">
+        <a
+          href="index.html"
+          class="text-2xl md:text-3xl font-serif font-bold tracking-widest text-white group"
+        >
+          <img src="/assets/ss-DJoOutdB.png" alt="AUTOLUX" class="h-10" />
+        </a>
+
+        <div class="hidden md:flex items-center space-x-6 relative">
+          <select class="currency-selector" id="currencies">
+            <option value="EUR" selected>💱 EUR</option>
+            <option value="MAD">💱 MAD</option>
+            <option value="USD">💱 USD</option>
+            <option value="JPY">💱 JPY</option>
+            <option value="GBP">💱 GBP</option>
+            <option value="AUD">💱 AUD</option>
+            <option value="CHF">💱 CHF</option>
+            <option value="CNY">💱 CNY</option>
+            <option value="INR">💱 INR</option>
+            <option value="BRL">💱 BRL</option>
+            <option value="RUB">💱 RUB</option>
+            <option value="TRY">💱 TRY</option>
+            <option value="ZAR">💱 ZAR</option>
+            <option value="SEK">💱 SEK</option>
+            <option value="NOK">💱 NOK</option>
+            <option value="DKK">💱 DKK</option>
+            <option value="PLN">💱 PLN</option>
+            <option value="MXN">💱 MXN</option>
+            <option value="CAD">💱 CAD</option>
+          </select>
+          <select class="language-selector" id="languages">
+            <option value="en">🌍 EN</option>
+            <option value="fr" selected>🌍 FR</option>
+            <option value="ar">🌍 AR</option>
+            <option value="es">🌍 ES</option>
+            <option value="de">🌍 DE</option>
+            <option value="it">🌍 IT</option>
+            <option value="ru">🌍 RU</option>
+            <option value="zh">🌍 ZH</option>
+            <option value="ja">🌍 JA</option>
+            <option value="pt">🌍 PT</option>
+          </select>
+
+          <a
+            href="cars.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium text-luxury-orange"
+            >Fleet</a
+          >
+          <a
+            href="about.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium"
+            >About</a
+          >
+
+          <a
+            href="contact.html"
+            class="text-sm tracking-widest hover:text-luxury-orange transition-colors uppercase font-medium"
+            >Contact</a
+          >
+
+          <a
+            href="login.html"
+            id="nav-login-btn"
+            class="px-8 py-2.5 rounded-full border border-luxury-gold/50 text-luxury-gold hover:bg-gradient-luxury hover:border-transparent hover:text-black transition-all duration-300 uppercase text-xs tracking-widest font-bold"
+            >Login</a
+          >
+
+          <div id="nav-user-info" class="relative hidden items-center"></div>
+        </div>
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden text-luxury-gold text-2xl focus:outline-none"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+      </div>
+
+      <div
+        id="mobile-menu"
+        class="fixed inset-0 bg-luxury-base/98 backdrop-blur-xl z-40 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-center items-center space-y-8"
+      >
+        <button
+          id="close-menu-btn"
+          class="absolute top-6 right-6 text-white text-3xl hover:text-luxury-orange transition-colors"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+
+        <select class="language-selector" id="languages1">
+          <option value="en">🌍 EN</option>
+          <option value="fr" selected>🌍 FR</option>
+          <option value="ar">🌍 AR</option>
+          <option value="es">🌍 ES</option>
+          <option value="de">🌍 DE</option>
+          <option value="it">🌍 IT</option>
+          <option value="ru">🌍 RU</option>
+          <option value="zh">🌍 ZH</option>
+          <option value="ja">🌍 JA</option>
+          <option value="pt">🌍 PT</option>
+        </select>
+        <select class="currency-selector" id="currencies1">
+          <option value="EUR" selected>💱 EUR</option>
+          <option value="MAD">💱 MAD</option>
+          <option value="USD">💱 USD</option>
+          <option value="JPY">💱 JPY</option>
+          <option value="GBP">💱 GBP</option>
+          <option value="AUD">💱 AUD</option>
+          <option value="CHF">💱 CHF</option>
+          <option value="CNY">💱 CNY</option>
+          <option value="INR">💱 INR</option>
+          <option value="BRL">💱 BRL</option>
+          <option value="RUB">💱 RUB</option>
+          <option value="TRY">💱 TRY</option>
+          <option value="ZAR">💱 ZAR</option>
+          <option value="SEK">💱 SEK</option>
+          <option value="NOK">💱 NOK</option>
+          <option value="DKK">💱 DKK</option>
+          <option value="PLN">💱 PLN</option>
+          <option value="MXN">💱 MXN</option>
+          <option value="CAD">💱 CAD</option>
+        </select>
+
+        <a href="cars.html" class="text-3xl font-serif hover:text-gradient"
+          >Fleet</a
+        >
+        <a href="about.html" class="text-3xl font-serif hover:text-gradient"
+          >About</a
+        >
+
+        <a
+          href="login.html"
+          id="mobile-login-btn"
+          class="text-3xl font-serif text-gradient font-bold"
+          >Login</a
+        >
+
+        <div
+          id="mobile-user-info"
+          class="hidden relative flex-col items-center gap-4"
+        ></div>
+      </div>
+    </nav>
+
+    <!-- Section des voitures -->
+    <section id="cars-section">
+      <h2 id="fleet">Notre Flotte</h2>
+      <div class="cities-select-container">
+        <!-- Sélecteur de ville -->
+        <select name="cities" id="cities" class="cities-select">
+          <option
+            class="all"
+            data-original-value="Toutes_les_villes"
+            value="Toutes_les_villes"
+            selected
+          >
+            Toutes les villes
+          </option>
+          <option
+            class="casa"
+            value="Casablanca"
+            data-original-value="Casablanca"
+          >
+            Casablanca
+          </option>
+          <option
+            class="marrakech"
+            value="Marrakech"
+            data-original-value="Marrakech"
+          >
+            Marrakech
+          </option>
+          <option class="rabat" value="Rabat" data-original-value="Rabat">
+            Rabat
+          </option>
+          <option class="tanger" value="Tanger" data-original-value="Tanger">
+            Tanger
+          </option>
+        </select>
+
+        <!-- Barre de recherche pour trouver une voiture par nom -->
+        <div class="searchcontainer">
+          <input
+            class="search"
+            type="text"
+            id="search"
+            placeholder="chercher une voiture par nom (ex: Porsche 911 GT3)"
+          />
+          <i class="fas fa-search" id="id-logo"></i>
+        </div>
+      </div>
+
+      <!-- Boutons pour filtrer les catégories de voitures -->
+      <div class="categories-container">
+        <button
+          data-original-value="All"
+          id="allCategories"
+          class="category-btn"
+          data-default="true"
+        >
+          Tout
+        </button>
+        <button
+          id="hypercar"
+          data-original-value="Hypercar"
+          class="category-btn"
+        >
+          Hypercar
+        </button>
+        <button id="luxury" data-original-value="Luxury" class="category-btn">
+          Luxe
+        </button>
+        <button
+          id="electric"
+          data-original-value="electric"
+          class="category-btn"
+        >
+          Electrique
+        </button>
+        <button id="sport" data-original-value="sport" class="category-btn">
+          Sport
+        </button>
+      </div>
+
+      <!-- Conteneur pour afficher les cartes des voitures dynamiquement -->
+      <section class="card-container" id="card-container"></section>
+    </section>
+
+    <div id="carModal" class="car-modal-overlay" onclick="closeCarModal(event)">
+      <div class="car-modal-content">
+        <button class="modal-close" onclick="closeCarModal()">
+          <i class="fas fa-times"></i>
+        </button>
+        <div class="modal-image-container">
+          <img id="modalCarImage" src="" alt="" />
+        </div>
+        <div class="modal-info">
+          <h2 id="modalCarName"></h2>
+          <p id="modalCarDesc"></p>
+          <div class="modal-locations">
+            <i class="fas fa-map-marker-alt"></i>
+            <span id="modalCarLocations"></span>
+          </div>
+          <div class="modal-price">
+            <span id="modalCarPrice"></span>
+            <span>/jour</span>
+          </div>
+          <button class="modal-reserver-btn" id="modalReserverBtn">
+            Réserver
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Script JavaScript pour gérer les interactions -->
+    
+  </body>
+</html>
