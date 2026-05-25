@@ -167,7 +167,8 @@ export async function getcars() {
   } catch (err) {
     console.error("Error fetching cars, falling back to cache/mock data:", err);
     const cached = getCachedData("cached_cars");
-    return cached.length > 0 ? cached : defaultMockCars.map(normalizeCar);
+    const safeCached = (Array.isArray(cached) ? cached : []).map(normalizeCar);
+    return safeCached.length > 0 ? safeCached : defaultMockCars.map(normalizeCar);
   }
 }
 
@@ -340,7 +341,8 @@ export async function getArrivals() {
   } catch (err) {
     console.error("Failed to fetch latest arrivals, falling back to cache/mock data:", err);
     const cached = getCachedData("cached_arrivals");
-    return cached.length > 0 ? cached : defaultMockCars.slice(0, 3).map(normalizeCar);
+    const safeCached = (Array.isArray(cached) ? cached : []).map(normalizeCar);
+    return safeCached.length > 0 ? safeCached : defaultMockCars.slice(0, 3).map(normalizeCar);
   }
 }
 

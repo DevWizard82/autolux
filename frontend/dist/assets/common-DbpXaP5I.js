@@ -66,7 +66,7 @@ Oferecemos serviço de ponta a ponta (copia, design e código) por uma tarifa fi
           <div class="chatbot-header-info">
             <div class="chatbot-avatar-container">
               <span class="chatbot-status-dot"></span>
-              <img src="./public/assets/images/ss.png" alt="Autolux" class="chatbot-avatar" onerror="this.src='/assets/images/ss.png'"/>
+              <img src="assets/images/ss.png" alt="Autolux" class="chatbot-avatar" onerror="this.src='assets/images/ss.png'"/>
             </div>
             <div>
               <h3 class="chatbot-title">Autolux Concierge</h3>
