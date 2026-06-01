@@ -1,3 +1,5 @@
+import pg from "pg";
+import dotenv from "dotenv";
 import {
   mockCars,
   mockClients,
@@ -7,6 +9,8 @@ import {
   mockCarParts,
   mockRentals
 } from "./mockData.js";
+
+dotenv.config();
 
 // Mutable in-memory database arrays
 let cars = [...mockCars];
@@ -439,5 +443,35 @@ class MockPool {
   }
 }
 
-const pool = new MockPool();
+const isRealDbConfigured =
+  process.env.DATABASE_URL &&
+  !process.env.DATABASE_URL.includes("YOUR_NEON_PASSWORD") &&
+  !process.env.DATABASE_URL.includes("dpg-d7gbqetckfvc73bci2d0-a");
+
+let pool;
+
+if (isRealDbConfigured) {
+  console.log("⚡ [Database] Initializing real Neon PostgreSQL Connection Pool...");
+  pool = new pg.Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
+  });
+
+  pool.on("connect", () => {
+    console.log("⚡ [Database] Successfully connected to live Neon PostgreSQL database.");
+  });
+
+  pool.on("error", (err) => {
+    console.error("❌ [Database] Connection pool error:", err);
+  });
+} else {
+  console.warn(
+    "⚠️  [Database] DATABASE_URL is not configured with Neon credentials or contains placeholder text.\n" +
+    "👉 Falling back to premium in-memory Mock database driver for local development."
+  );
+  pool = new MockPool();
+}
+
 export default pool;
